@@ -1,3 +1,9 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+def authorization():
+    return None
+
+
+def registration():
+    return None
