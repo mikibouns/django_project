@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import AbstractUser
+from .models import HLUsers
 
 
-admin.site.register(AbstractUser)
+admin.site.register(HLUsers)
 
