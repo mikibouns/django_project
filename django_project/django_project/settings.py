@@ -29,6 +29,11 @@ ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'auth_app.HLUsers'
 
+AUTHENTICATION_BACKENDS = [
+    'auth_app.auth_backends.UserEmailBackend',
+    # 'django.contrib.auth.backends.ModelBackend',
+]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -136,3 +141,4 @@ EMAIL_HOST_USER = 'test.mail.django@yandex.ru'
 EMAIL_HOST_PASSWORD = 'testtest123'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
