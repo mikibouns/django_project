@@ -1,12 +1,16 @@
 from django.shortcuts import render
 
 
-def authorization():
-    return None
+def authorization(request):
+    template = "auth_app/authorisation.html"
+    context = {}
+    return render(request, template, context)
 
 
-def registration():
-    return None
+def registration(request):
+    template = "auth_app/register.html"
+    context = {}
+    return render(request, template, context)
 
 
 def sign_in():
