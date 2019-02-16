@@ -1,5 +1,5 @@
 from django.db import models
-from auth_app.models import HLUsers
+from django.conf import settings
 from django.core.validators import MinValueValidator
 
 
@@ -34,7 +34,7 @@ class Hotels(models.Model):
     '''Отели'''
     title = models.CharField(max_length=128)
     place = models.ForeignKey(Places, on_delete=models.CASCADE)
-    owner = models.ForeignKey(HLUsers, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     price = models.ForeignKey(Prices, on_delete=models.CASCADE)
     param = models.ManyToManyField('HotelsParams',
                                    through='HotelsParamsHotels',

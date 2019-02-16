@@ -8,7 +8,7 @@ class UserEmailBackend(ModelBackend):
     Класс-обработчик для аутентификации пользователей по
     email-адресу.
     '''
-    def authenticate(self, username="", password="", **kwargs):
+    def authenticate(self, request, username=None, password=None, **kwargs):
         '''
         Переопределяем метод аутентификации.
         '''
