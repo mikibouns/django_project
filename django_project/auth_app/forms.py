@@ -10,8 +10,8 @@ class AuthenticationForm(forms.Form):
     email = forms.CharField(
         label='E-mail',
         max_length=100,
-        widget=forms.EmailInput(attrs={}),)
-        # error_messages={'required': 'Укажите e-mail'})
+        widget=forms.EmailInput(attrs={}),
+        error_messages={'required': 'Укажите e-mail'})
     password = forms.CharField(
         label='Пароль',
         widget=forms.PasswordInput(attrs={}),)
@@ -23,6 +23,8 @@ class AuthenticationForm(forms.Form):
         self.current_user = None
         self.user_model = get_user_model()
         super(AuthenticationForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
 
     def clean_email(self):
         '''Определяем правило валидации поля email'''
@@ -46,22 +48,21 @@ class AuthenticationForm(forms.Form):
 
 class UserRegisterForm(UserCreationForm):
     FIO = forms.CharField(label='ФИО')
+    phone = forms.CharField(label='Телефон')
+    www = forms.CharField(label='Сайт отеля')
+    vacations = forms.CharField(label='Количество номеров')
+    pms = forms.Select(label='Какую PMS использует', )
+
 
     class Meta:
         model = get_user_model()
-        fields = ('FIO', 'first_name', 'password1', 'password2', 'email')
+        fields = ('FIO', 'phone', 'email', 'www', 'vacations', 'pms', )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
             field.help_text = ''
-
-    def clean_age(self):
-        data = self.cleaned_data['age']
-        if data < 18:
-            raise forms.ValidationError("You are too young!")
-        return data
 
 
 # class UserEditForm(UserChangeForm):
