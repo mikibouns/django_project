@@ -1,5 +1,4 @@
 $(document).ready(function() {
- $("#phone").mask("+9(999)999-99-99");
  $("#another_pms").hide();
  $('label[for="another_pms"]').hide();
  $('#pms').change(function() {
@@ -14,4 +13,5 @@ $(document).ready(function() {
     $('label[for="another_pms"]').hide();
    }
  });
+  $('#phone').mask("+9(999)999-99-99");
 });
