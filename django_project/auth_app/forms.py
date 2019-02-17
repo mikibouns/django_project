@@ -72,8 +72,7 @@ class UserCreationForm(forms.Form):
     pms = forms.CharField(label='Какую PMS использует',
                           widget=forms.Select(choices=pms_list, attrs={'id': 'pms'}))
     another_pms = forms.CharField(label='Другая PMS', widget=forms.TextInput(attrs={'id': 'another_pms',
-                                                                                    'required': False,
-                                                                                    'style': 'display: none;'}))
+                                                                                    'required': False}))
     timeZ = forms.CharField(label='Часовой пояс',
                             widget=forms.Select(choices=((tz, tz) for tz in pytz.all_timezones),
                                                 attrs={'required': False}))

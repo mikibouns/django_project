@@ -3,14 +3,18 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script>
 $(document).ready(function() {
+ $("#another_pms").hide();
+ $('label[for="another_pms"]').hide();
  $('#pms').change(function() {
   if($(this).val() === "another")
    {
-    $("#another_pms").css("display", "block");
+    $("#another_pms").show();
+    $('label[for="another_pms"]').show();
    }
    else
    {
-    $("#another_pms").css("display", "none");
+    $("#another_pms").hide();
+    $('label[for="another_pms"]').hide();
    }
  });
 });
