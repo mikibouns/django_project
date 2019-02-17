@@ -1,4 +1,21 @@
 {% extends 'base.html' %}
+{% block head %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+ $('#pms').change(function() {
+  if($(this).val() === "another")
+   {
+    $("#another_pms").css("display", "block");
+   }
+   else
+   {
+    $("#another_pms").css("display", "none");
+   }
+ });
+});
+</script>
+{% endblock %}
 {% block title %}registration{% endblock %}
 {% block container %}
 <h1>registration form</h1>
@@ -9,6 +26,7 @@
         <div class="form-group">
             {{field.label_tag}}
             <div>{{field}}</div>
+
             {% if field.errors%}
             {% for error in field.errors %}
             <div class="alert alert-danger">
@@ -18,7 +36,7 @@
             {% endif %}
         </div>
         {% endfor %}
-        </div>
-        <input type="submit" value="Войти" >
+        </div><br/>
+        <input type="submit" value="Отправить" >
     </form>
 {% endblock %}

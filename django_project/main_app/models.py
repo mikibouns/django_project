@@ -1,12 +1,12 @@
 from django.db import models
 from django.conf import settings
-from django.core.validators import MinValueValidator
+from mptt.models import MPTTModel, TreeForeignKey
 
 
-class Places(models.Model):
+class Places(MPTTModel):
     '''Топонимы'''
     title = models.CharField(max_length=128)
-    parent = models.ForeignKey('self', on_delete=models.CASCADE)
+    parent = TreeForeignKey('self', on_delete=models.CASCADE)
     timeZ = models.CharField(max_length=128)
     uuid = models.CharField(max_length=64)
 
@@ -14,7 +14,7 @@ class Places(models.Model):
 class Prices(models.Model):
     '''Подписки'''
     title = models.CharField(max_length=128)
-    days = models.IntegerField(default=90, validators=[MinValueValidator(1)])
+    days = models.PositiveIntegerField(default=90)
     params = models.TextField()
 
 
@@ -43,7 +43,7 @@ class Hotels(models.Model):
                                         through='RoomsTypesHotels',
                                         through_fields=('hotels', 'room_types'))
     www = models.CharField(max_length=1024)
-    volume = models.IntegerField(default=0, validators=[MinValueValidator(1)])
+    volume = models.PositiveIntegerField(default=0)
     pms = models.CharField(max_length=128)
     params = models.TextField()
 
@@ -53,7 +53,7 @@ class RoomsTypesHotels(models.Model):
     hotels = models.ForeignKey('Hotels', on_delete=models.CASCADE)
     room_types = models.ForeignKey('RoomsTypes', on_delete=models.CASCADE)
     title = models.CharField(max_length=128)
-    value = models.IntegerField(default=0, validators=[MinValueValidator(1)])
+    value = models.PositiveIntegerField(default=0)
     params = models.TextField()
 
 

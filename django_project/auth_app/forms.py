@@ -1,3 +1,5 @@
+import pytz
+import tzlocal
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
@@ -11,18 +13,22 @@ class AuthenticationForm(forms.Form):
         label='E-mail',
         max_length=100,
         widget=forms.EmailInput(attrs={}),
-        error_messages={'required': 'Укажите e-mail'})
+        error_messages={'required': ''})
     password = forms.CharField(
         label='Пароль',
-        widget=forms.PasswordInput(attrs={}),)
-        # error_messages={'required': 'Укажите пароль'})
+        widget=forms.PasswordInput(attrs={}),
+        error_messages={'required': ''})
+
+    class Meta:
+        model = get_user_model()
+        fields = ('email', 'password')
 
     def __init__(self, request=None, *args, **kwargs):
         self.request = request
         self.user_cache = None
         self.current_user = None
         self.user_model = get_user_model()
-        super(AuthenticationForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
 
@@ -46,20 +52,35 @@ class AuthenticationForm(forms.Form):
         return self.cleaned_data
 
 
-class UserRegisterForm(UserCreationForm):
-    FIO = forms.CharField(label='ФИО')
-    phone = forms.CharField(label='Телефон')
-    www = forms.CharField(label='Сайт отеля')
-    vacations = forms.CharField(label='Количество номеров')
-    pms = forms.Select(label='Какую PMS использует', )
-
-
-    class Meta:
-        model = get_user_model()
-        fields = ('FIO', 'phone', 'email', 'www', 'vacations', 'pms', )
+class UserCreationForm(forms.Form):
+    pms_list = (('Fidelio_PMS', 'Fidelio PMS'),
+                ('Opera_PMS', 'Opera PMS'),
+                ('1C_Hotel', '1C Hotel'),
+                ('Logus_HMS', 'Logus HMS'),
+                ('Edelweiss', 'Edelweiss'),
+                ('Travelline_Web_PMS', 'Travelline Web PMS'),
+                ('Bnovo_PMS', 'Bnovo PMS'),
+                ('Shelter', 'Shelter'),
+                ('another', 'Другая'))
+    FIO = forms.CharField(label='ФИО', widget=forms.TextInput(attrs={}))
+    phone = forms.CharField(label='Телефон', widget=forms.TextInput(attrs={}))
+    email = forms.CharField(
+        label='E-mail',
+        widget=forms.EmailInput(attrs={}))
+    www = forms.CharField(label='Сайт отеля', widget=forms.URLInput(attrs={'required': False}))
+    vacations = forms.CharField(label='Количество номеров', widget=forms.TextInput(attrs={'required': False}))
+    pms = forms.CharField(label='Какую PMS использует',
+                          widget=forms.Select(choices=pms_list, attrs={'id': 'pms'}))
+    another_pms = forms.CharField(label='Другая PMS', widget=forms.TextInput(attrs={'id': 'another_pms',
+                                                                                    'required': False,
+                                                                                    'style': 'display: none;'}))
+    timeZ = forms.CharField(label='Часовой пояс',
+                            widget=forms.Select(choices=((tz, tz) for tz in pytz.all_timezones),
+                                                attrs={'required': False}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.initial['timeZ'] = tzlocal.get_localzone()
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
             field.help_text = ''

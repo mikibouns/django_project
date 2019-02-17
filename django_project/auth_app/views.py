@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect
-from .forms import AuthenticationForm, UserRegisterForm
+from .forms import AuthenticationForm, UserCreationForm
 from django.contrib import auth
 from django.urls import reverse
 
@@ -20,7 +20,7 @@ def authorization(request):
 
 
 def registration(request):
-    reg_form = UserRegisterForm()
+    reg_form = UserCreationForm()
     template = "auth_app/register.html"
     context = {'reg_form': reg_form}
     return render(request, template, context)

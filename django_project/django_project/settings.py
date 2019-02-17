@@ -62,7 +62,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main_app',
-    'auth_app'
+    'auth_app',
+    'mptt',
 ]
 
 MIDDLEWARE = [
