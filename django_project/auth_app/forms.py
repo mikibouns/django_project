@@ -63,10 +63,10 @@ class UserCreationForm(forms.Form):
                 ('Shelter', 'Shelter'),
                 ('another', 'Другая'))
     FIO = forms.CharField(label='ФИО', widget=forms.TextInput(attrs={}))
-    phone = forms.CharField(label='Телефон', widget=forms.TextInput(attrs={}))
+    phone = forms.CharField(label='Телефон', widget=forms.TextInput(attrs={'id': 'phone'}))
     email = forms.CharField(
         label='E-mail',
-        widget=forms.EmailInput(attrs={}))
+        widget=forms.EmailInput(attrs={'id': 'email'}))
     www = forms.CharField(label='Сайт отеля', widget=forms.URLInput(attrs={'required': False}))
     vacations = forms.CharField(label='Количество номеров', widget=forms.TextInput(attrs={'required': False}))
     pms = forms.CharField(label='Какую PMS использует',
