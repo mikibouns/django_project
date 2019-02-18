@@ -6,9 +6,6 @@ import os
 import geocoder
 from pprint import pprint
 from django.utils import timezone
-import pytz
-import tzlocal
-import csv
 
 
 # try:
@@ -43,17 +40,6 @@ class Command(BaseCommand):
         # # Создаем суперпользователя при помощи менеджера модели
         # super_user = get_user_model().objects.create_superuser('root', 'test.mail.django@yandex.ru', 'testtest123')
 
-        # g = geocoder.geonames('Kaliningrad', key='geoname_user_2019') # password: testtest123
-        # g = geocoder.geonames(g.geonames_id, method='details', key='geoname_user_2019')
-        # print(g.address)
-        # print(g.country)
-        # print(g.geonames_id)
-        # pprint(g.timeZoneId)
-
-        pprint(str(tzlocal.get_localzone()))
-
-        with open('RU.csv', 'r', encoding='utf-8') as f:
-            string = [str(i) for i in f]
-            ru_list = list(string)
-
-        pprint(ru_list)
+        g = geocoder.geonames('Russian', key='geoname_user_2019') # password: testtest123
+        g = geocoder.geonames(g.geonames_id, method='children', key='geoname_user_2019')
+        pprint(g.geojson)

@@ -23,6 +23,7 @@ def authorization(request):
 
 
 def registration(request):
+    send_mail_error = ''
     reg_form = UserCreationForm()
     if request.method == 'POST':
         message = '''
@@ -45,14 +46,16 @@ def registration(request):
                 'Заявка клиента',
                 message,
                 EMAIL_HOST_USER,
-                ['igor.matiek@yandex.ru'],
+                ['igor.matiek@yandex.rru'],
                 fail_silently=False,
             )
-        except smtplib.SMTPException as error:
-
-            print(error)
+        except smtplib.SMTPException as e:
+            send_mail_error = '''Письмо небыло доставлено, попробуйте с нами связаться по 
+                        телефону 8(800)888-88-88 чтобы оставить заявку'''
+            print(e)
     template = "auth_app/register.html"
-    context = {'reg_form': reg_form}
+    context = {'reg_form': reg_form,
+               'send_mail_error': send_mail_error}
     return render(request, template, context)
 
 
