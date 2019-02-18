@@ -50,7 +50,7 @@ class Hotels(models.Model):
 
 class RoomsTypesHotels(models.Model):
     '''Виды номеров-Отели Клиента'''
-    hotels = models.ForeignKey('Hotels', on_delete=models.CASCADE, related_name='hotels')
+    hotels = models.ForeignKey('Hotels', on_delete=models.CASCADE, related_name='hotels_room')
     room_types = models.ForeignKey('RoomsTypes', on_delete=models.CASCADE, related_name='room_types')
     title = models.CharField(max_length=128)
     value = models.PositiveIntegerField(default=0)
@@ -59,7 +59,7 @@ class RoomsTypesHotels(models.Model):
 
 class HotelsParamsHotels(models.Model):
     '''Параметры отелей-Отели Клиента'''
-    hotels = models.ForeignKey('Hotels', on_delete=models.CASCADE, related_name='hotels')
+    hotels = models.ForeignKey('Hotels', on_delete=models.CASCADE, related_name='hotels_hotel')
     hotels_params = models.ForeignKey('HotelsParams', on_delete=models.CASCADE, related_name='hotels_params')
     title = models.CharField(max_length=128)
     params = models.TextField()

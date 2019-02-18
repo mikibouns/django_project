@@ -14,4 +14,9 @@ $(document).ready(function() {
    }
  });
   $('#phone').mask("+9(999)999-99-99");
+//  $('#email').mask("A", {
+//	translation: {
+//		"A": { pattern: /[\w@\-.+]/, recursive: true }
+//	}
+//  });
 });
