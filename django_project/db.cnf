@@ -1,5 +1,5 @@
 [client]
 database = django_db
-user = administ
-password = testtest123
+user = admin
+password = RE100ATXadmin
 default-character-set = utf8
