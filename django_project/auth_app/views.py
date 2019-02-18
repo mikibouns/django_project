@@ -23,8 +23,8 @@ def authorization(request):
 
 
 def registration(request):
-    reg_form = UserCreationForm(data=request.POST)
-    if request.method == 'POST' and reg_form.is_valid():
+    reg_form = UserCreationForm()
+    if request.method == 'POST':
         message = '''
         ФИО: {}, 
         Телефон: {}, 
