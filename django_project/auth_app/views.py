@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponseRedirect
 from .forms import AuthenticationForm, UserCreationForm
 from django.contrib import auth
 from django.urls import reverse
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 import smtplib
 from django_project.settings import EMAIL_HOST_USER
 
@@ -26,6 +26,9 @@ def registration(request):
     send_mail_error = ''
     reg_form = UserCreationForm()
     if request.method == 'POST':
+        pms = request.POST.get('pms', None)
+        if pms == 'another':
+            pms = request.POST.get('another_pms', None)
         message = '''
         ФИО: {}, 
         Телефон: {}, 
@@ -33,24 +36,25 @@ def registration(request):
         Сайт отеля: {},
         Количество номеров: {},
         PMS: {},
-        Часлвлй пояс: {}
+        Часовой пояс: {}
         '''.format(request.POST.get('FIO', None),
                    request.POST.get('phone', None),
                    request.POST.get('email', None),
                    request.POST.get('www', None),
                    request.POST.get('vacations', None),
-                   request.POST.get('pms', None),
+                   pms,
                    request.POST.get('timeZ', None),)
         try:
-            send_mail(
-                'Заявка клиента',
-                message,
-                EMAIL_HOST_USER,
-                ['igor.matiek@yandex.rru'],
-                fail_silently=False,
+            msg = EmailMessage(
+                subject=u'Тема письма',
+                body=message,
+                from_email=EMAIL_HOST_USER,
+                to=('igor.matiek@yandex.ru',),
+                # headers={'From': 'email_from@me.com'}
             )
+            msg.send()
         except smtplib.SMTPException as e:
-            send_mail_error = '''Письмо небыло доставлено, попробуйте с нами связаться по 
+            send_mail_error = '''Письмо небыло доставлено, попробуйте с нами связаться по
                         телефону 8(800)888-88-88 чтобы оставить заявку'''
             print(e)
     template = "auth_app/register.html"
