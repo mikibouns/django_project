@@ -1,8 +1,8 @@
 jQuery(document).ready(function() {
  // маска для номера телефона
- $('#phone').mask('+0(000)000-00-00', {placeholder: "+_(___)___-__-__"});
+ $('#phone').mask('+#(###)###-##-##', {placeholder: "+_(___)___-__-__"});
  // маска для email
- $('#email').mask("A", {translation: {"A": { pattern: /[\w@\-.+]/, recursive: true }}, placeholder: "___@___.__"});
+ $('#email').mask("A", {translation: {'A': {pattern: /[\w@\-.+]/, recursive: true}}, placeholder: "___@___.__"});
 
  $("#another_pms").hide();
  $('label[for="another_pms"]').hide();

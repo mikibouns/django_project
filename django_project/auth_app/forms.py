@@ -48,7 +48,8 @@ class AuthenticationForm(forms.Form):
         return self.cleaned_data
 
 
-class UserCreationForm(forms.Form):
+class RegisterForm(forms.Form):
+    '''регистрация пользователей'''
     pms_list = (('Fidelio_PMS', 'Fidelio PMS'),
                 ('Opera_PMS', 'Opera PMS'),
                 ('1C_Hotel', '1C Hotel'),
@@ -80,30 +81,16 @@ class UserCreationForm(forms.Form):
                             required=False)
 
     def __init__(self, *args, **kwargs):
-        super(UserCreationForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.initial['timeZ'] = tzlocal.get_localzone()
         for field_name, field in self.fields.items():
-            # field.error_messages = {'required': ''}
+            field.error_messages = {'required': ''}
             field.widget.attrs['class'] = 'form-control'
             field.help_text = ''
 
-
-# class UserEditForm(UserChangeForm):
-#     class Meta:
-#         model = HLUsers
-#         fields = ('username', 'first_name', 'email', 'au_age', 'au_avatar',
-#                   'password')
-#
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         for field_name, field in self.fields.items():
-#             field.widget.attrs['class'] = 'form-control'
-#             field.help_text = ''
-#             if field_name == 'password':
-#                 field.widget = forms.HiddenInput()
-#
-#     def clean_age(self):
-#         data = self.cleaned_data['age']
-#         if data < 18:
-#             raise forms.ValidationError("You are too young!")
-#         return data
+    def clean_phone(self):
+        '''Определяем правило валидации поля phone'''
+        phone = self.cleaned_data.get('phone')
+        if len(phone) < 16:
+            raise forms.ValidationError('Неправельно введен номер телефона!')
+        return self.cleaned_data
