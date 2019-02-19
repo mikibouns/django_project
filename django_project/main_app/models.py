@@ -6,9 +6,15 @@ from mptt.models import MPTTModel, TreeForeignKey
 class Places(MPTTModel):
     '''Топонимы'''
     title = models.CharField(max_length=128)
-    parent = TreeForeignKey('self', on_delete=models.CASCADE)
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
     timeZ = models.CharField(max_length=128)
     uuid = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.title
+
+    class MPTTMeta:
+        order_insertion_by = ['title']
 
 
 class Prices(models.Model):
@@ -17,17 +23,26 @@ class Prices(models.Model):
     days = models.PositiveIntegerField(default=90)
     params = models.TextField()
 
+    def __str__(self):
+        return self.title
+
 
 class RoomsTypes(models.Model):
     '''Виды номеров'''
     title = models.CharField(max_length=128)
     params = models.TextField()
 
+    def __str__(self):
+        return self.title
+
 
 class HotelsParams(models.Model):
     '''Параметры отелей'''
     title = models.CharField(max_length=1024)
     params = models.TextField()
+
+    def __str__(self):
+        return self.title
 
 
 class Hotels(models.Model):
@@ -47,6 +62,9 @@ class Hotels(models.Model):
     pms = models.CharField(max_length=128)
     params = models.TextField()
 
+    def __str__(self):
+        return self.title
+
 
 class RoomsTypesHotels(models.Model):
     '''Виды номеров-Отели Клиента'''
@@ -56,6 +74,9 @@ class RoomsTypesHotels(models.Model):
     value = models.PositiveIntegerField(default=0)
     params = models.TextField()
 
+    def __str__(self):
+        return self.title
+
 
 class HotelsParamsHotels(models.Model):
     '''Параметры отелей-Отели Клиента'''
@@ -63,3 +84,6 @@ class HotelsParamsHotels(models.Model):
     hotels_params = models.ForeignKey('HotelsParams', on_delete=models.CASCADE, related_name='hotels_params')
     title = models.CharField(max_length=128)
     params = models.TextField()
+
+    def __str__(self):
+        return self.title

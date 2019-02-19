@@ -83,7 +83,7 @@ class UserCreationForm(forms.Form):
         super(UserCreationForm, self).__init__(*args, **kwargs)
         self.initial['timeZ'] = tzlocal.get_localzone()
         for field_name, field in self.fields.items():
-            field.error_messages = {'required': ''}
+            # field.error_messages = {'required': ''}
             field.widget.attrs['class'] = 'form-control'
             field.help_text = ''
 
