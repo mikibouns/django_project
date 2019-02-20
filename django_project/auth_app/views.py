@@ -61,7 +61,7 @@ def registration(request):
                     to=('igor.matiek@yandex.ru',)
                 )
                 msg.send()
-                return HttpResponseRedirect(reverse('main'))
+                return HttpResponseRedirect(reverse('main:main'))
             except smtplib.SMTPException as e:
                 send_mail_error = '''Письмо небыло доставлено, попробуйте с нами связаться по
                             телефону 8(800)888-88-88 чтобы оставить заявку'''
