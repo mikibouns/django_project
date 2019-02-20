@@ -7,7 +7,7 @@ import smtplib
 from django_project.settings import EMAIL_HOST_USER
 
 
-def authorization(request):
+def sign_in(request):
     login_form = AuthenticationForm()
     if request.method == 'POST':
         login_form = AuthenticationForm(data=request.POST)
@@ -17,11 +17,16 @@ def authorization(request):
             user = auth.authenticate(username=email, password=password)
             if user and user.is_active:
                 auth.login(request, user)
-                return HttpResponseRedirect(reverse('auth:auth'))
+                return HttpResponseRedirect(reverse('auth:sign_in'))
             else:
                 login_form = AuthenticationForm()
     content = {'login_form': login_form}
     return render(request, 'auth_app/authorisation.html', content)
+
+
+def sign_out(request):
+    auth.logout(request)
+    return HttpResponseRedirect(reverse('auth:sign_in'))
 
 
 def registration(request):
@@ -65,12 +70,3 @@ def registration(request):
     context = {'reg_form': reg_form,
                'send_mail_error': send_mail_error}
     return render(request, template, context)
-
-
-def sign_in(request):
-    return HttpResponseRedirect('/admin/')
-
-
-def sign_out(request):
-    auth.logout(request)
-    return HttpResponseRedirect(reverse('auth:auth'))

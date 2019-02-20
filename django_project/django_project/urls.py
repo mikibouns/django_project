@@ -19,6 +19,6 @@ from main_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
-    path('', include('auth_app.urls', namespace='auth')),
-    path('welcome/', views.welcome, name='main')
+    path('auth/', include('auth_app.urls', namespace='auth')),
+    path('', views.welcome, name='main')
 ]

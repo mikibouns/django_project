@@ -10,7 +10,7 @@
     </form>
 {% else %}
 <h1>authorisation form</h1>
-    <form method="POST" action="{% url 'auth:auth' %}">
+    <form method="POST" action="{% url 'auth:sign_in' %}">
         {% csrf_token %}
         <div>
         {% for field in login_form %}
