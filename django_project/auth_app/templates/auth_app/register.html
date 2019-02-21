@@ -5,7 +5,7 @@
 {% block title %}registration{% endblock %}
 {% block container %}
 <h1>registration form</h1>
-    <form action="{% url 'auth:register' %}" method="post">
+    <form action="{% url 'register' %}" method="post">
         {% csrf_token %}
         <div>
         {% for field in reg_form %}

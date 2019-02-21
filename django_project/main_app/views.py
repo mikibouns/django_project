@@ -1,6 +1,5 @@
 from django.shortcuts import render
+from django.views.generic import TemplateView
 
-
-def welcome(request):
-    context = {}
-    return render(request, 'main_app/welcome.html', context)
+class Welcome(TemplateView):
+    template_name = 'main_app/welcome.html'

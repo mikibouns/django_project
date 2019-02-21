@@ -27,7 +27,7 @@ class SignIn(View):
                 auth.login(request, user)
                 return HttpResponseRedirect(reverse('auth:sign_in'))
             else:
-                form = AuthenticationForm()
+                form = AuthenticationForm(initial=self.initial)
 
         return render(request, self.template, {'login_form': form})
 

@@ -8,5 +8,4 @@ app_name = 'auth_app'
 urlpatterns = [
     path('signin/', views.SignIn.as_view(), name='sign_in'),
     path('signout/', views.sign_out, name='sign_out'),
-    path('register/', views.Registration.as_view(), name='register'),
 ]
