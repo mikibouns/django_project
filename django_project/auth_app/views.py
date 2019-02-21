@@ -11,11 +11,11 @@ from django.views import View
 class SignIn(View):
     initial = {'key': 'value'}
     form_class = AuthenticationForm
-    template = 'auth_app/authorisation.html'
+    template_name = 'auth_app/authorisation.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
-        return render(request, self.template, {'login_form': form})
+        return render(request, self.template_name, {'login_form': form})
 
     def post(self, request,*args, **kwargs):
         form = self.form_class(data=request.POST)
@@ -29,7 +29,7 @@ class SignIn(View):
             else:
                 form = AuthenticationForm(initial=self.initial)
 
-        return render(request, self.template, {'login_form': form})
+        return render(request, self.template_name, {'login_form': form})
 
 
 def sign_out(request):
@@ -40,11 +40,11 @@ def sign_out(request):
 class Registration(View):
     initial = {'key': 'value'}
     form_class = RegisterForm
-    template = 'auth_app/register.html'
+    template_name = 'auth_app/register.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
-        return render(request, self.template, {'reg_form': form})
+        return render(request, self.template_name, {'reg_form': form})
 
     def post(self, request, *args, **kwargs):
         error = ''
@@ -57,7 +57,7 @@ class Registration(View):
                 return HttpResponseRedirect(reverse('main:welcome'))
             else:
                 error = sending_result
-        return render(request, self.template, {'reg_form': form, 'send_mail_error': error})
+        return render(request, self.template_name, {'reg_form': form, 'send_mail_error': error})
 
     def create_letter(self, request, pms):
         '''создание тела письма'''
