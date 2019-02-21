@@ -22,6 +22,6 @@ urlpatterns = [
     path('', include('main_app.urls', namespace='main')),
     path('auth/', include('auth_app.urls', namespace='auth')),
     path('register/', auth_views.Registration.as_view(), name='register'),
-    path('admin_panel/', include('admin_app.urls', namespace='admin')),
+    path('admin_panel/', include('admin_app.urls', namespace='admin_panel')),
     path('admin/', admin.site.urls),
 ]
