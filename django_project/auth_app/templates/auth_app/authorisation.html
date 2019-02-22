@@ -3,12 +3,6 @@
 {% endblock %}
 {% block title %}authorisation{% endblock %}
 {% block container %}
-{% if user.is_authenticated %}
-    <form method="POST" action="{% url 'auth:sign_out' %}">
-        {% csrf_token %}
-        <input type="submit" value="Sign out" >
-    </form>
-{% else %}
 <h1>authorisation form</h1>
     <form method="POST" action="{% url 'auth:sign_in' %}">
         {% csrf_token %}
@@ -33,5 +27,4 @@
 <div>
     <a href="{% url 'register' %}"><input type="submit" value="Registration" ></a>
 </div>
-{% endif %}
 {% endblock %}

@@ -31,7 +31,7 @@ AUTH_USER_MODEL = 'auth_app.HLUsers'
 
 AUTHENTICATION_BACKENDS = [
     'auth_app.auth_backends.UserEmailBackend',
-    # 'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 AUTH_PASSWORD_VALIDATORS = [

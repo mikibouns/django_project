@@ -4,9 +4,15 @@
 {% block title %}edit{% endblock %}
 {% block container %}
 <h1>Administrative panel</h1>
-  <form class="form-horizontal" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input class="form-control" type="submit" value="Save">
-  </form>
+<div>
+  <p>{{ user.username }}</p>
+  <p>{{ user.email }}</p>
+</div>
+<div>
+    <a href="{% url 'admin_panel:user_update' user.id %}"><input type="submit" value="Update" ></a>
+</div>
+<div>
+    <a href="{% url 'admin_panel:user_delete' user.id %}"><input type="submit" value="Delete" ></a>
+</div>
+
 {% endblock %}

@@ -5,9 +5,15 @@
 {% block container %}
 <h1>Administrative panel</h1>
 {% for user in users %}
-<p>{{ user.username }}</p>
+<a href="{% url 'admin_panel:user_detail' user.id %}"><h3>{{ user.username }}</h3></a>
 {% endfor %}
 <div>
     <a href="{% url 'admin_panel:user_create' %}"><input type="submit" value="New" ></a>
 </div>
+{% if user.is_authenticated %}
+    <form method="POST" action="{% url 'auth:sign_out' %}">
+        {% csrf_token %}
+        <input type="submit" value="Sign out" >
+    </form>
+{% endif %}
 {% endblock %}

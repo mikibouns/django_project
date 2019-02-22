@@ -25,7 +25,7 @@ class SignIn(View):
             user = auth.authenticate(username=email, password=password)
             if user and user.is_active:
                 auth.login(request, user)
-                return HttpResponseRedirect(reverse('auth:sign_in'))
+                return HttpResponseRedirect(reverse('admin_panel:user_list'))
             else:
                 form = AuthenticationForm(initial=self.initial)
 
