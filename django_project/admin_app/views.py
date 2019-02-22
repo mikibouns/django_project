@@ -52,7 +52,7 @@ class UserDetail(DetailView):
         return render(request, self.template_name, context)
 
 
-class UserCreate(CreateView):
+class UserCreate(View):
     '''создание нового пользователя'''
     initial = {'key': 'value'}
     form_class = CreateForm
@@ -66,15 +66,13 @@ class UserCreate(CreateView):
         user_model = get_user_model()
         form = self.form_class(data=request.POST)
         if form.is_valid():
-            passwd = request.POST.get('password', '')
             data_create = {
                 'username': request.POST.get('username', ''),
                 'email': request.POST.get('email', ''),
+                'password': request.POST.get('password', '')
             }
             data_create.update(fio_converter(request.POST.get('FIO', '')))
-            new_user = user_model(**data_create)
-            new_user.set_password(passwd)
-            new_user.save()
+            new_user = user_model.objects.create_user(**data_create)
 
             return HttpResponseRedirect(reverse('admin_panel:user_detail', args=(new_user.id, )))
 
