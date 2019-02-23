@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'auth_app',
     'admin_app',
     'mptt',
+    'bootstrap3',
 ]
 
 MIDDLEWARE = [
