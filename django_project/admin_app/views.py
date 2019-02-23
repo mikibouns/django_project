@@ -23,8 +23,8 @@ def fio_converter(data):
         }
         return fio_dict
     else:
-        fio = '{} {} {}'.format(data.first_name,
-                                data.last_name,
+        fio = '{} {} {}'.format(data.lastname,
+                                data.first_name,
                                 data.surname)
         fio_dict = {
             'FIO': fio,
@@ -34,33 +34,24 @@ def fio_converter(data):
 
 class UserList(ListView):
     '''список пользователей(администраторов)'''
-    users = get_user_model().objects.all().order_by('username')
+    model = get_user_model()
     template_name = 'admin_app/user_list.html'
-    context = {'users': users}
-
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, self.context)
 
 
 class UserDetail(DetailView):
     '''поисание пользователя и опции'''
+    model = get_user_model()
     template_name = 'admin_app/user_detail.html'
 
-    def get(self, request, pk, *args, **kwargs):
-        user = get_object_or_404(get_user_model(), pk=pk)
-        context = {'user': user}
-        return render(request, self.template_name, context)
 
-
-class UserCreate(View):
+class UserCreate(CreateView):
     '''создание нового пользователя'''
-    initial = {'key': 'value'}
     form_class = CreateForm
     template_name = 'admin_app/user_create_update.html'
 
-    def get(self, request, *args, **kwargs):
-        form = self.form_class(initial=self.initial)
-        return render(request, self.template_name, {'form': form})
+    # def get(self, request, *args, **kwargs):
+    #     form = self.form_class(initial=self.initial)
+    #     return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
         user_model = get_user_model()
@@ -75,6 +66,7 @@ class UserCreate(View):
             new_user = user_model.objects.create_user(**data_create)
 
             return HttpResponseRedirect(reverse('admin_panel:user_detail', args=(new_user.id, )))
+        return HttpResponseRedirect(reverse('admin_panel:user_create'))
 
 
 class UserUpdate(UpdateView):
@@ -98,8 +90,8 @@ class UserUpdate(UpdateView):
         return instance_dict
 
 
-class UserDelete(DeleteView):
-
+class UserDelete(View):
+    '''удаление пользователя'''
     def get(self, request, pk, *args, **kwargs):
         user = get_object_or_404(get_user_model(), pk=pk)
         user.delete()

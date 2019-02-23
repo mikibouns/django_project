@@ -5,14 +5,14 @@
 {% block container %}
 <h1>Administrative panel</h1>
 <div>
-  <p>{{ user.username }}</p>
-  <p>{{ user.email }}</p>
+  <p>{{ object.username }}</p>
+  <p>{{ object.email }}</p>
 </div>
 <div>
-    <a href="{% url 'admin_panel:user_update' user.id %}"><input type="submit" value="Update" ></a>
+    <a href="{% url 'admin_panel:user_update' object.id %}"><input type="submit" value="Update" ></a>
 </div>
 <div>
-    <a href="{% url 'admin_panel:user_delete' user.id %}"><input type="submit" value="Delete" ></a>
+    <a href="{% url 'admin_panel:user_delete' object.id %}"><input type="submit" value="Delete" ></a>
 </div>
 
 {% endblock %}
