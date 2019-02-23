@@ -33,19 +33,18 @@ class CreateForm(UserCreationForm):
 
 class EditForm(UserChangeForm):
     FIO = forms.CharField(label='ФИО', widget=forms.TextInput(attrs={}))
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
 
     class Meta:
         model = get_user_model()
-        fields = ('FIO', 'email', 'username', 'password')
+        fields = ('FIO', 'email', 'username')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
             field.help_text = ''
-            # if field_name == 'password':
-            #     field.widget = forms.PasswordInput()
+            if field_name == 'password':
+                field.widget = forms.PasswordInput()
 
     def clean_FIO(self):
         '''Определяем правило валидации поля IFO'''

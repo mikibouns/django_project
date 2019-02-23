@@ -79,12 +79,14 @@ class UserUpdate(UpdateView):
         context = {'form': form}
         return render(request, self.template_name, context)
 
+    def post(self, request, pk, *args, **kwargs)):
+
+
     def create_initial_dict(self, instance):
         fio = fio_converter(instance)
         instance_dict = {
             'email': instance.email,
             'username': instance.username,
-            'password': instance.password
         }
         instance_dict.update(fio)
         return instance_dict
