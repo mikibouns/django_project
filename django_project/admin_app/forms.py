@@ -43,8 +43,8 @@ class EditForm(UserChangeForm):
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
             field.help_text = ''
-            if field_name == 'password':
-                field.widget = forms.PasswordInput()
+            # if field_name == 'password':
+            #     field.widget = forms.PasswordInput()
 
     def clean_FIO(self):
         '''Определяем правило валидации поля IFO'''

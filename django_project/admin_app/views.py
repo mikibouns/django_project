@@ -48,22 +48,14 @@ class UserCreate(SuperuserRequiredMixin, CreateView):
     form_class = CreateForm
     template_name = 'admin_app/user_create_update.html'
 
-    # def get(self, request, *args, **kwargs):
-    #     form = self.form_class(initial=self.initial)
-    #     return render(request, self.template_name, {'form': form})
-
     def post(self, request, *args, **kwargs):
-        user_model = get_user_model()
         form = self.form_class(data=request.POST)
         if form.is_valid():
-            data_create = {
-                'username': request.POST.get('username', ''),
-                'email': request.POST.get('email', ''),
-                'password': request.POST.get('password', '')
-            }
-            data_create.update(fio_converter(request.POST.get('FIO', '')))
-            new_user = user_model.objects.create_user(**data_create)
-
+            form.save()
+            user_name = request.POST['username']
+            fio = fio_converter(request.POST.get('FIO', ''))
+            get_user_model().objects.filter(username=user_name).update(**fio)
+            new_user = get_user_model().objects.get(username=user_name)
             return HttpResponseRedirect(reverse('admin_panel:user_detail', args=(new_user.id, )))
         return HttpResponseRedirect(reverse('admin_panel:user_create'))
 
