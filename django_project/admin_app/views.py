@@ -6,8 +6,16 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import CreateForm, EditForm
 from django.contrib.auth.decorators import user_passes_test
 from django.views import View
-
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import user_passes_test
 from pprint import pprint
+
+
+class SuperuserRequiredMixin(object):
+    '''декоратор для проверки прав суперпользователя'''
+    @method_decorator(user_passes_test(lambda u: u.is_authenticated and u.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super(SuperuserRequiredMixin, self).dispatch(*args, **kwargs)
 
 
 def fio_converter(data):
@@ -32,19 +40,19 @@ def fio_converter(data):
         return fio_dict
 
 
-class UserList(ListView):
+class UserList(SuperuserRequiredMixin, ListView):
     '''список пользователей(администраторов)'''
     model = get_user_model()
     template_name = 'admin_app/user_list.html'
 
 
-class UserDetail(DetailView):
+class UserDetail(SuperuserRequiredMixin, DetailView):
     '''поисание пользователя и опции'''
     model = get_user_model()
     template_name = 'admin_app/user_detail.html'
 
 
-class UserCreate(CreateView):
+class UserCreate(SuperuserRequiredMixin, CreateView):
     '''создание нового пользователя'''
     form_class = CreateForm
     template_name = 'admin_app/user_create_update.html'
@@ -69,7 +77,7 @@ class UserCreate(CreateView):
         return HttpResponseRedirect(reverse('admin_panel:user_create'))
 
 
-class UserUpdate(UpdateView):
+class UserUpdate(SuperuserRequiredMixin, UpdateView):
     template_name = 'admin_app/user_create_update.html'
     form_class = EditForm
 
@@ -78,9 +86,6 @@ class UserUpdate(UpdateView):
         form = self.form_class(initial=self.create_initial_dict(user))
         context = {'form': form}
         return render(request, self.template_name, context)
-
-    def post(self, request, pk, *args, **kwargs)):
-
 
     def create_initial_dict(self, instance):
         fio = fio_converter(instance)
@@ -92,7 +97,7 @@ class UserUpdate(UpdateView):
         return instance_dict
 
 
-class UserDelete(View):
+class UserDelete(SuperuserRequiredMixin, View):
     '''удаление пользователя'''
     def get(self, request, pk, *args, **kwargs):
         user = get_object_or_404(get_user_model(), pk=pk)
