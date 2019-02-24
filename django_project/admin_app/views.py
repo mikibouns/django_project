@@ -4,18 +4,9 @@ from django.contrib.auth import get_user_model
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import CreateForm, EditForm
-from django.contrib.auth.decorators import user_passes_test
 from django.views import View
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import user_passes_test
+from .decorators import SuperuserRequiredMixin
 from pprint import pprint
-
-
-class SuperuserRequiredMixin(object):
-    '''декоратор для проверки прав суперпользователя'''
-    @method_decorator(user_passes_test(lambda u: u.is_authenticated and u.is_superuser))
-    def dispatch(self, *args, **kwargs):
-        return super(SuperuserRequiredMixin, self).dispatch(*args, **kwargs)
 
 
 def fio_converter(data):
