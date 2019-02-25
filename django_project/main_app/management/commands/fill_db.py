@@ -7,15 +7,19 @@ from transliterate import translit
 from main_app.models import Places
 
 
+slash = r'/'
+if os.name == 'nt':
+    slash = '\\'
+
 try:
     # os.remove('db.sqlite3')
-    os.remove(r'main_app\migrations\0001_initial.py')
-    os.remove(r'auth_app\migrations\0001_initial.py')
+    os.remove(r'main_app{}migrations{}0001_initial.py'.format(slash))
+    os.remove(r'auth_app{}migrations{}0001_initial.py'.format(slash))
 except:
     print('Not found!')
 
-call('manage.py makemigrations', shell=True)
-call('manage.py migrate', shell=True)
+    call('python manage.py makemigrations', shell=True)
+    call('python manage.py migrate', shell=True)
 
 
 def users_iterator():
