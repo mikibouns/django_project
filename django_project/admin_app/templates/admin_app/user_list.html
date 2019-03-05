@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
+{% load django_bootstrap_breadcrumbs %}
 {% block head %}
 {% endblock %}
 {% block title %}admin_panel{% endblock %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Users" "admin_app.views.UserList" %}
+{% endblock %}
 {% block container %}
 
     <h2>Панель администратора</h2>
@@ -14,11 +19,5 @@
     <div class="panel">
         <a href="{% url 'admin_panel:user_create' %}" class="btn btn-lg btn-primary btn-block">Создать</a>
     </div>
-    {% if user.is_authenticated %}
-    <form method="POST" action="{% url 'auth:sign_out' %}" class="panel">
-        {% csrf_token %}
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Выйти</button>
-    </form>
-    {% endif %}
 
 {% endblock %}

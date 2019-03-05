@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load bootstrap3 %}
+{% load django_bootstrap_breadcrumbs %}
 <script src="{% bootstrap_jquery_url %}"></script>
 {% bootstrap_css %}
 {% bootstrap_javascript %}
@@ -23,11 +24,15 @@
           <a class="navbar-brand" href="/">Главная страница</a>
         </div>
         <div class="navbar-collapse collapse">
-            {%% }
-          <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'auth:sign_out' %}">Выход</a></li>
+            {% else %}
             <li><a href="{% url 'auth:sign_in' %}">Авторизация</a></li>
             <li><a href="{% url 'register' %}">Регоистрация</a></li>
+            {% endif %}
           </ul>
+
           <!--<form class="navbar-form navbar-right">-->
             <!--<input type="text" class="form-control" placeholder="Search...">-->
           <!--</form>-->
@@ -38,8 +43,15 @@
     <br/>
     <br/>
     <div class="container">
-        {% block container %}
 
+        {% block breadcrumbs %}
+            {% clear_breadcrumbs %}
+            {% breadcrumb "Home" "/" %}
+        {% endblock %}
+
+        {% render_breadcrumbs %}
+
+        {% block container %}
         {% endblock %}
     </div>
 <div>

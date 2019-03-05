@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
+{% load django_bootstrap_breadcrumbs %}
 {% block head %}
 {% endblock %}
 {% block title %}edit{% endblock %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Detail" "admin_app/user_detail.html" %}
+{% endblock %}
 {% block container %}
 
     <h2>Панель администратора</h2>
