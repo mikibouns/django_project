@@ -4,19 +4,19 @@
 {% block title %}edit{% endblock %}
 {% block container %}
 <div class="container">
-    <h2>Administrative panel</h2>
+    <h2>Панель администратора</h2>
     <div class="panel panel-default">
-        <div class="panel-heading">User information</div>
+        <div class="panel-heading">Информация о пользователе</div>
         <ul class="list-group">
-            <li class="list-group-item"><b>Username:</b> {{ object.username }}</li>
+            <li class="list-group-item"><b>Имя пользователя:</b> {{ object.username }}</li>
             <li class="list-group-item"><b>E-mail:</b> {{ object.email }}</li>
         </ul>
     </div>
-    <div>
-        <a href="{% url 'admin_panel:user_update' object.id %}" class="btn btn-lg btn-primary btn-block">Update</a>
+    <div class="panel">
+        <a href="{% url 'admin_panel:user_update' object.id %}" class="btn btn-lg btn-primary btn-block">Обновить</a>
     </div>
-    <div>
-        <a href="{% url 'admin_panel:user_delete' object.id %}" class="btn btn-lg btn-primary btn-block">Delete</a>
+    <div class="panel">
+        <a href="{% url 'admin_panel:user_delete' object.id %}" class="btn btn-lg btn-primary btn-block">Удалить</a>
     </div>
 </div>
 {% endblock %}

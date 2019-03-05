@@ -4,20 +4,20 @@
 {% block title %}admin_panel{% endblock %}
 {% block container %}
 <div class="container">
-    <h2>Administrative panel</h2>
+    <h2>Панель администратора</h2>
     <div class="panel panel-default">
-        <div class="panel-heading">User list</div>
+        <div class="panel-heading">Список пользователей</div>
         {% for user in object_list %}
         <a href="{% url 'admin_panel:user_detail' user.id %}" class="list-group-item">{{ user.username }}</a>
         {% endfor %}
     </div>
-    <div>
-        <a href="{% url 'admin_panel:user_create' %}" class="btn btn-lg btn-primary btn-block">New</a>
+    <div class="panel">
+        <a href="{% url 'admin_panel:user_create' %}" class="btn btn-lg btn-primary btn-block">Создать</a>
     </div>
     {% if user.is_authenticated %}
-    <form method="POST" action="{% url 'auth:sign_out' %}">
+    <form method="POST" action="{% url 'auth:sign_out' %}" class="panel">
         {% csrf_token %}
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign out</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Выйти</button>
     </form>
     {% endif %}
 </div>

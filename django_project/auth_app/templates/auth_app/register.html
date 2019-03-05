@@ -5,7 +5,7 @@
 {% block title %}registration{% endblock %}
 {% block container %}
 <div class="container">
-    <h2>Registration</h2>
+    <h2>Регистрация</h2>
     <form action="{% url 'register' %}" method="post" class="form-signin">
         {% csrf_token %}
         <div>
@@ -24,7 +24,7 @@
         </div>
         {% endfor %}
         </div><br/>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Отправить</button>
     </form>
     <br/>
     {{ send_mail_error }}
