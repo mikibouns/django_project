@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .forms import CreateForm, EditForm
+from .forms import CreateUpdateUserForm
 from django.views import View
 from .decorators import SuperuserRequiredMixin
 from pprint import pprint
@@ -43,10 +43,15 @@ class UserDetail(SuperuserRequiredMixin, DetailView):
     template_name = 'admin_app/user_detail.html'
 
 
-class UserCreate(SuperuserRequiredMixin, CreateView):
+class UserCreate(SuperuserRequiredMixin, View):
     '''создание нового пользователя'''
-    form_class = CreateForm
+    initial = {'key': 'value'}
+    form_class = CreateUpdateUserForm
     template_name = 'admin_app/user_create_update.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(initial=self.initial)
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(data=request.POST)
@@ -60,9 +65,9 @@ class UserCreate(SuperuserRequiredMixin, CreateView):
         return HttpResponseRedirect(reverse('admin_panel:user_create'))
 
 
-class UserUpdate(SuperuserRequiredMixin, UpdateView):
+class UserUpdate(SuperuserRequiredMixin, View):
     template_name = 'admin_app/user_create_update.html'
-    form_class = EditForm
+    form_class = CreateUpdateUserForm
 
     def get(self, request, pk, *args, **kwargs):
         user = get_object_or_404(get_user_model(), pk=pk)

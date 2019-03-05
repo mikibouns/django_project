@@ -3,16 +3,20 @@
 {% endblock %}
 {% block title %}edit{% endblock %}
 {% block container %}
-<h1>Administrative panel</h1>
-<div>
-  <p>{{ object.username }}</p>
-  <p>{{ object.email }}</p>
+<div class="container">
+    <h2>Administrative panel</h2>
+    <div class="panel panel-default">
+        <div class="panel-heading">User information</div>
+        <ul class="list-group">
+            <li class="list-group-item"><b>Username:</b> {{ object.username }}</li>
+            <li class="list-group-item"><b>E-mail:</b> {{ object.email }}</li>
+        </ul>
+    </div>
+    <div>
+        <a href="{% url 'admin_panel:user_update' object.id %}" class="btn btn-lg btn-primary btn-block">Update</a>
+    </div>
+    <div>
+        <a href="{% url 'admin_panel:user_delete' object.id %}" class="btn btn-lg btn-primary btn-block">Delete</a>
+    </div>
 </div>
-<div>
-    <a href="{% url 'admin_panel:user_update' object.id %}"><input type="submit" value="Update" ></a>
-</div>
-<div>
-    <a href="{% url 'admin_panel:user_delete' object.id %}"><input type="submit" value="Delete" ></a>
-</div>
-
 {% endblock %}

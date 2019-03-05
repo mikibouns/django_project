@@ -3,17 +3,22 @@
 {% endblock %}
 {% block title %}admin_panel{% endblock %}
 {% block container %}
-<h1>Administrative panel</h1>
-{% for user in object_list %}
-<a href="{% url 'admin_panel:user_detail' user.id %}"><h3>{{ user.username }}</h3></a>
-{% endfor %}
-<div>
-    <a href="{% url 'admin_panel:user_create' %}"><input type="submit" value="New" ></a>
-</div>
-{% if user.is_authenticated %}
+<div class="container">
+    <h2>Administrative panel</h2>
+    <div class="panel panel-default">
+        <div class="panel-heading">User list</div>
+        {% for user in object_list %}
+        <a href="{% url 'admin_panel:user_detail' user.id %}" class="list-group-item">{{ user.username }}</a>
+        {% endfor %}
+    </div>
+    <div>
+        <a href="{% url 'admin_panel:user_create' %}" class="btn btn-lg btn-primary btn-block">New</a>
+    </div>
+    {% if user.is_authenticated %}
     <form method="POST" action="{% url 'auth:sign_out' %}">
         {% csrf_token %}
-        <input type="submit" value="Sign out" >
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign out</button>
     </form>
-{% endif %}
+    {% endif %}
+</div>
 {% endblock %}

@@ -3,8 +3,9 @@
 {% endblock %}
 {% block title %}authorisation{% endblock %}
 {% block container %}
-<h1>authorisation form</h1>
-    <form method="POST" action="{% url 'auth:sign_in' %}">
+<div class="container">
+    <form method="POST" action="{% url 'auth:sign_in' %}" class="form-signin" role="form">
+        <h2 class="form-signin-heading">authorisation</h2>
         {% csrf_token %}
         <div>
         {% for field in login_form %}
@@ -21,10 +22,8 @@
         </div>
         {% endfor %}
         </div><br/>
-        <input type="submit" value="Sign in" >
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <a href="{% url 'register' %}" class="btn btn-lg btn-primary btn-block">Registration</a>
     </form>
-<br/>
-<div>
-    <a href="{% url 'register' %}"><input type="submit" value="Registration" ></a>
 </div>
 {% endblock %}

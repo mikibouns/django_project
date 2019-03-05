@@ -4,8 +4,9 @@
 {% endblock %}
 {% block title %}registration{% endblock %}
 {% block container %}
-<h1>registration form</h1>
-    <form action="{% url 'register' %}" method="post">
+<div class="container">
+    <h2>Registration</h2>
+    <form action="{% url 'register' %}" method="post" class="form-signin">
         {% csrf_token %}
         <div>
         {% for field in reg_form %}
@@ -23,11 +24,11 @@
         </div>
         {% endfor %}
         </div><br/>
-        <input type="submit" value="Send" >
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
     </form>
     <br/>
     {{ send_mail_error }}
-
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="{% static 'jquery/jquery.mask.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'jquery/scripts.js' %}"></script>

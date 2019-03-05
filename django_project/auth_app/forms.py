@@ -89,6 +89,6 @@ class RegisterForm(forms.Form):
     def clean_phone(self):
         '''Определяем правило валидации поля phone'''
         phone = self.cleaned_data.get('phone')
-        if len(phone) < 16:
+        if len(phone) != 16:
             raise forms.ValidationError('Неправельно введен номер телефона!')
         return self.cleaned_data
