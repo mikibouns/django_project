@@ -1,6 +1,4 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import get_user_model
 import re
 
@@ -12,14 +10,11 @@ class CreateUpdateUserForm(forms.Form):
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput())
     confirm_password = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput())
 
-    class Meta:
-        model = get_user_model()
-        fields = ('FIO', 'email', 'username', 'password', 'confirm_password')
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
+            field.required = False
             field.help_text = ''
 
     def clean_FIO(self):
@@ -32,4 +27,8 @@ class CreateUpdateUserForm(forms.Form):
             for string in fio:
                 if not re.match('^[A-Za-zА-Яа-я]*$', string): # проверяет на соответствие регулярному выражению
                     raise forms.ValidationError('Текст должен содержать только буквы!')
+        return self.cleaned_data
+
+    def clean_password(self):
+        '''валидация пароля'''
         return self.cleaned_data

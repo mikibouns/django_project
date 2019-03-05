@@ -64,7 +64,7 @@ class UserCreate(SuperuserRequiredMixin, View):
             new_user = get_user_model().objects.create_user(**data)
 
             return HttpResponseRedirect(reverse('admin_panel:user_detail', args=(new_user.id, )))
-        return HttpResponseRedirect(reverse('admin_panel:user_create'))
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 class UserUpdate(SuperuserRequiredMixin, View):
@@ -77,6 +77,19 @@ class UserUpdate(SuperuserRequiredMixin, View):
         form = self.form_class(initial=self.create_initial_dict(user))
         context = {'form': form,  'title': self.title}
         return render(request, self.template_name, context)
+
+    def post(self, request, pk, *args, **kwargs):
+        form = self.form_class(data=request.POST)
+        if form.has_changed() and form.is_valid():
+            for field in form.changed_data:
+                print(form.data[field])
+            # fio = fio_converter(form.data['FIO'])
+            # data = form.clean().pop('FIO', '')
+            # data.pop('confirm_password', '')
+            # data.update(fio)
+            # new_user = get_user_model().objects.filter().update(**data)
+            # return HttpResponseRedirect(reverse('admin_panel:user_detail', args=(new_user.id,)))
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     def create_initial_dict(self, instance):
         fio = fio_converter(instance)
