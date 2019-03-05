@@ -3,7 +3,7 @@
 {% endblock %}
 {% block title %}authorisation{% endblock %}
 {% block container %}
-<div class="container">
+
     <form method="POST" action="{% url 'auth:sign_in' %}" class="form-signin" role="form">
         <h2 class="form-signin-heading">Авторизация</h2>
         {% csrf_token %}
@@ -25,5 +25,5 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
         <a href="{% url 'register' %}" class="btn btn-lg btn-primary btn-block">Регистрация</a>
     </form>
-</div>
+
 {% endblock %}

@@ -3,11 +3,12 @@
 {% endblock %}
 {% block title %}edit{% endblock %}
 {% block container %}
-<div class="container">
+
     <h2>Панель администратора</h2>
     <div class="panel panel-default">
         <div class="panel-heading">Информация о пользователе</div>
         <ul class="list-group">
+            <li class="list-group-item"><b>ФИО:</b> {{ object.lastname }} {{ object.first_name }} {{ object.surname }}</li>
             <li class="list-group-item"><b>Имя пользователя:</b> {{ object.username }}</li>
             <li class="list-group-item"><b>E-mail:</b> {{ object.email }}</li>
         </ul>
@@ -18,5 +19,5 @@
     <div class="panel">
         <a href="{% url 'admin_panel:user_delete' object.id %}" class="btn btn-lg btn-primary btn-block">Удалить</a>
     </div>
-</div>
+
 {% endblock %}

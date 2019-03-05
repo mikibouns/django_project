@@ -45,34 +45,37 @@ class UserDetail(SuperuserRequiredMixin, DetailView):
 
 class UserCreate(SuperuserRequiredMixin, View):
     '''создание нового пользователя'''
+    title = 'создать'
     initial = {'key': 'value'}
     form_class = CreateUpdateUserForm
     template_name = 'admin_app/user_create_update.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form, 'title': self.title})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(data=request.POST)
         if form.is_valid():
-            form.save()
-            user_name = request.POST['username']
-            fio = fio_converter(request.POST.get('FIO', ''))
-            get_user_model().objects.filter(username=user_name).update(**fio)
-            new_user = get_user_model().objects.get(username=user_name)
+            fio = fio_converter(form.data['FIO'])
+            data = form.clean().pop('FIO', '')
+            data.pop('confirm_password', '')
+            data.update(fio)
+            new_user = get_user_model().objects.create_user(**data)
+
             return HttpResponseRedirect(reverse('admin_panel:user_detail', args=(new_user.id, )))
         return HttpResponseRedirect(reverse('admin_panel:user_create'))
 
 
 class UserUpdate(SuperuserRequiredMixin, View):
+    title = 'обновить'
     template_name = 'admin_app/user_create_update.html'
     form_class = CreateUpdateUserForm
 
     def get(self, request, pk, *args, **kwargs):
         user = get_object_or_404(get_user_model(), pk=pk)
         form = self.form_class(initial=self.create_initial_dict(user))
-        context = {'form': form}
+        context = {'form': form,  'title': self.title}
         return render(request, self.template_name, context)
 
     def create_initial_dict(self, instance):
