@@ -5,7 +5,7 @@
 {% block container %}
 
     <h2>Панель администратора</h2>
-    <form  method="post" class="form-signin" role="form">
+    <form  method="post" class="form-signin" role="form" action="{% url 'admin_panel:user_update' object.id %}">
     {% csrf_token %}
     {{ form.as_p }}
     <button class="btn btn-lg btn-primary btn-block" type="submit">{{ title }}</button>

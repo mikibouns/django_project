@@ -4,7 +4,7 @@ import re
 
 
 class CreateUpdateUserForm(forms.Form):
-    FIO = forms.CharField(label='ФИО', widget=forms.TextInput(attrs={}))
+    fio = forms.CharField(label='ФИО', widget=forms.TextInput(attrs={}))
     email = forms.CharField(label='Email', widget=forms.EmailInput())
     username = forms.CharField(label='Имя пользователя')
     is_active = forms.CharField(label='Активный', widget=forms.CheckboxInput)
@@ -21,11 +21,14 @@ class CreateUpdateUserForm(forms.Form):
             field.required = False
             field.help_text = ''
 
-    def clean_FIO(self):
-        '''Определяем правило валидации поля IFO'''
-        fio = self.cleaned_data.get('FIO')
+    def clean_fio(self):
+        '''Определяем правило валидации поля FIO'''
+        fio = self.cleaned_data.get('fio')
+        print(fio)
         fio = str(fio).split(' ')
+        print(fio)
         if len(fio) != 3: # проверяет количество слов
+            print('реально не равно')
             raise forms.ValidationError('Недостаточно данных!')
         else:
             for string in fio:

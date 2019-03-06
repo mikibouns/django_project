@@ -26,7 +26,7 @@ def fio_converter(data):
                                 data.first_name,
                                 data.surname)
         fio_dict = {
-            'FIO': fio,
+            'fio': fio,
         }
         return fio_dict
 
@@ -57,17 +57,17 @@ class UserCreate(SuperuserRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         form = self.form_class(data=request.POST)
         if form.is_valid():
-            fio = fio_converter(form.data['FIO'])
-            data = form.clean().pop('FIO', '')
+            fio = fio_converter(form.data['fio'])
+            data = form.clean().pop('fio', '')
             data.pop('confirm_password', '')
             data.update(fio)
             new_user = get_user_model().objects.create_user(**data)
 
             return HttpResponseRedirect(reverse('admin_panel:user_detail', args=(new_user.id, )))
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        return render(request, self.template_name, {'form': form})
 
 
-class UserUpdate(SuperuserRequiredMixin, View):
+class UserUpdate(View):
     title = 'обновить'
     template_name = 'admin_app/user_create_update.html'
     form_class = CreateUpdateUserForm
@@ -84,8 +84,8 @@ class UserUpdate(SuperuserRequiredMixin, View):
         form = self.form_class(data=request.POST)
         if form.has_changed() and form.is_valid():
             data = form.clean() # получаем значения полей формы в виде словаря
-            del_keys = ['FIO', 'password', 'confirm_password'] # поля которые необходимо исключить перед обновлением
-            fio = fio_converter(form.data['FIO']) # превращаем поле FIO в словарь
+            del_keys = ['fio', 'password', 'confirm_password'] # поля которые необходимо исключить перед обновлением
+            fio = fio_converter(form.data['fio']) # превращаем поле fio в словарь
             data.update(fio) # ою
             for key in del_keys:
                 data.pop(key, '')
