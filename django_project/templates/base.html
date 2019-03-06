@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 {% load bootstrap3 %}
-{% load django_bootstrap_breadcrumbs %}
 <script src="{% bootstrap_jquery_url %}"></script>
 {% bootstrap_css %}
 {% bootstrap_javascript %}
@@ -22,6 +21,9 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="/">Главная страница</a>
+            {% if user.is_authenticated %}
+            <a class="navbar-brand" href="{% url 'admin_panel:user_list' %}">Администрирование</a>
+            {% endif %}
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -43,14 +45,6 @@
     <br/>
     <br/>
     <div class="container">
-
-        {% block breadcrumbs %}
-            {% clear_breadcrumbs %}
-            {% breadcrumb "Home" "/" %}
-        {% endblock %}
-
-        {% render_breadcrumbs %}
-
         {% block container %}
         {% endblock %}
     </div>
