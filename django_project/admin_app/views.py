@@ -75,19 +75,22 @@ class UserUpdate(SuperuserRequiredMixin, View):
     def get(self, request, pk, *args, **kwargs):
         user = get_object_or_404(get_user_model(), pk=pk)
         form = self.form_class(initial=self.create_initial_dict(user))
-        context = {'form': form,  'title': self.title}
+        context = {'form': form,
+                   'title': self.title,
+                   'object': user}
         return render(request, self.template_name, context)
 
     def post(self, request, pk, *args, **kwargs):
         form = self.form_class(data=request.POST)
         if form.has_changed() and form.is_valid():
-            for field in form.changed_data:
-                print(form.data[field])
-            # fio = fio_converter(form.data['FIO'])
-            # data = form.clean().pop('FIO', '')
-            # data.pop('confirm_password', '')
-            # data.update(fio)
-            # new_user = get_user_model().objects.filter().update(**data)
+            data = form.clean() # получаем значения полей формы в виде словаря
+            del_keys = ['FIO', 'password', 'confirm_password'] # поля которые необходимо исключить перед обновлением
+            fio = fio_converter(form.data['FIO']) # превращаем поле FIO в словарь
+            data.update(fio) # ою
+            for key in del_keys:
+                data.pop(key, '')
+            print(data)
+            # new_user = get_user_model().objects.filter(id=pk).update(**data)
             # return HttpResponseRedirect(reverse('admin_panel:user_detail', args=(new_user.id,)))
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
@@ -96,6 +99,8 @@ class UserUpdate(SuperuserRequiredMixin, View):
         instance_dict = {
             'email': instance.email,
             'username': instance.username,
+            'is_active': instance.is_active,
+            'is_staff': instance.is_staff
         }
         instance_dict.update(fio)
         return instance_dict

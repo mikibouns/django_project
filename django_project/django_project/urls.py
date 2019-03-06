@@ -18,7 +18,9 @@ from django.urls import path, include
 from auth_app import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
+from sitetree.sitetreeapp import register_i18n_trees
 
+register_i18n_trees(['website', ])
 
 urlpatterns = [
     path('', include('main_app.urls', namespace='main')),

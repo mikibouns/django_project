@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load bootstrap3 %}
+{% load sitetree%}
 <script src="{% bootstrap_jquery_url %}"></script>
 {% bootstrap_css %}
 {% bootstrap_javascript %}
@@ -45,6 +46,8 @@
     <br/>
     <br/>
     <div class="container">
+        {% sitetree_breadcrumbs from "website" template "sitetree/breadcrumbs_bootstrap3.html" %}
+
         {% block container %}
         {% endblock %}
     </div>

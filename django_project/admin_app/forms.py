@@ -7,6 +7,8 @@ class CreateUpdateUserForm(forms.Form):
     FIO = forms.CharField(label='ФИО', widget=forms.TextInput(attrs={}))
     email = forms.CharField(label='Email', widget=forms.EmailInput())
     username = forms.CharField(label='Имя пользователя')
+    is_active = forms.CharField(label='Активный', widget=forms.CheckboxInput)
+    is_staff = forms.CharField(label='Администратор', widget=forms.CheckboxInput)
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput())
     confirm_password = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput())
 
@@ -14,6 +16,8 @@ class CreateUpdateUserForm(forms.Form):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
+            if field_name == 'is_active' or field_name == 'is_staff':
+                field.widget.attrs['class'] = 'form-check-input'
             field.required = False
             field.help_text = ''
 
