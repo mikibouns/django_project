@@ -6,7 +6,7 @@
 
 <h2>Панель администратора</h2>
 <div class="alert alert-danger" role="alert">
-  <strong>Вы уверены что хотите удалить пользователя {{ object.username }}</strong>
+  <strong>Вы уверены, что хотите удалить пользователя {{ object.username }}</strong>
 </div>
 <form  method="post" class="form-signin panel" role="form" action="{% url 'admin_panel:user_delete' object.id %}">
     {% csrf_token %}

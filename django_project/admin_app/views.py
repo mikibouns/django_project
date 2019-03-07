@@ -58,10 +58,11 @@ class UserCreate(SuperuserRequiredMixin, View):
         if form.is_valid():
             fio = fio_converter(form.data['fio'])
             data = form.clean().pop('fio', '')
+            pprint(data)
             data.pop('confirm_password', '')
             data.update(fio)
             pprint(data)
-            new_user = get_user_model().objects.create_user(**data)
+            new_user = get_user_model().objects.create_user(data)
 
             return HttpResponseRedirect(reverse('admin_panel:user_detail', args=(new_user.id, )))
         return render(request, self.template_name, {'form': form, 'title': self.title})

@@ -26,7 +26,6 @@ class CreateUserForm(forms.Form):
         fio = self.cleaned_data.get('fio')
         fio = str(fio).split(' ')
         if len(fio) != 3: # проверяет количество слов
-            print('реально не равно')
             raise forms.ValidationError('Недостаточно данных!')
         else:
             for string in fio:
