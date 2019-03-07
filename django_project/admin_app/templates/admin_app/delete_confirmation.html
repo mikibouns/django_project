@@ -8,12 +8,12 @@
 <div class="alert alert-danger" role="alert">
   <strong>Вы уверены что хотите удалить пользователя {{ object.username }}</strong>
 </div>
-<form  method="post" class="form-signin panel" role="form">
+<form  method="post" class="form-signin panel" role="form" action="{% url 'admin_panel:user_delete' object.id %}">
     {% csrf_token %}
     <button class="btn btn-lg btn-danger btn-block" type="submit">Удалить</button>
 </form>
 <div class="panel">
-    <a href="{% url 'admin_panel:user_detail' user.id %}" class="btn btn-lg btn-primary btn-block">Отмена</a>
+    <a href="{% url 'admin_panel:user_detail' object.id %}" class="btn btn-lg btn-primary btn-block">Отмена</a>
 </div>
 
 {% endblock %}
