@@ -44,7 +44,7 @@ class Registration(View):
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
-        return render(request, self.template_name, {'reg_form': form})
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
         error = ''
@@ -57,7 +57,7 @@ class Registration(View):
                 return HttpResponseRedirect(reverse('main:welcome'))
             else:
                 error = sending_result
-        return render(request, self.template_name, {'reg_form': form, 'send_mail_error': error})
+        return render(request, self.template_name, {'form': form, 'send_mail_error': error})
 
     def create_letter(self, request, pms):
         '''создание тела письма'''
@@ -71,7 +71,7 @@ class Registration(View):
                 Количество номеров: {},
                 PMS: {},
                 Часовой пояс: {}
-                '''.format(request.POST.get('FIO', None),
+                '''.format(request.POST.get('fio', None),
                            request.POST.get('phone', None),
                            request.POST.get('email', None),
                            request.POST.get('www', None),

@@ -2,8 +2,7 @@ from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .forms import CreateUpdateUserForm
+from .forms import CreateUserForm, UpdateUserForm
 from django.views import View
 from .decorators import SuperuserRequiredMixin
 from pprint import pprint
@@ -46,8 +45,8 @@ class UserDetail(SuperuserRequiredMixin, DetailView):
 class UserCreate(SuperuserRequiredMixin, View):
     '''создание нового пользователя'''
     title = 'создать'
-    initial = {'key': 'value'}
-    form_class = CreateUpdateUserForm
+    initial = {'is_active': True}
+    form_class = CreateUserForm
     template_name = 'admin_app/user_create_update.html'
 
     def get(self, request, *args, **kwargs):
@@ -64,13 +63,13 @@ class UserCreate(SuperuserRequiredMixin, View):
             new_user = get_user_model().objects.create_user(**data)
 
             return HttpResponseRedirect(reverse('admin_panel:user_detail', args=(new_user.id, )))
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form, 'title': self.title})
 
 
-class UserUpdate(View):
+class UserUpdate(SuperuserRequiredMixin, View):
     title = 'обновить'
     template_name = 'admin_app/user_create_update.html'
-    form_class = CreateUpdateUserForm
+    form_class = UpdateUserForm
 
     def get(self, request, pk, *args, **kwargs):
         user = get_object_or_404(get_user_model(), pk=pk)
@@ -81,18 +80,19 @@ class UserUpdate(View):
         return render(request, self.template_name, context)
 
     def post(self, request, pk, *args, **kwargs):
+        user = get_object_or_404(get_user_model(), pk=pk)
         form = self.form_class(data=request.POST)
         if form.has_changed() and form.is_valid():
             data = form.clean() # получаем значения полей формы в виде словаря
             del_keys = ['fio', 'password', 'confirm_password'] # поля которые необходимо исключить перед обновлением
             fio = fio_converter(form.data['fio']) # превращаем поле fio в словарь
-            data.update(fio) # ою
-            for key in del_keys:
+            data.update(fio) # объеденяем словари
+            for key in del_keys: # удаляем лишние поля из словаря по ключу
                 data.pop(key, '')
             print(data)
             # new_user = get_user_model().objects.filter(id=pk).update(**data)
             # return HttpResponseRedirect(reverse('admin_panel:user_detail', args=(new_user.id,)))
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        return render(request, self.template_name, {'form': form, 'title': self.title, 'object': user})
 
     def create_initial_dict(self, instance):
         fio = fio_converter(instance)
@@ -107,8 +107,15 @@ class UserUpdate(View):
 
 
 class UserDelete(SuperuserRequiredMixin, View):
-    '''удаление пользователя'''
+    template_name = 'admin_app/delete_confirmation.html'
+
     def get(self, request, pk, *args, **kwargs):
+        user = get_object_or_404(get_user_model(), pk=pk)
+        context = {'user': user}
+        return render(request, self.template_name, context)
+
+    def post(self, request, pk, *args, **kwargs):
+        '''удаление пользователя'''
         user = get_object_or_404(get_user_model(), pk=pk)
         user.delete()
         # user.is_active = False

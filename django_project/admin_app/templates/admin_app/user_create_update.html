@@ -1,14 +1,31 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block head %}
 {% endblock %}
 {% block title %}{{ title }}{% endblock %}
 {% block container %}
 
-    <h2>Панель администратора</h2>
-    <form  method="post" class="form-signin" role="form" action="{% url 'admin_panel:user_update' object.id %}">
+<h2>Панель администратора</h2>
+<form  method="post" class="form-signin" role="form">
     {% csrf_token %}
-    {{ form.as_p }}
+    <div>
+        {% for field in form %}
+        <div class="form-group">
+        <p>{{field.label_tag}} {{field}}</p>
+            {% if field.errors%}
+            {% for error in field.errors %}
+        <div class="alert alert-danger">
+            {{error}}
+        </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div><br/>
     <button class="btn btn-lg btn-primary btn-block" type="submit">{{ title }}</button>
-    </form>
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="{% static 'jquery/double_email.js' %}"></script>
 
 {% endblock %}

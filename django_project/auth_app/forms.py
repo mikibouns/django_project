@@ -3,7 +3,7 @@ import tzlocal
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
-
+import re
 
 class AuthenticationForm(forms.Form):
     '''Переопределяем форму аутентификации'''
@@ -57,7 +57,7 @@ class RegisterForm(forms.Form):
                 ('Bnovo_PMS', 'Bnovo PMS'),
                 ('Shelter', 'Shelter'),
                 ('another', 'Другая'))
-    FIO = forms.CharField(label='ФИО', widget=forms.TextInput(attrs={}))
+    fio = forms.CharField(label='ФИО', widget=forms.TextInput(attrs={}))
     phone = forms.CharField(label='Телефон', widget=forms.TextInput(attrs={'id': 'phone'}))
     email = forms.CharField(
         label='E-mail',
@@ -91,4 +91,17 @@ class RegisterForm(forms.Form):
         phone = self.cleaned_data.get('phone')
         if len(phone) != 16:
             raise forms.ValidationError('Неправельно введен номер телефона!')
+        return self.cleaned_data
+
+    def clean_fio(self):
+        '''Определяем правило валидации поля fio'''
+        fio = self.cleaned_data.get('fio')
+        fio = str(fio).split(' ')
+        if len(fio) != 3: # проверяет количество слов
+            print('реально не равно')
+            raise forms.ValidationError('Недостаточно данных!')
+        else:
+            for string in fio:
+                if not re.match('^[A-Za-zА-Яа-я]*$', string): # проверяет на соответствие регулярному выражению
+                    raise forms.ValidationError('Текст должен содержать только буквы!')
         return self.cleaned_data

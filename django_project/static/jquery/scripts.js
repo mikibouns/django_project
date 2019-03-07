@@ -3,7 +3,7 @@ jQuery(document).ready(function() {
  $('#phone').mask('+#(###)###-##-##', {placeholder: "+_(___)___-__-__"});
  // маска для email
  $('#email').mask("A", {translation: {'A': {pattern: /[\w@\-.+]/, recursive: true}}, placeholder: "___@___.__"});
-
+ // скрытие дополнительного поля
  $("#another_pms").hide();
  $('label[for="another_pms"]').hide();
  $('#pms').change(function() {
