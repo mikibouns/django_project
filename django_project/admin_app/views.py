@@ -115,7 +115,7 @@ class UserDelete(SuperuserRequiredMixin, View):
         context = {'object': user}
         return render(request, self.template_name, context)
 
-    def post(self, pk, *args, **kwargs):
+    def post(self, request, pk, *args, **kwargs):
         '''удаление пользователя'''
         user = get_object_or_404(get_user_model(), pk=pk)
         user.delete()
