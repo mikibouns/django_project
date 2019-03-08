@@ -54,6 +54,20 @@ class CreateUserForm(forms.Form):
 
 
 class UpdateUserForm(CreateUserForm):
+
     def clean_username(self):
         '''переопределяем валидацию username. чтобы не ругался на существующего пользователя'''
+        return self.cleaned_data
+
+    def clean_confirm_password(self):
+        '''валидация пароля'''
+        password = self.cleaned_data.get('password')
+        conf_password = self.cleaned_data.get('confirm_password')
+        if password:
+            if password != conf_password:
+                raise forms.ValidationError('Пароли не совпадают!')
+            else:
+                if not re.match(r'^(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)[0-9a-zA-Z]{8,}$', password):
+                    raise forms.ValidationError('Пароль должен содержать не менее 8 симвоолов, буквы \
+                    верхнего и нижнего регистра и цифры!')
         return self.cleaned_data

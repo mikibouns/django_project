@@ -86,13 +86,16 @@ class UserUpdate(SuperuserRequiredMixin, View):
         user = get_object_or_404(get_user_model(), pk=pk)
         form = self.form_class(data=request.POST)
         if form.has_changed() and form.is_valid():
-            data = form.clean() # получаем значения полей формы в виде словаря
-            del_keys = ['fio', 'password', 'confirm_password'] # поля которые необходимо исключить перед обновлением
-            fio = fio_converter(form.data['fio']) # превращаем поле fio в словарь
-            data.update(fio) # объеденяем словари
-            for key in del_keys: # удаляем лишние поля из словаря по ключу
-                data.pop(key, '')
-            print(data)
+            data = form.changed_data # получаем значения полей формы в виде словаря
+            pprint(form.data)
+            dict_data = {key: request.POST.get(key, '') for key in data[1:]}
+            print(dict_data)
+            # del_keys = ['fio', 'password', 'confirm_password'] # поля которые необходимо исключить перед обновлением
+            # fio = fio_converter(form.data['fio']) # превращаем поле fio в словарь
+            # data.update(fio) # объеденяем словари
+            # for key in del_keys: # удаляем лишние поля из словаря по ключу
+            #     data.pop(key, '')
+            # print(data)
             # new_user = get_user_model().objects.filter(id=pk).update(**data)
             # return HttpResponseRedirect(reverse('admin_panel:user_detail', args=(new_user.id,)))
         return render(request, self.template_name, {'form': form, 'title': self.title, 'object': user})
