@@ -5,18 +5,14 @@ from django.views.generic import ListView, DetailView, CreateView
 from .forms import CreateUserForm, UpdateUserForm
 from django.views import View
 from .decorators import SuperuserRequiredMixin
+from django import forms
 from pprint import pprint
 
 
 def fio_converter(data):
     '''ф-ция возвращает словарь.
     QuerySet: составляет строку из определенных полей'''
-    fio = '{} {} {}'.format(data.lastname,
-                            data.first_name,
-                            data.surname)
-    fio_dict = {
-        'fio': fio,
-    }
+
     return fio_dict
 
 
@@ -63,6 +59,11 @@ class UserUpdate(SuperuserRequiredMixin, View):
     def get(self, request, pk, *args, **kwargs):
         user = get_object_or_404(get_user_model(), pk=pk)
         form = self.form_class(initial=self.create_initial_dict(user))
+        if user.is_superuser:
+            form.fields['is_active'].widget = forms.HiddenInput()
+            form.fields['is_staff'].widget = forms.HiddenInput()
+            form.fields['username'].widget = forms.HiddenInput()
+            form.fields['password'].widget = forms.HiddenInput()
         context = {'form': form,
                    'title': self.title,
                    'object': user}
@@ -85,14 +86,15 @@ class UserUpdate(SuperuserRequiredMixin, View):
         return render(request, self.template_name, {'form': form, 'title': self.title, 'object': user})
 
     def create_initial_dict(self, instance):
-        fio = fio_converter(instance)
         instance_dict = {
+            'fio': '{} {} {}'.format(instance.lastname,
+                                     instance.first_name,
+                                     instance.surname),
             'email': instance.email,
             'username': instance.username,
             'is_active': instance.is_active,
             'is_staff': instance.is_staff
         }
-        instance_dict.update(fio)
         return instance_dict
 
 
