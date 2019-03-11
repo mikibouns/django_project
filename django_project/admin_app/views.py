@@ -60,9 +60,10 @@ class UserUpdate(SuperuserRequiredMixin, View):
         user = get_object_or_404(get_user_model(), pk=pk)
         form = self.form_class(initial=self.create_initial_dict(user))
         if user.is_superuser: # если выбранный пользователь superuser
-            del form.fields['is_active'] # убрать поле is_active
-            del form.fields['is_staff'] # убрать поле is_staff
-
+            form.fields['is_active'].widget = forms.HiddenInput() # убрать поле is_active
+            form.fields['is_active'].label = ''
+            form.fields['is_staff'].widget = forms.HiddenInput() # убрать поле is_staff
+            form.fields['is_staff'].label = ''
         context = {'form': form,
                    'title': self.title,
                    'object': user}
