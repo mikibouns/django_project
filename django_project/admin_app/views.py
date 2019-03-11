@@ -10,24 +10,14 @@ from pprint import pprint
 
 def fio_converter(data):
     '''ф-ция возвращает словарь.
-     если str: разбивает по пробелу и составляет словарь
-     если QuerySet: составляет строку из определенных полей'''
-    if isinstance(data, str):
-        fio = str(data).split(' ')
-        fio_dict = {
-            'first_name': fio[1],
-            'lastname': fio[0],
-            'surname': fio[2]
-        }
-        return fio_dict
-    else:
-        fio = '{} {} {}'.format(data.lastname,
-                                data.first_name,
-                                data.surname)
-        fio_dict = {
-            'fio': fio,
-        }
-        return fio_dict
+    QuerySet: составляет строку из определенных полей'''
+    fio = '{} {} {}'.format(data.lastname,
+                            data.first_name,
+                            data.surname)
+    fio_dict = {
+        'fio': fio,
+    }
+    return fio_dict
 
 
 class UserList(SuperuserRequiredMixin, ListView):
@@ -42,7 +32,7 @@ class UserDetail(SuperuserRequiredMixin, DetailView):
     template_name = 'admin_app/user_detail.html'
 
 
-class UserCreate(SuperuserRequiredMixin, CreateView):
+class UserCreate(SuperuserRequiredMixin, View):
     '''создание нового пользователя'''
     title = 'создать'
     initial = {'is_active': True}
@@ -56,11 +46,10 @@ class UserCreate(SuperuserRequiredMixin, CreateView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(data=request.POST)
         if form.is_valid():
-            data = form.cleaned_data
-            fio = data.pop('fio', '')
-            data.pop('confirm_password', '')
-            data.update(fio)
-            pprint(data)
+            data = form.cleaned_data # получаем данные в виде словаря
+            fio = data.pop('fio', '') # удаляем ключ fio и получаем его значение
+            data.pop('confirm_password', '') # удаляем ключ confirm_password
+            data.update(fio)  # полученный словарь из fio добавляем к словарю data
             new_user = get_user_model().objects.create_user(**data)
             return HttpResponseRedirect(reverse('admin_panel:user_detail', args=(new_user.id, )))
         return render(request, self.template_name, {'form': form, 'title': self.title})
@@ -83,19 +72,16 @@ class UserUpdate(SuperuserRequiredMixin, View):
         user = get_object_or_404(get_user_model(), pk=pk)
         form = self.form_class(data=request.POST)
         if form.has_changed() and form.is_valid():
-            pprint(form.data)
-            form.save(commit=False)
-
-            # dict_data = {key: request.POST.get(key, '') for key in data[1:]}
-            # print(dict_data)
-            # del_keys = ['fio', 'password', 'confirm_password'] # поля которые необходимо исключить перед обновлением
-            # fio = fio_converter(form.data['fio']) # превращаем поле fio в словарь
-            # data.update(fio) # объеденяем словари
-            # for key in del_keys: # удаляем лишние поля из словаря по ключу
-            #     data.pop(key, '')
-            # print(data)
-            # new_user = get_user_model().objects.filter(id=pk).update(**data)
-            # return HttpResponseRedirect(reverse('admin_panel:user_detail', args=(new_user.id,)))
+            exclusion_fields = ('fio', 'password', 'confirm_password')
+            data = form.cleaned_data # получаем данные в виде словаря
+            fio = data.pop('fio', '')  # удаляем ключ fio и получаем его значение
+            passwd = data.pop('password', '') # удаляем ключ password и получаем его значение
+            list(map(data.__delitem__, filter(data.__contains__, exclusion_fields))) # удаляем ключи согласно списку
+            data.update(fio)  # полученный словарь из fio добавляем к словарю data
+            get_user_model().objects.filter(pk=pk).update(**data)
+            if passwd:
+                user.set_password(passwd)
+            return HttpResponseRedirect(reverse('admin_panel:user_detail', args=(user.id,)))
         return render(request, self.template_name, {'form': form, 'title': self.title, 'object': user})
 
     def create_initial_dict(self, instance):
