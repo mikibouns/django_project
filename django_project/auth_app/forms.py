@@ -33,7 +33,7 @@ class AuthenticationForm(forms.Form):
             self.current_user = self.user_model.objects.get(email=email)
         except self.user_model.DoesNotExist:
             raise forms.ValidationError('Указан не верный e-mail!')
-        return self.cleaned_data
+        return self.cleaned_data['email']
 
     def clean_password(self):
         '''Определяем правило валидации поля password'''
@@ -43,7 +43,7 @@ class AuthenticationForm(forms.Form):
         if self.current_user:
             if not self.current_user.check_password(passwd):
                 raise forms.ValidationError('Указан не верный пароль!')
-        return self.cleaned_data
+        return self.cleaned_data['password']
 
 
 class RegisterForm(forms.Form):
@@ -91,7 +91,7 @@ class RegisterForm(forms.Form):
         phone = self.cleaned_data.get('phone')
         if len(phone) != 16:
             raise forms.ValidationError('Неправельно введен номер телефона!')
-        return self.cleaned_data
+        return self.cleaned_data['phone']
 
     def clean_fio(self):
         '''Определяем правило валидации поля fio'''
@@ -103,4 +103,4 @@ class RegisterForm(forms.Form):
             for string in fio:
                 if not re.match('^[A-Za-zА-Яа-я]*$', string): # проверяет на соответствие регулярному выражению
                     raise forms.ValidationError('Текст должен содержать только буквы!')
-        return self.cleaned_data
+        return self.cleaned_data['fio']

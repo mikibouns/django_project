@@ -31,26 +31,34 @@ class CreateUserForm(forms.Form):
             for string in fio:
                 if not re.match(r'^[A-Za-zА-Яа-я]*$', string): # проверяет на соответствие регулярному выражению
                     raise forms.ValidationError('Текст должен содержать только буквы!')
-        return self.cleaned_data
+        fio_dict = {
+            'first_name': fio[1],
+            'lastname': fio[0],
+            'surname': fio[2]
+        }
+        return fio_dict
 
     def clean_username(self):
         '''валидация пользователя, существует в БД или нет'''
         user = self.cleaned_data.get('username')
         if get_user_model().objects.filter(username=user).exists():
             raise forms.ValidationError('Пользователь {} уже существует!'.format(user))
-        return self.cleaned_data
+        return self.cleaned_data['username']
 
     def clean_confirm_password(self):
         '''валидация пароля'''
         password = self.cleaned_data.get('password')
         conf_password = self.cleaned_data.get('confirm_password')
-        if password != conf_password:
-            raise forms.ValidationError('Пароли не совпадают!')
+        if password or conf_password:
+            if password != conf_password:
+                raise forms.ValidationError('Пароли не совпадают!')
+            else:
+                if not re.match(r'^(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)[0-9a-zA-Z]{8,}$', password):
+                    raise forms.ValidationError('Пароль должен содержать не менее 8 симвоолов, буквы \
+                    верхнего и нижнего регистра и цифры!')
         else:
-            if not re.match(r'^(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)[0-9a-zA-Z]{8,}$', password):
-                raise forms.ValidationError('Пароль должен содержать не менее 8 симвоолов, буквы \
-                верхнего и нижнего регистра и цифры!')
-        return self.cleaned_data
+            raise forms.ValidationError('Поле пароля пустое!')
+        return self.cleaned_data['confirm_password']
 
 
 class UpdateUserForm(CreateUserForm):

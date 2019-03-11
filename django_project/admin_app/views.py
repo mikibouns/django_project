@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import get_user_model
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from .forms import CreateUserForm, UpdateUserForm
 from django.views import View
 from .decorators import SuperuserRequiredMixin
@@ -42,7 +42,7 @@ class UserDetail(SuperuserRequiredMixin, DetailView):
     template_name = 'admin_app/user_detail.html'
 
 
-class UserCreate(SuperuserRequiredMixin, View):
+class UserCreate(SuperuserRequiredMixin, CreateView):
     '''создание нового пользователя'''
     title = 'создать'
     initial = {'is_active': True}
@@ -55,16 +55,13 @@ class UserCreate(SuperuserRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(data=request.POST)
-        if form.has_changed() and form.is_valid():
-            fio = fio_converter(form.data['fio'])
-            data = {'email': form.data['email'],
-                    'username': form.data['username'],
-                    'is_active': form.cleaned_data['is_active'],
-                    'is_staff': form.cleaned_data['is_staff'],
-                    'password': form.data['password']}
+        if form.is_valid():
+            data = form.cleaned_data
+            fio = data.pop('fio', '')
+            data.pop('confirm_password', '')
             data.update(fio)
+            pprint(data)
             new_user = get_user_model().objects.create_user(**data)
-
             return HttpResponseRedirect(reverse('admin_panel:user_detail', args=(new_user.id, )))
         return render(request, self.template_name, {'form': form, 'title': self.title})
 
@@ -86,10 +83,11 @@ class UserUpdate(SuperuserRequiredMixin, View):
         user = get_object_or_404(get_user_model(), pk=pk)
         form = self.form_class(data=request.POST)
         if form.has_changed() and form.is_valid():
-            data = form.changed_data # получаем значения полей формы в виде словаря
             pprint(form.data)
-            dict_data = {key: request.POST.get(key, '') for key in data[1:]}
-            print(dict_data)
+            form.save(commit=False)
+
+            # dict_data = {key: request.POST.get(key, '') for key in data[1:]}
+            # print(dict_data)
             # del_keys = ['fio', 'password', 'confirm_password'] # поля которые необходимо исключить перед обновлением
             # fio = fio_converter(form.data['fio']) # превращаем поле fio в словарь
             # data.update(fio) # объеденяем словари
