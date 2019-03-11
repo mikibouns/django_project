@@ -8,7 +8,7 @@ class UserEmailBackend(ModelBackend):
     Класс-обработчик для аутентификации пользователей по
     email-адресу.
     '''
-    def authenticate(self, request, username=None, password=None, **kwargs):
+    def authenticate(self, request, email=None, password=None, **kwargs):
         '''
         Переопределяем метод аутентификации.
         '''
@@ -16,7 +16,7 @@ class UserEmailBackend(ModelBackend):
         try:
             # Ищем совпадение по email у пользовательских моделей в БД.
             # Если находим - сверяем пароли.
-            user = user_model.objects.get(email__iexact=username)
+            user = user_model.objects.get(email__iexact=email)
             if check_password(password, user.password):
                 return user
             else:

@@ -20,9 +20,7 @@ class SignIn(View):
     def post(self, request,*args, **kwargs):
         form = self.form_class(data=request.POST)
         if form.is_valid():
-            email = request.POST['email']
-            password = request.POST['password']
-            user = auth.authenticate(username=email, password=password)
+            user = auth.authenticate(**form.cleaned_data)
             if user and user.is_active:
                 auth.login(request, user)
                 return HttpResponseRedirect(reverse('admin_panel:user_list'))
