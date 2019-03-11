@@ -9,13 +9,6 @@ from django import forms
 from pprint import pprint
 
 
-def fio_converter(data):
-    '''ф-ция возвращает словарь.
-    QuerySet: составляет строку из определенных полей'''
-
-    return fio_dict
-
-
 class UserList(SuperuserRequiredMixin, ListView):
     '''список пользователей(администраторов)'''
     model = get_user_model()
@@ -60,10 +53,8 @@ class UserUpdate(SuperuserRequiredMixin, View):
         user = get_object_or_404(get_user_model(), pk=pk)
         form = self.form_class(initial=self.create_initial_dict(user))
         if user.is_superuser: # если выбранный пользователь superuser
-            form.fields['is_active'].widget = forms.HiddenInput() # убрать поле is_active
-            form.fields['is_active'].label = ''
-            form.fields['is_staff'].widget = forms.HiddenInput() # убрать поле is_staff
-            form.fields['is_staff'].label = ''
+            del form.fields['is_active'] # убрать поле is_active
+            del form.fields['is_staff'] # убрать поле is_staff
         context = {'form': form,
                    'title': self.title,
                    'object': user}
@@ -72,6 +63,10 @@ class UserUpdate(SuperuserRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         user = get_object_or_404(get_user_model(), pk=pk)
         form = self.form_class(data=request.POST)
+        if user.is_superuser: # если выбранный пользователь superuser
+            del form.fields['is_active'] # убрать поле is_active
+            del form.fields['is_staff'] # убрать поле is_staff
+        print(form.data)
         if form.has_changed() and form.is_valid():
             exclusion_fields = ('fio', 'password', 'confirm_password')
             data = form.cleaned_data # получаем данные в виде словаря
