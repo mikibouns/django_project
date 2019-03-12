@@ -79,3 +79,7 @@ class UpdateUserForm(CreateUserForm):
                     raise forms.ValidationError('Пароль должен содержать не менее 8 симвоолов, буквы \
                     верхнего и нижнего регистра и цифры!')
         return self.cleaned_data['confirm_password']
+
+    def delete_fields(self):
+        del self.fields['is_active']
+        del self.fields['is_staff']

@@ -1,11 +1,10 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import get_user_model
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView
 from .forms import CreateUserForm, UpdateUserForm
 from django.views import View
 from .decorators import SuperuserRequiredMixin
-from django import forms
 from pprint import pprint
 
 
@@ -48,13 +47,12 @@ class UserUpdate(SuperuserRequiredMixin, View):
     title = 'обновить'
     template_name = 'admin_app/user_create_update.html'
     form_class = UpdateUserForm
-
+        
     def get(self, request, pk, *args, **kwargs):
         user = get_object_or_404(get_user_model(), pk=pk)
         form = self.form_class(initial=self.create_initial_dict(user))
         if user.is_superuser: # если выбранный пользователь superuser
-            del form.fields['is_active'] # убрать поле is_active
-            del form.fields['is_staff'] # убрать поле is_staff
+            form.delete_fields() # удалить поля is_active и is_staff
         context = {'form': form,
                    'title': self.title,
                    'object': user}
@@ -64,10 +62,9 @@ class UserUpdate(SuperuserRequiredMixin, View):
         user = get_object_or_404(get_user_model(), pk=pk)
         form = self.form_class(data=request.POST)
         if user.is_superuser: # если выбранный пользователь superuser
-            del form.fields['is_active'] # убрать поле is_active
-            del form.fields['is_staff'] # убрать поле is_staff
-        print(form.data)
+            form.delete_fields() # удалить поля is_active и is_staff
         if form.has_changed() and form.is_valid():
+            pprint(form.cleaned_data)
             exclusion_fields = ('fio', 'password', 'confirm_password')
             data = form.cleaned_data # получаем данные в виде словаря
             fio = data.pop('fio', '')  # удаляем ключ fio и получаем его значение
