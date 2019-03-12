@@ -6,12 +6,18 @@ from .forms import CreateUserForm, UpdateUserForm
 from django.views import View
 from .decorators import SuperuserRequiredMixin
 from pprint import pprint
+from django.db.models import Q
 
 
 class UserList(SuperuserRequiredMixin, ListView):
     '''список пользователей(администраторов)'''
     model = get_user_model()
     template_name = 'admin_app/user_list.html'
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return self.model.objects.all()
+        return self.model.objects.exclude(Q(is_superuser=True) | Q(is_staff=True))
 
 
 class UserDetail(SuperuserRequiredMixin, DetailView):
