@@ -53,7 +53,7 @@ class UserUpdate(SuperuserRequiredMixin, View):
     title = 'обновить'
     template_name = 'admin_app/user_create_update.html'
     form_class = UpdateUserForm
-        
+
     def get(self, request, pk, *args, **kwargs):
         user = get_object_or_404(get_user_model(), pk=pk)
         form = self.form_class(initial=self.create_initial_dict(user))
@@ -70,7 +70,6 @@ class UserUpdate(SuperuserRequiredMixin, View):
         if user.is_superuser: # если выбранный пользователь superuser
             form.delete_fields() # удалить поля is_active и is_staff
         if form.has_changed() and form.is_valid():
-            pprint(form.cleaned_data)
             exclusion_fields = ('fio', 'password', 'confirm_password')
             data = form.cleaned_data # получаем данные в виде словаря
             fio = data.pop('fio', '')  # удаляем ключ fio и получаем его значение
@@ -80,6 +79,7 @@ class UserUpdate(SuperuserRequiredMixin, View):
             get_user_model().objects.filter(pk=pk).update(**data)
             if passwd:
                 user.set_password(passwd)
+                user.save()
             return HttpResponseRedirect(reverse('admin_panel:user_detail', args=(user.id,)))
         return render(request, self.template_name, {'form': form, 'title': self.title, 'object': user})
 
