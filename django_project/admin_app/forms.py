@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 import re
 
 
-class CreateUserForm(forms.Form):
+class CreateUserForm(forms.ModelForm):
     fio = forms.CharField(label='ФИО', widget=forms.TextInput(attrs={}))
     email = forms.CharField(label='Email', widget=forms.EmailInput())
     username = forms.CharField(label='Имя пользователя')
@@ -11,6 +11,10 @@ class CreateUserForm(forms.Form):
     is_staff = forms.CharField(label='Администратор', widget=forms.CheckboxInput)
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput())
     confirm_password = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput())
+
+    class Meta:
+        model = get_user_model()
+        fields = ['fio', 'email', 'username', 'is_active', 'is_staff', 'password']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -63,9 +67,12 @@ class CreateUserForm(forms.Form):
 
 class UpdateUserForm(CreateUserForm):
 
-    def clean_username(self):
-        '''переопределяем валидацию username. чтобы не ругался на существующего пользователя'''
-        return self.cleaned_data['username']
+    # def clean_username(self):
+    #     '''переопределяем валидацию username. чтобы не ругался на существующего пользователя'''
+    #     user = self.cleaned_data.get('username')
+    #     if get_user_model().objects.filter(username=user).exists():
+    #         return self.cleaned_data['username']
+    #     return self.cleaned_data['username']
 
     def clean_confirm_password(self):
         '''валидация пароля'''

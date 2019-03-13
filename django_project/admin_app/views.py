@@ -40,11 +40,9 @@ class UserCreate(SuperuserRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         form = self.form_class(data=request.POST)
         if form.is_valid():
-            data = form.cleaned_data # получаем данные в виде словаря
-            fio = data.pop('fio', '') # удаляем ключ fio и получаем его значение
-            data.pop('confirm_password', '') # удаляем ключ confirm_password
-            data.update(fio)  # полученный словарь из fio добавляем к словарю data
-            new_user = get_user_model().objects.create_user(**data)
+            fio = form.cleaned_data.pop('fio', '') # удаляем ключ fio и получаем его значение
+            new_user = form.save()
+            get_user_model().objects.filter(id=new_user.id).update(**fio)
             return HttpResponseRedirect(reverse('admin_panel:user_detail', args=(new_user.id, )))
         return render(request, self.template_name, {'form': form, 'title': self.title})
 
@@ -70,16 +68,9 @@ class UserUpdate(SuperuserRequiredMixin, View):
         if user.is_superuser: # если выбранный пользователь superuser
             form.delete_fields() # удалить поля is_active и is_staff
         if form.has_changed() and form.is_valid():
-            exclusion_fields = ('fio', 'password', 'confirm_password')
-            data = form.cleaned_data # получаем данные в виде словаря
-            fio = data.pop('fio', '')  # удаляем ключ fio и получаем его значение
-            passwd = data.pop('password', '') # удаляем ключ password и получаем его значение
-            list(map(data.__delitem__, filter(data.__contains__, exclusion_fields))) # удаляем ключи согласно списку
-            data.update(fio)  # полученный словарь из fio добавляем к словарю data
-            get_user_model().objects.filter(pk=pk).update(**data)
-            if passwd:
-                user.set_password(passwd)
-                user.save()
+            fio = form.cleaned_data.pop('fio', '')  # удаляем ключ fio и получаем его значение
+            form.save(commit=False)
+            get_user_model().objects.filter(pk=pk).update(**fio)
             return HttpResponseRedirect(reverse('admin_panel:user_detail', args=(user.id,)))
         return render(request, self.template_name, {'form': form, 'title': self.title, 'object': user})
 
