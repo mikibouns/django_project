@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 import re
+from django.contrib.auth.forms import UserChangeForm
 
 
 class CreateUserForm(forms.ModelForm):
@@ -14,7 +15,7 @@ class CreateUserForm(forms.ModelForm):
 
     class Meta:
         model = get_user_model()
-        fields = ['fio', 'email', 'username', 'is_active', 'is_staff', 'password']
+        fields = ('fio', 'email', 'username', 'is_active', 'is_staff', 'password')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -42,13 +43,6 @@ class CreateUserForm(forms.ModelForm):
         }
         return fio_dict
 
-    def clean_username(self):
-        '''валидация пользователя, существует в БД или нет'''
-        user = self.cleaned_data.get('username')
-        if get_user_model().objects.filter(username=user).exists():
-            raise forms.ValidationError('Пользователь {} уже существует!'.format(user))
-        return self.cleaned_data['username']
-
     def clean_confirm_password(self):
         '''валидация пароля'''
         password = self.cleaned_data.get('password')
@@ -65,14 +59,44 @@ class CreateUserForm(forms.ModelForm):
         return self.cleaned_data['confirm_password']
 
 
-class UpdateUserForm(CreateUserForm):
+class UpdateUserForm(UserChangeForm):
+    fio = forms.CharField(label='ФИО', widget=forms.TextInput(attrs={}))
+    email = forms.CharField(label='Email', widget=forms.EmailInput())
+    username = forms.CharField(label='Имя пользователя')
+    is_active = forms.CharField(label='Активный', widget=forms.CheckboxInput)
+    is_staff = forms.CharField(label='Администратор', widget=forms.CheckboxInput)
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput())
+    confirm_password = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput())
 
-    # def clean_username(self):
-    #     '''переопределяем валидацию username. чтобы не ругался на существующего пользователя'''
-    #     user = self.cleaned_data.get('username')
-    #     if get_user_model().objects.filter(username=user).exists():
-    #         return self.cleaned_data['username']
-    #     return self.cleaned_data['username']
+    class Meta:
+        model = get_user_model()
+        fields = ('fio', 'email', 'username', 'is_active', 'is_staff', 'password')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+            if field_name == 'is_active' or field_name == 'is_staff':
+                field.widget.attrs['class'] = 'form-check-input'
+            field.required = False
+            field.help_text = ''
+
+    def clean_fio(self):
+        '''Определяем правило валидации поля FIO'''
+        fio = self.cleaned_data.get('fio')
+        fio = str(fio).split(' ')
+        if len(fio) != 3: # проверяет количество слов
+            raise forms.ValidationError('Недостаточно данных!')
+        else:
+            for string in fio:
+                if not re.match(r'^[A-Za-zА-Яа-я]*$', string): # проверяет на соответствие регулярному выражению
+                    raise forms.ValidationError('Текст должен содержать только буквы!')
+        fio_dict = {
+            'first_name': fio[1],
+            'lastname': fio[0],
+            'surname': fio[2]
+        }
+        return fio_dict
 
     def clean_confirm_password(self):
         '''валидация пароля'''
