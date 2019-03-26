@@ -4,7 +4,7 @@ from subprocess import call
 import os
 from transliterate import translit
 
-from main_app.models import Places
+# from main_app.models import Places
 
 
 slash = r'/'
@@ -55,3 +55,5 @@ class Command(BaseCommand):
 
         # Создаем суперпользователя при помощи менеджера модели
         super_user = get_user_model().objects.create_superuser('root', 'test.mail.django@yandex.ru', 'testtest123')
+
+        call('python manage.py sitetree_resync_apps main_app', shell=True)

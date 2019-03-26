@@ -32,7 +32,7 @@
                 <li>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>  {{ user.username }}</a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Профиль</a></li>
+                        <li><a href="{% url 'admin_panel:user_detail' user.id %}">Профиль</a></li>
                         <li><a href="{% url 'auth:sign_out' %}">Выход</a></li>
                     </ul>
                 </li>
