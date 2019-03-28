@@ -68,10 +68,16 @@ class UserUpdate(SuperuserRequiredMixin, View):
         if user.is_superuser: # если выбранный пользователь superuser
             form.delete_fields() # удалить поля is_active и is_staff
         if form.has_changed() and form.is_valid():
-            fio = form.cleaned_data.pop('fio', '')  # удаляем ключ fio и получаем его значение
-            form.save()
-
-            get_user_model().objects.filter(pk=pk).update(**fio)
+            fio = form.cleaned_data.pop('fio', '') # удаляем ключ fio и получаем его значение
+            data = {**form.cleaned_data, **fio}
+            changed_data = data.copy() # создаем копию словаря которую будем изменять
+            for key, val in data.items(): # обходим словарь в цикле
+                if val == '' or key == 'confirm_password' or key == 'password':
+                    changed_data.pop(key, None) # в созданной копии словаря вносим изменения
+            pprint(changed_data)
+            get_user_model().objects.filter(pk=pk).update(**changed_data)
+            if data['password']: # если пароль указан
+                user.set_password(data['password']) # тогда обновить пароль
             return HttpResponseRedirect(reverse('admin_panel:user_detail', args=(user.id,)))
         return render(request, self.template_name, {'form': form, 'title': self.title, 'object': user})
 

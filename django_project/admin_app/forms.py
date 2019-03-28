@@ -59,7 +59,7 @@ class CreateUserForm(forms.ModelForm):
         return self.cleaned_data['confirm_password']
 
 
-class UpdateUserForm(UserChangeForm):
+class UpdateUserForm(forms.ModelForm):
     fio = forms.CharField(label='ФИО', widget=forms.TextInput(attrs={}))
     email = forms.CharField(label='Email', widget=forms.EmailInput())
     username = forms.CharField(label='Имя пользователя')
@@ -70,7 +70,7 @@ class UpdateUserForm(UserChangeForm):
 
     class Meta:
         model = get_user_model()
-        fields = ('fio', 'email', 'username', 'is_active', 'is_staff', 'password')
+        fields = ('fio', 'email', 'is_active', 'is_staff')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -97,6 +97,13 @@ class UpdateUserForm(UserChangeForm):
             'surname': fio[2]
         }
         return fio_dict
+
+    def clean_username(self):
+        '''переопределяем валидацию username'''
+        username = self.cleaned_data.get('username')
+        if get_user_model().objects.filter(username=username).exists():
+            return self.cleaned_data['username']
+        return self.cleaned_data['username']
 
     def clean_confirm_password(self):
         '''валидация пароля'''
