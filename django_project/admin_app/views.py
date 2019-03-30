@@ -82,6 +82,7 @@ class UserUpdate(SuperuserRequiredMixin, View):
         return render(request, self.template_name, {'form': form, 'title': self.title, 'object': user})
 
     def create_initial_dict(self, instance):
+        '''создает словарь для инициализации полей формы при обновлении'''
         instance_dict = {
             'fio': '{} {} {}'.format(instance.lastname,
                                      instance.first_name,
