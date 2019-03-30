@@ -74,10 +74,10 @@ class UserUpdate(SuperuserRequiredMixin, View):
             for key, val in data.items(): # обходим словарь в цикле
                 if val == '' or key == 'confirm_password' or key == 'password':
                     changed_data.pop(key, None) # в созданной копии словаря вносим изменения
-            pprint(changed_data)
             get_user_model().objects.filter(pk=pk).update(**changed_data)
             if data['password']: # если пароль указан
                 user.set_password(data['password']) # тогда обновить пароль
+                user.save() # сохраняем внесенные изменения
             return HttpResponseRedirect(reverse('admin_panel:user_detail', args=(user.id,)))
         return render(request, self.template_name, {'form': form, 'title': self.title, 'object': user})
 
