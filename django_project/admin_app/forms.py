@@ -76,6 +76,8 @@ class UpdateUserForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
+            if self.user.is_staff and not self.user.is_superuser:
+                del self.fields['is_staff']
             if field_name == 'is_active' or field_name == 'is_staff':
                 field.widget.attrs['class'] = 'form-check-input'
             field.required = False
