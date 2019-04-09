@@ -1,0 +1,4 @@
+.my_img {
+    background: url("/media/img/test_background.jpg");
+    background-repeat: repeat;
+}
