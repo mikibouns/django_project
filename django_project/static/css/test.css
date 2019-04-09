@@ -1,4 +1,5 @@
-.my_img {
-    background: url("/media/img/test_background.jpg");
+.interior {
+    background-image: url(/media/img/test_background.jpg);
     background-repeat: repeat;
+    background-size: 20%;
 }
