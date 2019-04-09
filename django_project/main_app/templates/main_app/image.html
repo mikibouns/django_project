@@ -7,20 +7,23 @@
 {% block container %}
 
     <h1>Image</h1>
-    <div class="row">
-        <div class="col-md-2">
+    <div class="row img_conteiner">
+        <div class="col-md-2 tile">
             <a href="#" class="thumbnail">
-                <img src="/media/img/pattern1.jpg" alt="..." class="tile">
+                <img src="/media/img/pattern1.jpg" alt="...">
             </a>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 tile">
             <a href="#" class="thumbnail">
-                <img src="/media/img/pattern2.jpg" alt="..." class="tile">
+                <img src="/media/img/pattern2.jpg" alt="...">
             </a>
         </div>
     </div>
     <div class="interior">
         <img src="/media/img/interior1.png" class="img-responsive m-x-auto" id="interior">
     </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="{% static 'jquery/test_img_jquery.js' %}"></script>
 
 {% endblock %}

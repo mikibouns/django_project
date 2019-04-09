@@ -4,7 +4,9 @@
     background-size: 22%;
 }
 
-.tile {
-    width: 300px;
-    height: 300px;
+.tile img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin: 2px;
 }
