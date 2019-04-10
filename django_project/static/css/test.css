@@ -1,12 +1,11 @@
 .interior {
-    background-image: url(/media/img/pattern2.jpg);
+    background-image: url(/media/img/pattern1.jpg);
     background-repeat: repeat;
     background-size: 22%;
 }
 
 .tile img {
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
-    margin: 2px;
 }

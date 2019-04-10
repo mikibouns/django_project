@@ -5,24 +5,35 @@
 {% endblock %}
 {% block title %}image{% endblock %}
 {% block container %}
-
+<div class="image_block">
     <h1>Image</h1>
-    <div class="row img_conteiner">
+    <div class="row walls">
         <div class="col-md-2 tile">
-            <a href="#" class="thumbnail">
+            <a href="#" class="wall img-thumbnail">
                 <img src="/media/img/pattern1.jpg" alt="...">
             </a>
         </div>
         <div class="col-md-2 tile">
-            <a href="#" class="thumbnail">
+            <a href="#" class="wall img-thumbnail">
                 <img src="/media/img/pattern2.jpg" alt="...">
             </a>
         </div>
+        <div class="col-md-2 tile">
+            <a href="#" class="int img-thumbnail">
+                <img src="/media/img/interior1.png" alt="...">
+            </a>
+        </div>
+        <div class="col-md-2 tile">
+            <a href="#" class="int img-thumbnail">
+                <img src="/media/img/interior2.png" alt="...">
+            </a>
+        </div>
     </div>
+    <br/>
     <div class="interior">
         <img src="/media/img/interior1.png" class="img-responsive m-x-auto" id="interior">
     </div>
-
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="{% static 'jquery/test_img_jquery.js' %}"></script>
 
