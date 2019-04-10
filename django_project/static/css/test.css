@@ -4,8 +4,19 @@
     background-size: 22%;
 }
 
-.tile img {
+.room img {
     width: 100px;
     height: 100px;
     object-fit: cover;
+}
+
+.wall img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.image_block {
+    display:block;
+    overflow:auto;
 }
