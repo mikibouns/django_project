@@ -8,7 +8,7 @@ sitetrees = (
         item('Главная', '/', url_as_pattern=False, children=[
             item('Авторизация', '/auth/signin/', url_as_pattern=False),
             item('Регистрация', '/register/', url_as_pattern=False),
-            item('Рисунок', 'main:image', url_as_pattern=True),
+            item('Коллекции', 'collections:interior', url_as_pattern=True),
             item('Администрирование', '/admin_panel/', url_as_pattern=False, children=[
                 item('{{ object.username }}', 'admin_panel:user_detail object.id', url_as_pattern=True, children=[
                     item('Обновление', 'admin_panel:user_update object.id', url_as_pattern=True),

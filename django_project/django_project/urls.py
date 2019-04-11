@@ -28,6 +28,7 @@ urlpatterns = [
     path('register/', auth_views.Registration.as_view(), name='register'),
     path('admin_panel/', include('admin_app.urls', namespace='admin_panel')),
     path('admin/', admin.site.urls),
+    path('collections/', include('collections_app.urls', namespace='collections'))
 ]
 
 if settings.DEBUG:

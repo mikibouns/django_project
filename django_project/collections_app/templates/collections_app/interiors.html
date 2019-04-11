@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/test.css' %}" />
+{% endblock %}
+{% block title %}image{% endblock %}
+{% block container %}
+<div class="image_block">
+    <h1>Image</h1>
+    <div class="list-group col-md-2 col-xs-2 walls">
+        <div class="">
+            <a href="#" class="room">
+                <img src="/media/img/room/interior1.png" alt="..." class="img-thumbnail">
+            </a>
+        </div>
+        <div class="">
+            <a href="#" class="room">
+                <img src="/media/img/room/interior2.png" alt="..." class="img-thumbnail">
+            </a>
+        </div>
+        <div class="">
+            <a href="#" class="room">
+                <img src="/media/img/room/interior3.png" alt="..." class="img-thumbnail">
+            </a>
+        </div>
+    </div>
+    <div class="col-md-10 col-xs-10">
+        <div class="interior">
+            <img src="/media/img/room/interior1.png" class="img-responsive m-x-auto" id="interior_img">
+            <div class="wallpaper">
+                <!--<img src="/media/img/wall/32601.jpg" class="img-responsive m-x-auto" id="left_wall">-->
+                <!--<img src="/media/img/wall/32602.jpg" class="img-responsive m-x-auto" id="right_wall">-->
+            </div>
+        </div>
+        <div class="row">
+            {% for wallpaper in object_list %}
+            <div class="col-md-2 col-xs-2">
+                <a href="#" class="wall">
+                    <img src="/media/{{ wallpaper.preview_img }}" alt="..." class="img-thumbnail">
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="{% static 'jquery/test_img_jquery.js' %}"></script>
+
+{% endblock %}

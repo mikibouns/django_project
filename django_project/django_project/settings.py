@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'main_app',
     'auth_app',
     'admin_app',
+    'collections_app',
     'mptt',
     'bootstrap3',
     'sitetree',

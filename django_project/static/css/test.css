@@ -1,5 +1,17 @@
+.wallpaper (
+    text-align: center; /* Выравниваем по центру */
+    perspective: 1024px; /* Перспектива */
+)
+
+.wallpaper img {
+    /* position:absolute; */
+    transform: rotateY(30deg); /* Поворачиваем относительно оси Y */
+    transform-origin: left center; /* Точка поворота слева */
+}
+
 .interior {
-    background-image: url(/media/img/pattern1.jpg);
+    /* background-image: url(/media/img/wall/pattern1.jpg); */
+    /* position:relative; */
     background-repeat: repeat;
     background-size: 22%;
 }
@@ -14,9 +26,4 @@
     width: 100px;
     height: 100px;
     object-fit: cover;
-}
-
-.image_block {
-    display:block;
-    overflow:auto;
 }
