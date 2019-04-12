@@ -8,32 +8,24 @@
 <div class="image_block">
     <h1>Image</h1>
     <div class="list-group col-md-2 col-xs-2 walls">
+        {% for interior in interiors %}
         <div class="">
             <a href="#" class="room">
-                <img src="/media/img/room/interior1.png" alt="..." class="img-thumbnail">
+                <img src="/media/{{ interior.img }}" alt="..." class="img-thumbnail">
             </a>
         </div>
-        <div class="">
-            <a href="#" class="room">
-                <img src="/media/img/room/interior2.png" alt="..." class="img-thumbnail">
-            </a>
-        </div>
-        <div class="">
-            <a href="#" class="room">
-                <img src="/media/img/room/interior3.png" alt="..." class="img-thumbnail">
-            </a>
-        </div>
+        {% endfor %}
     </div>
     <div class="col-md-10 col-xs-10">
         <div class="interior">
             <img src="/media/img/room/interior1.png" class="img-responsive m-x-auto" id="interior_img">
             <div class="wallpaper">
-                <!--<img src="/media/img/wall/32601.jpg" class="img-responsive m-x-auto" id="left_wall">-->
+                <img src="/media/32601.jpg" class="img-responsive m-x-auto" id="left_wall">
                 <!--<img src="/media/img/wall/32602.jpg" class="img-responsive m-x-auto" id="right_wall">-->
             </div>
         </div>
         <div class="row">
-            {% for wallpaper in object_list %}
+            {% for wallpaper in wallpapers %}
             <div class="col-md-2 col-xs-2">
                 <a href="#" class="wall">
                     <img src="/media/{{ wallpaper.preview_img }}" alt="..." class="img-thumbnail">

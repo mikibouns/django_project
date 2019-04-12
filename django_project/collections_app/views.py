@@ -1,12 +1,18 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.views.generic import ListView, DetailView
-from .models import Wallpaper
+from django.views import View
+from .models import Wallpaper, Interior
 
 
-class Interior(ListView):
-    model = Wallpaper
+class Interior(View):
     template_name = 'collections_app/interiors.html'
+    interiors = Interior.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        wallpapers = Wallpaper.objects.all()
+        context = {'wallpapers': wallpapers, 'interiors': self.interiors}
+        return render(request, self.template_name, context)
 
     # def get_queryset(self):
     #     if self.request.user.is_superuser:

@@ -1,11 +1,10 @@
 .wallpaper (
-    text-align: center; /* Выравниваем по центру */
-    perspective: 1024px; /* Перспектива */
+    perspective: 50em; /* Перспектива */
 )
 
-.wallpaper img {
+#left_wall {
     /* position:absolute; */
-    transform: rotateY(30deg); /* Поворачиваем относительно оси Y */
+    transform: rotateY(50deg); /* Поворачиваем относительно оси Y */
     transform-origin: left center; /* Точка поворота слева */
 }
 

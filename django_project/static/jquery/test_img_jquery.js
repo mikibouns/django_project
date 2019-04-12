@@ -1,19 +1,19 @@
 $('.wall').click(function()
 {
   $('.interior').css('background-image', 'url(' + $(this).children("img:first").attr('src') + ')');
-  if ($('.interior img').attr('src') == "/media/img/room/interior1.png") {
-    $('.interior').css('background-size', '15%');
+  if ($('#interior_img').attr('src') == "/media/img/room/interior1.png") {
+    $('.interior').css('background-size', '30%');
   } else {
-    $('.interior').css('background-size', '20%');
+    $('.interior').css('background-size', '15%');
   }
 });
 
 $('.room').click(function()
 {
-  $('.interior img').attr('src', $(this).children("img:first").attr('src'));
-  if ($('.interior img').attr('src') == "/media/img/room/interior1.png") {
-    $('.interior').css('background-size', '15%');
+  $('#interior_img').attr('src', $(this).children("img:first").attr('src'));
+  if ($('#interior_img').attr('src') == "/media/img/room/interior1.png") {
+    $('.interior').css('background-size', '30%');
   } else {
-    $('.interior').css('background-size', '20%');
+    $('.interior').css('background-size', '15%');
   }
 });

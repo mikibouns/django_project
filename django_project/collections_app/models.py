@@ -27,5 +27,8 @@ class Interior(models.Model):
     name = models.CharField(max_length=128)
     img = models.ImageField()
 
+    class Meta:
+        ordering = ["name"]
+
     def __str__(self):
         return self.name
