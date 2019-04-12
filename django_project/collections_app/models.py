@@ -5,6 +5,7 @@ from django.db import models
 
 class Collection(models.Model):
     name = models.CharField(max_length=128)
+    img = models.ImageField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
 
     def __str__(self):
@@ -12,7 +13,7 @@ class Collection(models.Model):
 
 
 class Wallpaper(models.Model):
-    article = models.PositiveIntegerField()
+    article = models.CharField(max_length=32)
     description = models.TextField(null=True, blank=True)
     preview_img = models.ImageField()
     img = models.ImageField(null=True, blank=True)
