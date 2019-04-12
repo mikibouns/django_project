@@ -5,5 +5,6 @@ app_name = 'collections_app'
 
 
 urlpatterns = [
-    path('', views.Interior.as_view(), name='interior'),
+    path('', views.CollectionView.as_view(), name='collection'),
+    path('interiors', views.InteriorView.as_view(), name='interior'),
 ]

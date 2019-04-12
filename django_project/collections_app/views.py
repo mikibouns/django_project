@@ -2,10 +2,10 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.views.generic import ListView, DetailView
 from django.views import View
-from .models import Wallpaper, Interior
+from .models import Wallpaper, Interior, Collection
 
 
-class Interior(View):
+class InteriorView(View):
     template_name = 'collections_app/interiors.html'
     interiors = Interior.objects.all()
 
@@ -18,3 +18,12 @@ class Interior(View):
     #     if self.request.user.is_superuser:
     #         return self.model.objects.all()
     #     return self.model.objects.exclude(Q(is_superuser=True) | Q(is_staff=True))
+
+
+class CollectionView(TemplateView):
+    template_name = 'collections_app/collections.html'
+
+    def get(self, request, *args, **kwargs):
+        collections = Collection.objects.all()
+        context = {'collections': collections}
+        return render(request, self.template_name, context)

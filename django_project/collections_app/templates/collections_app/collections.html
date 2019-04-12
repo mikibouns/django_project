@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/test.css' %}" />
+{% endblock %}
+{% block title %}collections{% endblock %}
+{% block container %}
+<div class="image_block">
+    <h1>Collections</h1>
+    <br/>
+    {% for collection in collections %}
+        <a href="{% url 'collections:interior' %}">{{ collection.name }}</a>
+    {% endfor %}
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="{% static 'jquery/test_img_jquery.js' %}"></script>
+
+{% endblock %}
