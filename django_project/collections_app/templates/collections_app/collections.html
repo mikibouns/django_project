@@ -9,8 +9,11 @@
     <h1>Collections</h1>
     <br/>
     {% for collection in collections %}
-        <a href="{% url 'collections:interior' %}">{{ collection.name }}</a>
+        <a href="#">{{ collection.name }}</a>
     {% endfor %}
+    <a href="{% url 'collections:interior' %}">
+        <h4>Смотреть в интерьере</h4>
+    </a>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="{% static 'jquery/test_img_jquery.js' %}"></script>

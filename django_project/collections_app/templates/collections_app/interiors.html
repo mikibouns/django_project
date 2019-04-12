@@ -6,10 +6,9 @@
 {% block title %}interiors{% endblock %}
 {% block container %}
 <div class="image_block">
-    <h1>Image</h1>
     <div class="list-group col-md-2 col-xs-2 walls">
         {% for interior in interiors %}
-        <div class="">
+        <div>
             <a href="#" class="room">
                 <img src="/media/{{ interior.img }}" alt="..." class="img-thumbnail">
             </a>
@@ -18,9 +17,9 @@
     </div>
     <div class="col-md-10 col-xs-10">
         <div class="interior">
-            <img src="/media/img/room/interior1.png" class="img-responsive m-x-auto" id="interior_img">
-            <div class="wallpaper">
-                <img src="/media/32601.jpg" class="img-responsive m-x-auto" id="left_wall">
+            <img src="/media/interior1.png" class="img-responsive m-x-auto" id="interior_img">
+            <div class="substrate" style="">
+                <!--<img src="/media/32601.jpg" class="img-responsive m-x-auto img-thumbnail" id="left_wall">-->
                 <!--<img src="/media/img/wall/32602.jpg" class="img-responsive m-x-auto" id="right_wall">-->
             </div>
         </div>

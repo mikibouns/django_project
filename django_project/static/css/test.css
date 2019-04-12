@@ -1,19 +1,19 @@
-.wallpaper (
-    perspective: 50em; /* Перспектива */
-)
-
-#left_wall {
-    /* position:absolute; */
-    transform: rotateY(50deg); /* Поворачиваем относительно оси Y */
-    transform-origin: left center; /* Точка поворота слева */
-}
-
 .interior {
-    /* background-image: url(/media/img/wall/pattern1.jpg); */
-    /* position:relative; */
+    /* background-image: url(/media/pattern1.jpg); */
+    height: 100%;
+    position: relative;
     background-repeat: repeat;
     background-size: 22%;
 }
+
+.substrate (
+    position: absolute;
+    width: 100%
+    top: 0;
+    left: 0;
+    background: url(/media/32601.jpg);
+    background-repeat: repeat;
+)
 
 .room img {
     width: 100px;
