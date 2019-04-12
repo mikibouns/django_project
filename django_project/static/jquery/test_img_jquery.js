@@ -1,7 +1,7 @@
 $('.wall').click(function()
 {
   $('.interior').css('background-image', 'url(' + $(this).children("img:first").attr('src') + ')');
-  if ($('#interior_img').attr('src') == "/media/img/room/interior1.png") {
+  if ($('#interior_img').attr('src') == "/media/interior1.png") {
     $('.interior').css('background-size', '30%');
   } else {
     $('.interior').css('background-size', '15%');
@@ -11,7 +11,7 @@ $('.wall').click(function()
 $('.room').click(function()
 {
   $('#interior_img').attr('src', $(this).children("img:first").attr('src'));
-  if ($('#interior_img').attr('src') == "/media/img/room/interior1.png") {
+  if ($('#interior_img').attr('src') == "/media/interior1.png") {
     $('.interior').css('background-size', '30%');
   } else {
     $('.interior').css('background-size', '15%');
