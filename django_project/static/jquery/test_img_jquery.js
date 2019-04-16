@@ -9,12 +9,22 @@ $('.room').click(function()
 });
 
 // карусель для обоев
-$(document).ready(function(){
-  $("#carousel_wallpapers .carousel-inner").children("div:first").addClass("active");
-  $("#carousel_collections .carousel-inner").children("div:first").addClass("active");
+(function(){
+
+var $canvas_interior = $('#canvas_interior');
+
+$canvas_interior.drawImage({
+  source: '/media/interior1.png',
+  x: 0, y: 0,
+  fromCenter: false,
+  shadowColor: '#222',
+  shadowBlur: 3,
+  rotate: 40
 });
 
-(function(){
+  $("#carousel_wallpapers .carousel-inner").children("div:first").addClass("active");
+  $("#carousel_collections .carousel-inner").children("div:first").addClass("active");
+
   $('#carousel_wallpapers .item').each(function(){
     var itemToClone = $(this);
 
@@ -35,3 +45,14 @@ $(document).ready(function(){
     }
   });
 }());
+
+var $canvas_interior = $('#canvas_interior');
+
+$canvas_interior.drawImage({
+  source: '/media/interior1.png',
+  x: 0, y: 0,
+  fromCenter: false,
+  shadowColor: '#222',
+  shadowBlur: 3,
+  rotate: 40
+});
