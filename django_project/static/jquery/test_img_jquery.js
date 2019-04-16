@@ -1,19 +1,33 @@
 $('.wall').click(function()
 {
-  $('.interior').css('background-image', 'url(' + $(this).children("img:first").attr('src') + ')');
-  if ($('#interior_img').attr('src') == "/media/interior1.png") {
-    $('.interior').css('background-size', '30%');
-  } else {
-    $('.interior').css('background-size', '15%');
-  }
+  $('#canvas_interior').css('background-image', 'url(' + $(this).children("img:first").attr('src') + ')');
 });
 
 $('.room').click(function()
 {
   $('#interior_img').attr('src', $(this).children("img:first").attr('src'));
-  if ($('#interior_img').attr('src') == "/media/interior1.png") {
-    $('.interior').css('background-size', '30%');
-  } else {
-    $('.interior').css('background-size', '15%');
-  }
 });
+
+// карусель для обоев
+$(document).ready(function(){
+  $(".carousel-inner").children("div:first").addClass("active");
+});
+
+(function(){
+  $('#carousel-wallpapers .item').each(function(){
+    var itemToClone = $(this);
+
+    for (var i=1;i<4;i++) {
+      itemToClone = itemToClone.next();
+
+      // wrap around if at end of item collection
+      if (!itemToClone.length) {
+        itemToClone = $(this).siblings(':first');
+      }
+
+      // grab item, clone, add marker class, add to collection
+      itemToClone.children(':first-child').clone()
+        .appendTo($(this));
+    }
+  });
+}());

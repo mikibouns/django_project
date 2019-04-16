@@ -8,9 +8,15 @@
 <div class="image_block">
     <h1>Collections</h1>
     <br/>
-    {% for collection in collections %}
-        <a href="#">{{ collection.name }}</a>
-    {% endfor %}
+    <div class="list-group">
+        {% for collection in collections %}
+            <button type="button" class="collection btn-link">
+                <img src="/media/{{ collection.img }}" alt="изображение не найдено" class="img-responsive">
+                <a href="#">{{ collection.name }}</a>
+            </button>
+        {% endfor %}
+    </div>
+
     <a href="{% url 'collections:interior' %}">
         <h4>Смотреть в интерьере</h4>
     </a>

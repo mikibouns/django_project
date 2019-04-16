@@ -8,10 +8,13 @@ from .models import Wallpaper, Interior, Collection
 class InteriorView(View):
     template_name = 'collections_app/interiors.html'
     interiors = Interior.objects.all()
+    collections = Collection.objects.all()
 
     def get(self, request, *args, **kwargs):
         wallpapers = Wallpaper.objects.all()
-        context = {'wallpapers': wallpapers, 'interiors': self.interiors}
+        context = {'wallpapers': wallpapers,
+                   'interiors': self.interiors,
+                   'collections': self.collections}
         return render(request, self.template_name, context)
 
     # def get_queryset(self):

@@ -1,23 +1,26 @@
+/* коллекции */
+.collection img {
+    height: 15vh;
+}
+
+
+/* просмотр интерьера */
+.image_block {
+    width: 100%;
+    height: 100%;
+}
+
 .interior {
     /* background-image: url(/media/pattern1.jpg); */
     height: 100%;
-    position: relative;
+    width: 100%;
     background-repeat: repeat;
     background-size: 22%;
+    margin-bottom: 10px;
 }
 
-.substrate (
-    position: absolute;
-    width: 100%
-    top: 0;
-    left: 0;
-    background: url(/media/32601.jpg);
-    background-repeat: repeat;
-)
-
 .room img {
-    width: 100px;
-    height: 100px;
+    width: 9vw;
     object-fit: cover;
 }
 
@@ -26,3 +29,14 @@
     height: 100px;
     object-fit: cover;
 }
+
+#canvas_interior {
+    height: 65vh;
+    width: 100%;
+}
+
+/* carousel */
+.carousel-control.left,.carousel-control.right {background-image:none;}
+
+
+

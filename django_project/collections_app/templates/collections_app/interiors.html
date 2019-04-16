@@ -6,35 +6,55 @@
 {% block title %}interiors{% endblock %}
 {% block container %}
 <div class="image_block">
-    <div class="list-group col-md-2 col-xs-2 walls">
+    <div class="list-group col-md-2 col-xs-2">
         {% for interior in interiors %}
-        <div>
-            <a href="#" class="room">
-                <img src="/media/{{ interior.img }}" alt="..." class="img-thumbnail">
-            </a>
-        </div>
+            <button type="button" class="room btn-link">
+                <img src="/media/{{ interior.img }}" alt="изображение не найдено" class="img-responsive">
+            </button>
         {% endfor %}
     </div>
     <div class="col-md-10 col-xs-10">
-        <div class="interior">
-            <img src="/media/interior1.png" class="img-responsive m-x-auto" id="interior_img">
-            <div class="substrate" style="">
-                <!--<img src="/media/32601.jpg" class="img-responsive m-x-auto img-thumbnail" id="left_wall">-->
-                <!--<img src="/media/img/wall/32602.jpg" class="img-responsive m-x-auto" id="right_wall">-->
+        <div class="interior img-thumbnail">
+            <canvas id="canvas_interior"></canvas>
+            <!--<img src="/media/interior1.png" class="img-responsive m-x-auto" id="interior_img">-->
+        </div>
+        <!-- слайдер для колекций -->
+        <div class="row col-xs-4 col-sm-4 col-md-4">
+            <div class="carousel slide text-center" id="carousel_collections" data-interval="false">
+                <div class="carousel-inner">
+                {% for collection in collections %}
+                    <div class="item">
+                        <button type="button" class="collection btn-link">
+                            <img src="/media/{{ collection.img }}" alt="изображение не найдено" class="img-responsive">
+                            <a href="#">{{ collection.name }}</a>
+                        </button>
+                    </div>
+                {% endfor %}
+                </div>
+                <a class="left carousel-control" href="#carousel_collections" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+                <a class="right carousel-control" href="#carousel_collections" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
             </div>
         </div>
-        <div class="row">
-            {% for wallpaper in wallpapers %}
-            <div class="col-md-2 col-xs-2">
-                <a href="#" class="wall">
-                    <img src="/media/{{ wallpaper.preview_img }}" alt="..." class="img-thumbnail">
-                </a>
+        <!-- слайдер для обоев -->
+        <div class="row col-xs-8 col-sm-8 col-md-8">
+            <div class="carousel carousel-showmanymoveone slide text-center" id="carousel_wallpapers" data-interval="false">
+                <div class="carousel-inner">
+                    {% for wallpaper in wallpapers %}
+                        <div class="item">
+                            <button type="button" class="wall btn-link">
+                                <img src="/media/{{ wallpaper.preview_img }}" alt="..." class="img-responsive">
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+                <a class="left carousel-control" href="#carousel_wallpapers" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+                <a class="right carousel-control" href="#carousel_wallpapers" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
             </div>
-            {% endfor %}
         </div>
     </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'jquery/test_img_jquery.js' %}"></script>
 
 {% endblock %}

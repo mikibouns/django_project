@@ -8,6 +8,9 @@ class Collection(models.Model):
     img = models.ImageField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
 
+    class Meta:
+        ordering = ["name"]
+
     def __str__(self):
         return self.name
 
@@ -18,6 +21,9 @@ class Wallpaper(models.Model):
     preview_img = models.ImageField()
     img = models.ImageField(null=True, blank=True)
     collection = models.ForeignKey(Collection, on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        ordering = ["article"]
 
     def __str__(self):
         return str(self.article)
