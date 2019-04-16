@@ -1,6 +1,6 @@
 $('.wall').click(function()
 {
-  $('#canvas_interior').css('background-image', 'url(' + $(this).children("img:first").attr('src') + ')');
+  $('.interior').css('background-image', 'url(' + $(this).children("img:first").attr('src') + ')');
 });
 
 $('.room').click(function()
@@ -10,12 +10,16 @@ $('.room').click(function()
 
 // карусель для обоев
 $(document).ready(function(){
-  $(".carousel-inner").children("div:first").addClass("active");
+  $("#carousel_wallpapers .carousel-inner").children("div:first").addClass("active");
+  $("#carousel_collections .carousel-inner").children("div:first").addClass("active");
 });
 
 (function(){
-  $('#carousel-wallpapers .item').each(function(){
+  $('#carousel_wallpapers .item').each(function(){
     var itemToClone = $(this);
+
+//    console.log($(window).on('load resize',windowSize));
+
 
     for (var i=1;i<4;i++) {
       itemToClone = itemToClone.next();
@@ -26,7 +30,7 @@ $(document).ready(function(){
       }
 
       // grab item, clone, add marker class, add to collection
-      itemToClone.children(':first-child').clone()
+      itemToClone.children(':first-child').clone(true, true)
         .appendTo($(this));
     }
   });

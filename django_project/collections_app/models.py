@@ -12,7 +12,7 @@ class Collection(models.Model):
         ordering = ["name"]
 
     def __str__(self):
-        return self.name
+        return self.name.replace(" ", "_")
 
 
 class Wallpaper(models.Model):

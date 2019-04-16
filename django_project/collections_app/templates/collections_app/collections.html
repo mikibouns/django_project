@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/test.css' %}" />
+<link rel="stylesheet" href="{% static 'css/collection.css' %}" />
 {% endblock %}
 {% block title %}collections{% endblock %}
 {% block container %}
@@ -10,18 +10,20 @@
     <br/>
     <div class="list-group">
         {% for collection in collections %}
-            <button type="button" class="collection btn-link">
-                <img src="/media/{{ collection.img }}" alt="изображение не найдено" class="img-responsive">
-                <a href="#">{{ collection.name }}</a>
-            </button>
+        <div class="collection">
+            <a href="{% url 'collections:interior' collection %}">
+                <img src="/media/{{ collection.img }}" alt="изображение не найдено" class="img-responsive img_collection">
+                <p>{{ collection.name }}</p>
+            </a>
+        </div>
         {% endfor %}
     </div>
 
-    <a href="{% url 'collections:interior' %}">
+    <a href="/collections/interiors/lumina">
         <h4>Смотреть в интерьере</h4>
     </a>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="{% static 'jquery/test_img_jquery.js' %}"></script>
 
 {% endblock %}

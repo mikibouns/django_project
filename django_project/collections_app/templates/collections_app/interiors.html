@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/test.css' %}" />
+<link rel="stylesheet" href="{% static 'css/collection.css' %}" />
 {% endblock %}
 {% block title %}interiors{% endblock %}
 {% block container %}
@@ -23,11 +23,9 @@
             <div class="carousel slide text-center" id="carousel_collections" data-interval="false">
                 <div class="carousel-inner">
                 {% for collection in collections %}
-                    <div class="item">
-                        <button type="button" class="collection btn-link">
-                            <img src="/media/{{ collection.img }}" alt="изображение не найдено" class="img-responsive">
-                            <a href="#">{{ collection.name }}</a>
-                        </button>
+                    <div class="item" id="{{ collection }}">
+                        <img src="/media/{{ collection.img }}" alt="изображение не найдено" class="img-responsive">
+                        <b>{{ collection.name }}</b>
                     </div>
                 {% endfor %}
                 </div>
@@ -36,8 +34,8 @@
             </div>
         </div>
         <!-- слайдер для обоев -->
-        <div class="row col-xs-8 col-sm-8 col-md-8">
-            <div class="carousel carousel-showmanymoveone slide text-center" id="carousel_wallpapers" data-interval="false">
+        <div class="row col-xs-offset-4 col-sm-offset-4 col-md-offset-4">
+            <div class="carousel slide text-center" id="carousel_wallpapers" data-interval="false">
                 <div class="carousel-inner">
                     {% for wallpaper in wallpapers %}
                         <div class="item">
