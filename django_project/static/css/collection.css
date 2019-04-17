@@ -36,15 +36,7 @@
     height: 70vh;
 }
 
-#carousel_collections img {
-    height: 100px;
-    width: 100px;
-    margin: auto;
-}
-
-.img_collection {
-    height: 100px;
-    width: 100px;
+#wallpaper_carousel_conteiner {
     margin: auto;
 }
 
