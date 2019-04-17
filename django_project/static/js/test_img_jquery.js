@@ -31,11 +31,38 @@ $('.room').click(function()
 //  });
 //}());
 
-  $(document).ready(function() {
-	$("#content-slider").lightSlider({
-      loop:true,
-      keyPress:true
-    });
+$(document).ready(function() {
+  $("#wallpaper-slider").lightSlider({
+    item:3,
+      loop:false,
+      slideMove:2,
+      easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
+      speed:600,
+      responsive : [
+        {
+          breakpoint:800,
+          settings: {
+            item:3,
+            slideMove:1,
+            slideMargin:6,
+          }
+        },
+        {
+          breakpoint:480,
+          settings: {
+            item:2,
+            slideMove:1
+          }
+        }
+      ]
   });
+
+  $('#collection-slider').lightSlider({
+    item:1,
+    vertical:true,
+    verticalHeight:100,
+    slideMargin:0
+  });
+});
 
 // canvas
