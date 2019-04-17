@@ -1,0 +1,15 @@
+<div class="row col-xs-offset-4 col-sm-offset-4 col-md-offset-4">
+    <div class="carousel slide text-center" id="carousel_wallpapers" data-interval="false">
+        <div class="carousel-inner">
+            {% for wallpaper in wallpapers %}
+            <div class="item">
+                <button type="button" class="wall btn-link">
+                    <img src="/media/{{ wallpaper.preview_img }}" alt="..." class="img-responsive">
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        <a class="left carousel-control" href="#carousel_wallpapers" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+        <a class="right carousel-control" href="#carousel_wallpapers" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+    </div>
+</div>

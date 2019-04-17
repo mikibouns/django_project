@@ -2,6 +2,7 @@
 {% load static %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/collection.css' %}" />
+<link rel="stylesheet" href="{% static 'css/lightslider.min.css' %}" />
 {% endblock %}
 {% block title %}interiors{% endblock %}
 {% block container %}
@@ -14,10 +15,8 @@
         {% endfor %}
     </div>
     <div class="col-md-10 col-xs-10">
-        <div class="interior img-thumbnail">
-            <canvas id="canvas_interior"></canvas>
-            <!--<img src="/media/interior1.png" class="img-responsive m-x-auto" id="interior_img">-->
-        </div>
+        <!-- canvas -->
+        {% include "collections_app/canvas.html" %}
         <!-- слайдер для колекций -->
         <div class="row col-xs-4 col-sm-4 col-md-4">
             <div class="carousel slide text-center" id="carousel_collections" data-interval="false">
@@ -34,26 +33,12 @@
             </div>
         </div>
         <!-- слайдер для обоев -->
-        <div class="row col-xs-offset-4 col-sm-offset-4 col-md-offset-4">
-            <div class="carousel slide text-center" id="carousel_wallpapers" data-interval="false">
-                <div class="carousel-inner">
-                    {% for wallpaper in wallpapers %}
-                        <div class="item">
-                            <button type="button" class="wall btn-link">
-                                <img src="/media/{{ wallpaper.preview_img }}" alt="..." class="img-responsive">
-                            </button>
-                        </div>
-                    {% endfor %}
-                </div>
-                <a class="left carousel-control" href="#carousel_wallpapers" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
-                <a class="right carousel-control" href="#carousel_wallpapers" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
-            </div>
-        </div>
+        {% include "collections_app/carousel_wollpaper.html" %}
     </div>
 </div>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jcanvas/21.0.1/min/jcanvas.min.js"></script>
 <script type="text/javascript" src="{% static 'jquery/test_img_jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'jquery/lightslider.min.js' %}"></script>
 
 {% endblock %}
