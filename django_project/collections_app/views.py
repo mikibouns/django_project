@@ -31,3 +31,12 @@ class CollectionView(TemplateView):
         collections = Collection.objects.all()
         context = {'collections': collections}
         return render(request, self.template_name, context)
+
+
+class WallpaperView(View):
+    template_name = 'collections_app/wallpapers.html'
+
+    def get(self, request, name, *args, **kwargs):
+        collection = Collection.objects.filter(name=name)
+        context = {'current_collection': name}
+        return render(request, self.template_name, context)

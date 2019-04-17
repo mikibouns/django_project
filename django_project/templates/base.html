@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% load bootstrap3 %}
 {% load sitetree%}
+{% load static %}
 <script src="{% bootstrap_jquery_url %}"></script>
 {% bootstrap_css %}
 {% bootstrap_javascript %}
@@ -8,6 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
     {% block head %}
     {% endblock %}
 </head>
@@ -49,9 +51,6 @@
         </div>
       </div>
     </div>
-    <br/>
-    <br/>
-    <br/>
     <div class="container">
         {% sitetree_breadcrumbs from "website" template "sitetree/breadcrumbs_bootstrap3.html" %}
 

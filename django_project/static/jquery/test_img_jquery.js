@@ -8,28 +8,24 @@ $('.room').click(function()
   $('#interior_img').attr('src', $(this).children("img:first").attr('src'));
 });
 
+//var tilesNumber;
+//$(window).on('load resize', function(){
+//  var win = $(this); //this = window
+//  if (win.height() >= 820) {
+//    tilesNumber = 2
+//  }
+//  if (win.width() >= 1280) {
+//    tilesNumber = 4
+//  }
+//});
+
 // карусель для обоев
 (function(){
-
-var $canvas_interior = $('#canvas_interior');
-
-$canvas_interior.drawImage({
-  source: '/media/interior1.png',
-  x: 0, y: 0,
-  fromCenter: false,
-  shadowColor: '#222',
-  shadowBlur: 3,
-  rotate: 40
-});
-
   $("#carousel_wallpapers .carousel-inner").children("div:first").addClass("active");
   $("#carousel_collections .carousel-inner").children("div:first").addClass("active");
 
   $('#carousel_wallpapers .item').each(function(){
     var itemToClone = $(this);
-
-//    console.log($(window).on('load resize',windowSize));
-
 
     for (var i=1;i<4;i++) {
       itemToClone = itemToClone.next();
@@ -45,14 +41,3 @@ $canvas_interior.drawImage({
     }
   });
 }());
-
-var $canvas_interior = $('#canvas_interior');
-
-$canvas_interior.drawImage({
-  source: '/media/interior1.png',
-  x: 0, y: 0,
-  fromCenter: false,
-  shadowColor: '#222',
-  shadowBlur: 3,
-  rotate: 40
-});
