@@ -37,6 +37,6 @@ class WallpaperView(View):
     template_name = 'collections_app/wallpapers.html'
 
     def get(self, request, name, *args, **kwargs):
-        collection = Collection.objects.filter(name=name)
+        collection = Collection.objects.all()
         context = {'current_collection': name}
         return render(request, self.template_name, context)
