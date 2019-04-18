@@ -1,18 +1,20 @@
 $('.wall').click(function()
 {
   $('.interior').css('background-image', 'url(' + $(this).children("img:first").attr('src') + ')');
-  $('.wall').children().css('border-width', '0px');
-  $(this).children().css('border-width', '2px');
+  $('.wall img').css('padding', '0px');
+  $(this).children('img').css('padding', '5px');;
 });
 
 $('.room').click(function()
 {
   $('#interior_img').attr('src', $(this).children("img:first").attr('src'));
+  $('.room img').css('padding', '0px');
+  $(this).children('img').css('padding', '5px');;
 });
 
 $('#collection-slider button').click(function()
 {
-  document.location.href='/collections/' + $(this).attr('id') + '/interiors';
+  document.location.href='/collections/' + $(this).attr('id');
 });
 
 
@@ -34,6 +36,9 @@ $(document).ready(function() {
     slideMove:2,
     slideMargin:0,
     speed:600,
+    onBeforeSlide: function (el) {
+//        alert('Hello! ' + el);
+    },
   });
 
   $('#interior-slider').lightSlider({

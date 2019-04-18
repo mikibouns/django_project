@@ -37,5 +37,5 @@ class WallpaperView(View):
 
     def get(self, request, name, *args, **kwargs):
         collection = Collection.objects.filter(name=name)
-        context = {'current_collection': name, 'collection': collection}
+        context = {'current_collection': name, 'collections': collection}
         return render(request, self.template_name, context)

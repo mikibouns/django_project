@@ -21,7 +21,7 @@
 }
 
 .room img {
-    max-width: 150px;
+    width: 150px;
     object-fit: cover;
 }
 
@@ -41,7 +41,7 @@
 }
 
 #collection-slider img {
-    max-width: 200px;
+    width: 200px;
     object-fit: cover;
 }
 
