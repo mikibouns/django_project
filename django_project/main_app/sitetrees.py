@@ -9,9 +9,8 @@ sitetrees = (
             item('Авторизация', '/auth/signin/', url_as_pattern=False),
             item('Регистрация', '/register/', url_as_pattern=False),
             item('Коллекции', 'collections:collection', url_as_pattern=True, children=[
-                item('{{ current_collection }}', 'collections:wallpaper current_collection', url_as_pattern=True, children=[
-                    item('в интерьере', 'collections:interior current_collection', url_as_pattern=True)
-                ])
+                item('{{ current_collection }}', 'collections:wallpaper current_collection', url_as_pattern=True),
+                item('в интерьере', 'collections:interior', url_as_pattern=True)
             ]),
             item('Администрирование', '/admin_panel/', url_as_pattern=False, children=[
                 item('{{ object.username }}', 'admin_panel:user_detail object.id', url_as_pattern=True, children=[

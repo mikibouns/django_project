@@ -15,8 +15,10 @@ $('#collection-slider button').click(function()
   document.location.href='/collections/' + $(this).attr('id') + '/interiors';
 });
 
-// карусель
+
 $(document).ready(function() {
+
+  // карусель
   $("#wallpaper-slider").lightSlider({
     autoWidth:true,
     loop:false,
@@ -28,11 +30,17 @@ $(document).ready(function() {
   $('#collection-slider').lightSlider({
     item:1,
     mode:'fade',
-    adaptiveHeight:true,
     loop:true,
     slideMove:2,
     slideMargin:0,
     speed:600,
+  });
+
+  $('#interior-slider').lightSlider({
+    item:3,
+    adaptiveHeight:true,
+    vertical:true,
+    slideMargin:0,
   });
 });
 

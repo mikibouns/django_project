@@ -8,11 +8,8 @@
 {% block container %}
 <div class="image_block">
     <div class="list-group col-md-2 col-xs-2">
-        {% for interior in interiors %}
-            <button type="button" class="room btn-link">
-                <img src="/media/{{ interior.img }}" alt="изображение не найдено" class="img-responsive">
-            </button>
-        {% endfor %}
+        <!-- слайдер для интерьеров -->
+        {% include "collections_app/carousel_interior.html" %}
     </div>
     <div class="col-md-10 col-xs-10">
         <!-- canvas -->

@@ -1,0 +1,11 @@
+<div class="item" id="interior_carousel_conteiner">
+    <ul id="interior-slider" class="content-slider">
+        {% for interior in interiors %}
+        <li>
+            <button type="button" class="room btn-link">
+                <img src="/media/{{ interior.img }}" alt="изображение не найдено" class="img-responsive">
+            </button>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
