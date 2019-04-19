@@ -1,8 +1,22 @@
+// canvas
+function showInterior(current_pic) {
+  var int_canvas = document.getElementById("canvas_interior"),
+    ctx = int_canvas.getContext('2d'),
+    pic = new Image();
+  int_canvas.width = 1910;
+  int_canvas.height = 1910;
+  pic.src = current_pic; // Путь к изображению которое необходимо нанести на холст
+  pic.onload = function (){
+    ctx.drawImage(pic, 0, 0);
+  }
+}
+
+// слайдеры
 $('.wall').click(function()
 {
   $('#canvas_interior').css('background-image', 'url(' + $(this).children("img:first").attr('src') + ')');
   $('.wall img').css('padding', '0px');
-  $(this).children('img').css('padding', '5px');;
+  $(this).children('img').css('padding', '5px');
 });
 
 $('.room').click(function()
@@ -11,15 +25,8 @@ $('.room').click(function()
   $('.room img').css('padding', '0px');
   $(this).children('img').css('padding', '5px');
 
-  var int_canvas = document.getElementById("canvas_interior"),
-    ctx = int_canvas.getContext('2d'),
-    pic = new Image();
-  int_canvas.width = 1910;
-  int_canvas.height = 1910;
-  pic.src = $(this).children("img:first").attr('src'); // Путь к изображению которое необходимо нанести на холст
-  pic.onload = function (){
-    ctx.drawImage(pic, 0, 0);
-  }
+  var current_pic = $(this).children("img:first").attr('src');
+  showInterior(current_pic); // при клике устанавливает выбранный интерьер
 });
 
 $('#collection-slider button').click(function()
@@ -29,6 +36,10 @@ $('#collection-slider button').click(function()
 
 
 $(document).ready(function() {
+  // состояние кнопок
+  $('#interior-slider li:first img').css('padding', '5px'); // выделяем кнопку интерьера по умолчанию
+  var current_pic = $('#interior-slider li:first img').attr('src');
+  showInterior(current_pic); // устанавливаеи интерьер по умолчанию
 
   // карусель
   $("#wallpaper-slider").lightSlider({
@@ -77,4 +88,5 @@ $(document).ready(function() {
   });
 });
 
-// canvas
+
+
