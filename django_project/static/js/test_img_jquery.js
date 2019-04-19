@@ -1,6 +1,6 @@
 $('.wall').click(function()
 {
-  $('.interior').css('background-image', 'url(' + $(this).children("img:first").attr('src') + ')');
+  $('#canvas_interior').css('background-image', 'url(' + $(this).children("img:first").attr('src') + ')');
   $('.wall img').css('padding', '0px');
   $(this).children('img').css('padding', '5px');;
 });
@@ -55,7 +55,7 @@ $(document).ready(function() {
     item:3,
     adaptiveHeight:true,
     vertical:true,
-    slideMargin:10,
+    slideMargin:1,
     responsive : [
             {
                 breakpoint:800,

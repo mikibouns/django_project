@@ -11,15 +11,6 @@
     height: 100%;
 }
 
-.interior {
-    /* background-image: url(/media/pattern1.jpg); */
-    /* height: 636px; */
-    width: 100%;
-    background-repeat: repeat;
-    background-size: 22%;
-    margin-bottom: 10px;
-}
-
 .room img {
     width: 150px;
     object-fit: cover;
@@ -33,7 +24,10 @@
 
 #canvas_interior {
     width: 100%;
-    border: 1px solid #ccc;
+    background-repeat: repeat;
+    background-size: 22%;
+    margin-bottom: 10px;
+
 }
 
 #wallpaper_carousel_conteiner {
@@ -41,7 +35,7 @@
 }
 
 #collection-slider img {
-    width: 200px;
+    width: 100%;
     object-fit: cover;
 }
 
