@@ -13,8 +13,20 @@ function showInterior(current_pic){
 
 function fillWall(current_pic){
     var int_canvas = document.getElementById("canvas_interior"),
-    ctx = int_canvas.getContext('2d'),
-    pic = new Image();
+        ctx = int_canvas.getContext('2d'),
+        pic = new Image();
+    pic.src = current_pic;
+    int_canvas.width = 1910;
+    int_canvas.height = 1910;
+    var tileSize = 100;
+    var x = 3;
+    var y = 3;
+
+    for(var tileX = 0; tileX < x; tileX ++) {
+        for(var tileY = 0; tileY < y; tileY++) {
+            ctx.drawImage(pic, tileX * tileSize,tileY * tileSize , tileSize, tileSize);
+        }
+    }
 }
 
 // слайдеры
@@ -46,6 +58,7 @@ $(document).ready(function() {
     $('#interior-slider li:first img').css('padding', '5px'); // выделяем кнопку интерьера по умолчанию
     var current_pic = $('#interior-slider li:first img').attr('src');
     showInterior(current_pic); // устанавливаеи интерьер по умолчанию
+//    fillWall('/media/32608.jpg');
 
     // карусель
     $("#wallpaper-slider").lightSlider({
