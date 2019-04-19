@@ -6,7 +6,7 @@ sitetrees = (
     tree('website', items=[
         # Then define items and their children with `item` function.
         item('Главная', '/', url_as_pattern=False, children=[
-            item('Авторизация', 'auth:signin', url_as_pattern=False),
+            item('Авторизация', 'auth:sign_in', url_as_pattern=False),
             item('Регистрация', '/register/', url_as_pattern=False),
             item('Коллекции', 'collections:collection', url_as_pattern=True, children=[
                 item('{{ current_collection }}', 'collections:wallpaper current_collection', url_as_pattern=True),
