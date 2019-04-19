@@ -58,7 +58,7 @@ $(document).ready(function() {
     slideMargin:1,
     responsive : [
             {
-                breakpoint:800,
+                breakpoint:992,
                 settings: {
                     item:4,
                     slideMove:1,
