@@ -7,13 +7,13 @@
 {% block title %}interiors{% endblock %}
 {% block container %}
 <div class="image_block">
-    <div class="list-group col-md-2 col-xs-2">
+    <div class="col-md-2 col-xs-2">
         <!-- слайдер для интерьеров -->
         {% include "collections_app/carousel_interior.html" %}
     </div>
     <div class="col-md-10 col-xs-10">
         <!-- canvas -->
-        {% include "collections_app/canvas.html" %}
+        <canvas id="canvas_interior" class="img-rounded"></canvas>
         <!-- слайдер для колекций -->
         {% include "collections_app/carousel_collection.html" %}
         <!-- слайдер для обоев -->
