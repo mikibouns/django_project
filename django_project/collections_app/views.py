@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
+from django.http import JsonResponse
 from django.views.generic import TemplateView
 from django.views.generic import ListView, DetailView
 from django.views import View
@@ -11,11 +12,19 @@ class InteriorView(View):
     collections = Collection.objects.all()
 
     def get(self, request, *args, **kwargs):
-        wallpapers = Wallpaper.objects.all()
+        collection_name = request.GET.get('collection_name', None)
+        if collection_name:
+            wallpapers = list(Wallpaper.objects.filter(collection__name=collection_name).values())
+            return JsonResponse(wallpapers, safe=False)
+
+        wallpapers = Wallpaper.objects.filter(collection__name=self.collections[0].name)
         context = {'wallpapers': wallpapers,
                    'interiors': self.interiors,
                    'collections': self.collections}
         return render(request, self.template_name, context)
+
+    def post(self, request, pk, *args, **kwargs):
+        pass
 
     # def get_queryset(self):
     #     if self.request.user.is_superuser:
