@@ -6,13 +6,14 @@
 {% endblock %}
 {% block title %}wallpaprs{% endblock %}
 {% block container %}
-<div>
+<div id="current_collection_name">
     <h1>{{ current_collection }}</h1>
-    <br/>
-    <a href="{% url 'collections:interior' %}" id="in_to_interior">
-        <h4>Смотреть в интерьере</h4>
-    </a>
 </div>
+<br/>
+<a href="{% url 'collections:interior' %}" id="in_to_interior">
+    <h4>Смотреть в интерьере</h4>
+</a>
+
 
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

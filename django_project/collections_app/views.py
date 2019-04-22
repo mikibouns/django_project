@@ -13,18 +13,23 @@ class InteriorView(View):
 
     def get(self, request, *args, **kwargs):
         collection_name = request.GET.get('collection_name', None)
+        current_collection_name = request.GET.get('current_collection_name', None)
+        print(current_collection_name)
         if collection_name:
             wallpapers = list(Wallpaper.objects.filter(collection__name=collection_name).values())
             return JsonResponse(wallpapers, safe=False)
-
+        if current_collection_name:
+            wallpapers = Wallpaper.objects.filter(collection__name=current_collection_name)
+            context = {'wallpapers': wallpapers,
+                       'interiors': self.interiors,
+                       'collections': self.collections}
+            return render(request, self.template_name, context)
         wallpapers = Wallpaper.objects.filter(collection__name=self.collections[0].name)
         context = {'wallpapers': wallpapers,
                    'interiors': self.interiors,
                    'collections': self.collections}
         return render(request, self.template_name, context)
 
-    def post(self, request, pk, *args, **kwargs):
-        pass
 
     # def get_queryset(self):
     #     if self.request.user.is_superuser:
