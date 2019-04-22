@@ -10,9 +10,10 @@
     <h1>{{ current_collection }}</h1>
 </div>
 <br/>
-<a href="{% url 'collections:interior' %}" id="in_to_interior">
-    <h4>Смотреть в интерьере</h4>
-</a>
+<form method="post" action="{% url 'collections:interior' %}">{% csrf_token %}
+    <input name="collection_name" type="hidden" value="{{ current_collection }}">
+    <input type="submit" value="смотреть в интерьере">
+</form>
 
 
 
