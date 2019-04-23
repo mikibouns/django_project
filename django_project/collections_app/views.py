@@ -24,7 +24,6 @@ class InteriorView(View):
 
     def post(self, request, *args, **kwargs):
         collection_name = request.POST['collection_name']
-        print(collection_name)
         wallpapers = Wallpaper.objects.filter(collection__name=collection_name.replace('_', ' '))
         context = {'wallpapers': wallpapers,
                    'interiors': self.interiors,
