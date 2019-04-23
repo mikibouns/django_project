@@ -1,7 +1,7 @@
 <div class="item row col-xs-4 col-sm-4 col-md-3" id="collection_carousel_conteiner">
     <ul id="collection-slider" class="content-slider">
         {% for collection in collections %}
-        <li>
+        <li id="{{ forloop.counter }}">
             <button class="btn-link" type="button" id="{{ collection }}">
                 <img src="/media/{{ collection.img }}" alt="изображение не найдено" class="img-responsive">
                 <b>{{ collection.name }}</b>

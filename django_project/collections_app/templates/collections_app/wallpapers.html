@@ -6,15 +6,13 @@
 {% endblock %}
 {% block title %}wallpaprs{% endblock %}
 {% block container %}
-<div id="current_collection_name">
-    <h1>{{ current_collection }}</h1>
+<div id="current_collection">
+    <h1>{{ collection.name }}</h1>
+    <br/>
+    <a href="{% url 'collections:interior' %}">
+        смотреть в интерьере
+    </a>
 </div>
-<br/>
-<form method="post" action="{% url 'collections:interior' %}">{% csrf_token %}
-    <input name="collection_name" type="hidden" value="{{ current_collection }}">
-    <input type="submit" value="смотреть в интерьере" class="btn btn-success">
-</form>
-
 
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

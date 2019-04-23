@@ -32,11 +32,12 @@ function fillWall(current_pic){
 
 // обновление списка обоев коллекции
 function changeWallpapers (el, wallpaper_slider) {
+var collection = String(el.children('.active').children('button').attr('id')).replace("_", " ");
 $.ajax({
     type: "GET",
     url: "",
     data: {
-        'collection_name': el.children('.active').children('button').attr('id'),
+        'collection_name': collection,
     },
     dataType: "json",
     cache: false,
@@ -77,14 +78,10 @@ $(document).on('click', '.room', function ()
     showInterior(current_pic); // при клике устанавливает выбранный интерьер
 });
 
-$('#collection-slider button').click(function()
+$('#collection-slider button').click(function() // из интерьеров в просмотр иколлекции
 {
     document.location.href='/collections/' + $(this).attr('id');
 });
-
-
-// из коллекции к просмотру интерьера
-
 
 
 $(document).ready(function() {
@@ -103,7 +100,7 @@ $(document).ready(function() {
         slideMargin:0,
     });
 
-    $('#collection-slider').lightSlider({
+    var collection_slider = $('#collection-slider').lightSlider({
         item:1,
         mode:'fade',
         loop:true,
@@ -127,7 +124,7 @@ $(document).ready(function() {
                     item:4,
                     slideMove:1,
                     slideMargin:1,
-                  }
+                }
             },
             {
                 breakpoint:480,
@@ -135,9 +132,8 @@ $(document).ready(function() {
                     item:5,
                     slideMove:1,
                     slideMargin:1,
-                  }
+                }
             }
         ]
     });
 });
-

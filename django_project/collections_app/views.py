@@ -13,22 +13,19 @@ class InteriorView(View):
 
     def get(self, request, *args, **kwargs):
         collection_name = request.GET.get('collection_name', None)
+        preview_collection = request.META.get('HTTP_REFERER').split('/')[4]
         if collection_name:
-            wallpapers = list(Wallpaper.objects.filter(collection__name=collection_name).values())
-            return JsonResponse(wallpapers, safe=False)
-        wallpapers = Wallpaper.objects.filter(collection__name=self.collections[0].name)
-        context = {'wallpapers': wallpapers,
-                   'interiors': self.interiors,
-                   'collections': self.collections}
-        return render(request, self.template_name, context)
-
-    def post(self, request, *args, **kwargs):
-        collection_name = request.POST['collection_name']
-        wallpapers = Wallpaper.objects.filter(collection__name=collection_name.replace('_', ' '))
-        context = {'wallpapers': wallpapers,
-                   'interiors': self.interiors,
-                   'collections': self.collections}
-        return render(request, self.template_name, context)
+            if preview_collection == 'interiors':
+                wallpapers = list(Wallpaper.objects.filter(collection__name=collection_name).values())
+                return JsonResponse(wallpapers, safe=False)
+            else:
+                return JsonResponse({'collection_name': preview_collection}, safe=False)
+        else:
+            wallpapers = Wallpaper.objects.filter(collection__name=self.collections[0].name)
+            context = {'wallpapers': wallpapers,
+                       'interiors': self.interiors,
+                       'collections': self.collections}
+            return render(request, self.template_name, context)
 
     # def get_queryset(self):
     #     if self.request.user.is_superuser:
@@ -49,6 +46,7 @@ class WallpaperView(View):
     template_name = 'collections_app/wallpapers.html'
 
     def get(self, request, name, *args, **kwargs):
+        name = name.replace('_', ' ')
         collection = Collection.objects.filter(name=name)
-        context = {'current_collection': name, 'collections': collection}
+        context = {'collection': collection[0]}
         return render(request, self.template_name, context)
