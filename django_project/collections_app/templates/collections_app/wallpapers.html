@@ -12,7 +12,7 @@
 <br/>
 <form method="post" action="{% url 'collections:interior' %}">{% csrf_token %}
     <input name="collection_name" type="hidden" value="{{ current_collection }}">
-    <input type="submit" value="смотреть в интерьере">
+    <input type="submit" value="смотреть в интерьере" class="btn btn-success">
 </form>
 
 
