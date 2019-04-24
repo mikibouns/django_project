@@ -144,7 +144,8 @@ $(document).ready(function() {
         var oldURL = document.referrer.split("/")[4];
         if (oldURL){
             collPath = '#collection-slider #' + oldURL;
-            var collId = $(collPath).parent().attr('id');
+            var collId = parseInt($(collPath).parent().attr('id'));
+            alert(collId);
             collection_slider.goToSlide(collId);
         }
     }
