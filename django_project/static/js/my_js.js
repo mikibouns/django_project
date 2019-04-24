@@ -84,6 +84,8 @@ $('#collection-slider button').click(function() // из интерьеров в 
 });
 
 
+
+
 $(document).ready(function() {
     // состояние кнопок
     $('#interior-slider li:first img').css('padding', '5px'); // выделяем кнопку интерьера по умолчанию
@@ -136,4 +138,14 @@ $(document).ready(function() {
             }
         ]
     });
+
+    // перелистывает на нужную коллекцию при переходе со страницы предросмотра
+    if (window.location.pathname == '/collections/interiors'){
+        var oldURL = document.referrer.split("/")[4];
+        if (oldURL){
+            collPath = '#collection-slider #' + oldURL;
+            var collId = $(collPath).parent().attr('id');
+            collection_slider.goToSlide(collId);
+        }
+    }
 });
