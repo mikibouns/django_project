@@ -1,14 +1,51 @@
 // canvas
-function showInterior(current_pic){
+function showInterior(interior_pic, wallpaper_pic){
     var int_canvas = document.getElementById("canvas_interior"),
         ctx = int_canvas.getContext('2d'),
-        pic = new Image();
+        pic1 = new Image(), pic2 = new Image();
     int_canvas.width = 1910;
     int_canvas.height = 1910;
-    pic.src = current_pic; // Путь к изображению которое необходимо нанести на холст
-    pic.onload = function (){
-        ctx.drawImage(pic, 0, 0);
+    pic1.src = interior_pic; // Путь к изображению интерьера которое необходимо нанести на холст
+    pic2.src = wallpaper_pic; // Путь к изображению обоев которое необходимо нанести на холст
+    pic1.onload = function(){
+        ctx.drawImage(pic2, 0, 0);
+        ctx.drawImage(pic1, 0, 0);
+
     }
+
+//    var canvas = document.getElementById('canvas_interior');
+//    var ctx = canvas.getContext('2d');
+//    canvas.width = 740;
+//    canvas.height = 740;
+//    ctx.fillStyle = 'red';
+//    ctx.fillRect(100, 100, 150, 75);
+//    ctx.clearRect(0, 0, 1910, 1910);
+//    ctx.rect(500, 500, 250, 250);
+//    ctx.strokeStyle = 'green';
+//    ctx.lineWidth = '10';
+//    ctx.stroke();
+//    ctx.fill();
+//
+//    ctx.beginPath();
+//    ctx.strokeStyle = 'black';
+//    ctx.lineWidth = '20';
+//    ctx.moveTo(200, 50);
+//    ctx.lineTo(300, 50);
+//    ctx.lineCap = 'round';
+//    ctx.stroke();
+//    ctx.closePath();
+//
+//
+//    canvas.onmousedown = function(event){
+//        canvas.onmousemove = function(event){
+//            var x = event.offsetX;
+//            var y = event.offsetY;
+//            ctx.fillRect(x-5, y-5, 10, 10);
+//        }
+//        canvas.onmouseup = function(){
+//            canvas.onmousemove = null;
+//        }
+//    }
 }
 
 
@@ -63,9 +100,12 @@ $.ajax({
 // слайдеры
 $(document).on('click', '.wall', function ()
 {
+    $('#wallpaper-slider li').removeClass('active');
+    $(this).parent().addClass('active');
     $('#canvas_interior').css('background-image', 'url(' + $(this).children("img:first").attr('src') + ')');
     $('.wall img').css('padding', '0px');
     $(this).children('img').css('padding', '5px');
+
 });
 
 $(document).on('click', '.room', function ()
@@ -74,8 +114,9 @@ $(document).on('click', '.room', function ()
     $('.room img').css('padding', '0px');
     $(this).children('img').css('padding', '5px');
 
-    var current_pic = $(this).children("img:first").attr('src');
-    showInterior(current_pic); // при клике устанавливает выбранный интерьер
+    var interior_pic = $(this).children("img:first").attr('src');
+    var wallpaper_pic = $('#wallpaper-slider .active img').attr('src');
+    showInterior(interior_pic, wallpaper_pic); // при клике устанавливает выбранный интерьер
 });
 
 $('#collection-slider button').click(function() // из интерьеров в просмотр иколлекции
@@ -89,8 +130,8 @@ $('#collection-slider button').click(function() // из интерьеров в 
 $(document).ready(function() {
     // состояние кнопок
     $('#interior-slider li:first img').css('padding', '5px'); // выделяем кнопку интерьера по умолчанию
-    var current_pic = $('#interior-slider li:first img').attr('src');
-    showInterior(current_pic); // устанавливаем интерьер по умолчанию
+    var interior_pic = $('#interior-slider li:first img').attr('src');
+    showInterior(interior_pic); // устанавливаем интерьер по умолчанию
 //    fillWall('/media/32608.jpg'); // заполнение стены интерьера обоями
 
     // карусель
