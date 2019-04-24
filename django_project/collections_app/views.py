@@ -17,6 +17,7 @@ class InteriorView(View):
         if collection_name:
             wallpapers = list(Wallpaper.objects.filter(collection__name=collection_name).values())
             return JsonResponse(wallpapers, safe=False)
+        wallpapers = Wallpaper.objects.filter(collection__name=self.collections[0].name)
         context = {'wallpapers': wallpapers,
                    'interiors': self.interiors,
                    'collections': self.collections}
