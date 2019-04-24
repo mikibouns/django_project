@@ -17,12 +17,10 @@ class InteriorView(View):
         if collection_name:
             wallpapers = list(Wallpaper.objects.filter(collection__name=collection_name).values())
             return JsonResponse(wallpapers, safe=False)
-        else:
-            wallpapers = Wallpaper.objects.filter(collection__name=self.collections[0].name)
-            context = {'wallpapers': wallpapers,
-                       'interiors': self.interiors,
-                       'collections': self.collections}
-            return render(request, self.template_name, context)
+        context = {'wallpapers': wallpapers,
+                   'interiors': self.interiors,
+                   'collections': self.collections}
+        return render(request, self.template_name, context)
 
     # def get_queryset(self):
     #     if self.request.user.is_superuser:
@@ -44,6 +42,6 @@ class WallpaperView(View):
 
     def get(self, request, name, *args, **kwargs):
         name = name.replace('_', ' ')
-        collection = Collection.objects.get(name=name)
+        collection = Collection.objects.get(name=name) # получаем необходимую коллекцию для предпросмотра
         context = {'collection': collection}
         return render(request, self.template_name, context)
