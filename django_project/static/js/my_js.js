@@ -145,7 +145,6 @@ $(document).ready(function() {
         if (oldURL){
             collPath = '#collection-slider #' + oldURL;
             var collId = parseInt($(collPath).parent().attr('id'));
-            alert(collId);
             collection_slider.goToSlide(collId);
         }
     }
