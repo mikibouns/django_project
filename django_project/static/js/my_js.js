@@ -1,14 +1,12 @@
 // canvas
-function showInterior(interior_pic, wallpaper_pic){
+function showInterior(interior_pic){
     var int_canvas = document.getElementById("canvas_interior"),
         ctx = int_canvas.getContext('2d'),
-        pic1 = new Image(), pic2 = new Image();
+        pic1 = new Image();
     int_canvas.width = 1910;
     int_canvas.height = 1910;
     pic1.src = interior_pic; // Путь к изображению интерьера которое необходимо нанести на холст
-    pic2.src = wallpaper_pic; // Путь к изображению обоев которое необходимо нанести на холст
     pic1.onload = function(){
-        ctx.drawImage(pic2, 0, 0);
         ctx.drawImage(pic1, 0, 0);
 
     }
@@ -115,8 +113,8 @@ $(document).on('click', '.room', function ()
     $(this).children('img').css('padding', '5px');
 
     var interior_pic = $(this).children("img:first").attr('src');
-    var wallpaper_pic = $('#wallpaper-slider .active img').attr('src');
-    showInterior(interior_pic, wallpaper_pic); // при клике устанавливает выбранный интерьер
+//    var wallpaper_pic = $('#wallpaper-slider .active img').attr('src');
+    showInterior(interior_pic); // при клике устанавливает выбранный интерьер
 });
 
 $('#collection-slider button').click(function() // из интерьеров в просмотр иколлекции
