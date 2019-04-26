@@ -22,7 +22,7 @@ function fillWall(pic, ctx, rapport=0, picSize, tileX=0){
 
 
 // canvas
-function showInterior(interior_pic, wallpaper_pic, rapport=0, picSize=5){
+function showInterior(interior_pic, wallpaper_pic, rapport, picSize=5){
     var int_canvas = document.getElementById("canvas_interior"),
         ctx = int_canvas.getContext('2d'),
         pic1 = new Image(), pic2 = new Image();
@@ -33,18 +33,18 @@ function showInterior(interior_pic, wallpaper_pic, rapport=0, picSize=5){
     pic1.onload = function(){
         if (interior_pic == '/media/interior3.png'){
             // интерьер с зеркалом (крупный план)
-            fillWall(pic2, ctx, rapport, picSize=1.5);
+            fillWall(pic2, ctx, rapport=rapport, picSize=1.5);
 //            fillWall(pic2, ctx, rapport, picSize=5, setTileY=-2);
         } else if (interior_pic == '/media/interior4.png'){
             // интерьер с двумя планами
-            fillWall(pic2, ctx, rapport, picSize=6);
-            fillWall(pic2, ctx, rapport, picSize=3, tileX=2.3);
+            fillWall(pic2, ctx, rapport=rapport, picSize=6);
+            fillWall(pic2, ctx, rapport=rapport, picSize=3, tileX=2.3);
         } else if (interior_pic == '/media/interior1.png'){
             // интерьер с желтым пуфиком
-            fillWall(pic2, ctx, rapport, picSize=5);
+            fillWall(pic2, ctx, rapport=rapport, picSize=5);
         } else if (interior_pic == '/media/interior2.png'){
             // интерьер с коричневым диваном
-            fillWall(pic2, ctx, rapport, picSize=5);
+            fillWall(pic2, ctx, rapport=rapport, picSize=5);
         }
 
         ctx.drawImage(pic1, 0, 0); // устанавливаем фото интерьера
@@ -70,7 +70,7 @@ $.ajax({
             rows += `
                 <li class="lslide" style="margin-right: 0px;">
                     <button type="button" class="wall btn-link">
-                        <img src=${wall_path} alt="..." class="img-responsive" rapport=>
+                        <img src=${wall_path} alt="..." class="img-responsive" data-rapport=${wall.rapport}>
                     </button>
                 </li>`;
             });
@@ -91,7 +91,8 @@ $(document).on('click', '.wall', function ()
     $('.wall img').css('padding', '0px');
     $(this).children('img').css('padding', '5px');
     wallpaper_pic = $(this).children("img:first").attr('src');
-    showInterior(interior_pic, wallpaper_pic);
+    var wall_rapport = parseFloat($(this).children("img:first").attr('data-rapport'));
+    showInterior(interior_pic, wallpaper_pic, rapport=wall_rapport);
 });
 
 // действие при клике на изображение интерьера

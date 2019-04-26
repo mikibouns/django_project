@@ -3,7 +3,7 @@
         {% for wallpaper in wallpapers %}
         <li>
             <button type="button" class="wall btn-link">
-                <img src="/media/{{ wallpaper.preview_img }}" alt="..." class="img-responsive">
+                <img src="/media/{{ wallpaper.preview_img }}" alt="..." class="img-responsive" data-rapport="{{ wallpaper.rapport }}">
             </button>
         </li>
         {% endfor %}
