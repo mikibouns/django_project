@@ -8,7 +8,7 @@ function fillWall(pic, ctx, rapport=0, picSize, tileX=0){
     var tileSizeX = pic.naturalWidth / picSize;
     var tileSizeY = pic.naturalHeight / picSize;
     var x = 8;
-    var y = 5;
+    var y = 8;
     for(tileX; tileX < x; tileX++) {
         var tileY = 0;
         if (tileX % 2 == 0){
@@ -70,7 +70,7 @@ $.ajax({
             rows += `
                 <li class="lslide" style="margin-right: 0px;">
                     <button type="button" class="wall btn-link">
-                        <img src=${wall_path} alt="..." class="img-responsive">
+                        <img src=${wall_path} alt="..." class="img-responsive" rapport=>
                     </button>
                 </li>`;
             });
