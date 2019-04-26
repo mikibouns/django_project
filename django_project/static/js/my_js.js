@@ -33,18 +33,18 @@ function showInterior(interior_pic, wallpaper_pic, rapport, picSize=5){
     pic1.onload = function(){
         if (interior_pic == '/media/interior3.png'){
             // интерьер с зеркалом (крупный план)
-            fillWall(pic2, ctx, rapport=rapport, picSize=1.5);
+            fillWall(pic2, ctx, rapport, picSize=1.5);
 //            fillWall(pic2, ctx, rapport, picSize=5, setTileY=-2);
         } else if (interior_pic == '/media/interior4.png'){
             // интерьер с двумя планами
-            fillWall(pic2, ctx, rapport=rapport, picSize=6);
-            fillWall(pic2, ctx, rapport=rapport, picSize=3, tileX=2.3);
+            fillWall(pic2, ctx, rapport, picSize=6);
+            fillWall(pic2, ctx, rapport, picSize=3, tileX=2.3);
         } else if (interior_pic == '/media/interior1.png'){
             // интерьер с желтым пуфиком
-            fillWall(pic2, ctx, rapport=rapport, picSize=5);
+            fillWall(pic2, ctx, rapport, picSize=5);
         } else if (interior_pic == '/media/interior2.png'){
             // интерьер с коричневым диваном
-            fillWall(pic2, ctx, rapport=rapport, picSize=5);
+            fillWall(pic2, ctx, rapport, picSize=5);
         }
 
         ctx.drawImage(pic1, 0, 0); // устанавливаем фото интерьера
@@ -53,31 +53,31 @@ function showInterior(interior_pic, wallpaper_pic, rapport, picSize=5){
 
 // обновление списка обоев коллекции
 function changeWallpapers (el, wallpaper_slider) {
-var collection = String(el.children('.active').children('button').attr('id')).replace("_", " ");
-$.ajax({
-    type: "GET",
-    url: "",
-    data: {
-        'collection_name': collection,
-    },
-    dataType: "json",
-    cache: false,
-    success: function (data) {
-        let rows =  '';
-        $('#wallpaper-slider li').remove();
-        data.forEach(wall => {
-            var wall_path = "/media/" + wall.preview_img;
-            rows += `
-                <li class="lslide" style="margin-right: 0px;">
-                    <button type="button" class="wall btn-link">
-                        <img src=${wall_path} alt="..." class="img-responsive" data-rapport=${wall.rapport}>
-                    </button>
-                </li>`;
-            });
-            $('#wallpaper-slider').append(rows); // добавляем созданую разметку между тегами ul
-            wallpaper_slider.refresh();
-        }
-    });
+    var collection = String(el.children('.active').children('button').attr('id')).replace("_", " ");
+    $.ajax({
+        type: "GET",
+        url: "",
+        data: {
+            'collection_name': collection,
+        },
+        dataType: "json",
+        cache: false,
+        success: function (data) {
+            let rows =  '';
+            $('#wallpaper-slider li').remove();
+            data.forEach(wall => {
+                var wall_path = "/media/" + wall.preview_img;
+                rows += `
+                    <li class="lslide" style="margin-right: 0px;">
+                        <button type="button" class="wall btn-link">
+                            <img src=${wall_path} alt="..." class="img-responsive" data-rapport=${wall.rapport}>
+                        </button>
+                    </li>`;
+                });
+                $('#wallpaper-slider').append(rows); // добавляем созданую разметку между тегами ul
+                wallpaper_slider.refresh();
+            }
+        });
 }
 
 
@@ -115,11 +115,6 @@ $('#collection-slider button').click(function() // из интерьеров в 
 //действия при загрузке страницы с интерьером///////////////////////////////////////////////////////////////////////////
 
 $(document).ready(function() {
-    // состояние кнопок
-    $('#interior-slider li:first img').css('padding', '5px'); // выделяем кнопку интерьера по умолчанию
-    showInterior(interior_pic, wallpaper_pic); // устанавливаем интерьер по умолчанию
-
-
     // слайдер для обоев
     var wallpaper_slider = $("#wallpaper-slider").lightSlider({
         autoWidth:true,
@@ -177,4 +172,8 @@ $(document).ready(function() {
             collection_slider.goToSlide(collId);
         }
     }
+
+    // состояние кнопок
+    $('#interior-slider li:first img').css('padding', '5px'); // выделяем кнопку интерьера по умолчанию
+    showInterior(interior_pic, wallpaper_pic); // устанавливаем интерьер по умолчанию
 });
