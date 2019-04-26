@@ -21,7 +21,7 @@ class Wallpaper(models.Model):
     preview_img = models.ImageField()
     img = models.ImageField(null=True, blank=True)
     collection = models.ForeignKey(Collection, on_delete=models.CASCADE, null=True, blank=True)
-    rapport = models.DecimalField(max_digits=5, decimal_places=2,  null=True, blank=True)
+    rapport = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
     class Meta:
         ordering = ["article"]
