@@ -4,13 +4,13 @@ var wallpaper_pic = $('#wallpaper-slider img:first').attr('src'); // изобр�
 
 
 // заполнение стены обоями
-function fillWall(pic, ctx, rapport, picSize, tileX=0, tileY=0){
+function fillWall(pic, ctx, rapport=0, picSize, tileX=0){
     var tileSizeX = pic.naturalWidth / picSize;
     var tileSizeY = pic.naturalHeight / picSize;
     var x = 8;
-    var y = 8;
+    var y = 5;
     for(tileX; tileX < x; tileX++) {
-        tileY = 0;
+        var tileY = 0;
         if (tileX % 2 == 0){
             tileY -= rapport; // если есть раппорт, смещаем не четную полосу на указанное значение
         }
@@ -31,10 +31,11 @@ function showInterior(interior_pic, wallpaper_pic, rapport=0, picSize=5){
     pic1.src = interior_pic; // Путь к изображению интерьера которое необходимо нанести на холст
     pic2.src = wallpaper_pic; // Путь к изображению обоев которое необходимо нанести на холст
     pic1.onload = function(){
-        if (interior_pic == '/media/BIANCA_foto1.png'){
+        if (interior_pic == '/media/interior3.png'){
             // интерьер с зеркалом (крупный план)
             fillWall(pic2, ctx, rapport, picSize=1.5);
-        } else if (interior_pic == '/media/foto4.png'){
+//            fillWall(pic2, ctx, rapport, picSize=5, setTileY=-2);
+        } else if (interior_pic == '/media/interior4.png'){
             // интерьер с двумя планами
             fillWall(pic2, ctx, rapport, picSize=6);
             fillWall(pic2, ctx, rapport, picSize=3, tileX=2.3);

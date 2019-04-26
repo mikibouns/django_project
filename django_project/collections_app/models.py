@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Collection(models.Model):
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, unique=True)
     img = models.ImageField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
 
@@ -16,11 +16,12 @@ class Collection(models.Model):
 
 
 class Wallpaper(models.Model):
-    article = models.CharField(max_length=32)
+    article = models.CharField(max_length=32, unique=True)
     description = models.TextField(null=True, blank=True)
     preview_img = models.ImageField()
     img = models.ImageField(null=True, blank=True)
     collection = models.ForeignKey(Collection, on_delete=models.CASCADE, null=True, blank=True)
+    rapport = models.DecimalField(max_digits=5, decimal_places=2,  null=True, blank=True)
 
     class Meta:
         ordering = ["article"]
