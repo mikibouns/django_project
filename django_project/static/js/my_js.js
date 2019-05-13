@@ -22,15 +22,14 @@ function fillWall(pic, ctx, rapport=0, picSize, tileX=0){
 
 
 // canvas
-function showInterior(interior_pic, wallpaper_pic, rapport, picSize=5){
+function showInterior(wallpaper_pic, rapport, picSize=5){
     var int_canvas = document.getElementById("canvas_interior"),
         ctx = int_canvas.getContext('2d'),
-        pic1 = new Image(), pic2 = new Image();
+        pic2 = new Image();
     int_canvas.width = 1910;
     int_canvas.height = 1910;
-    pic1.src = interior_pic; // Путь к изображению интерьера которое необходимо нанести на холст
     pic2.src = wallpaper_pic; // Путь к изображению обоев которое необходимо нанести на холст
-    pic1.onload = function(){
+    pic2.onload = function(){
         if (interior_pic == '/media/interior3.png'){
             // интерьер с зеркалом (крупный план)
             fillWall(pic2, ctx, rapport, picSize=1.5);
@@ -46,8 +45,6 @@ function showInterior(interior_pic, wallpaper_pic, rapport, picSize=5){
             // интерьер с коричневым диваном
             fillWall(pic2, ctx, rapport, picSize=5);
         }
-
-        ctx.drawImage(pic1, 0, 0); // устанавливаем фото интерьера
     }
 }
 
@@ -92,17 +89,19 @@ $(document).on('click', '.wall', function ()
     $(this).children('img').css('padding', '5px');
     wallpaper_pic = $(this).children("img:first").attr('src');
     var wall_rapport = parseFloat($(this).children("img:first").attr('data-rapport'));
-    showInterior(interior_pic, wallpaper_pic, rapport=wall_rapport);
+    showInterior(wallpaper_pic, rapport=wall_rapport);
 });
 
 // действие при клике на изображение интерьера
 $(document).on('click', '.room', function ()
 {
-    $('#interior_img').attr('src', $(this).children("img:first").attr('src'));
-    $('.room img').css('padding', '0px');
-    $(this).children('img').css('padding', '5px');
-    interior_pic = $(this).children("img:first").attr('src');
-    showInterior(interior_pic, wallpaper_pic); // при клике устанавливает выбранный интерьер
+    $('#interior-slider li').removeClass('active'); // удаляем у всех li класс active
+    $(this).parent().addClass('active'); // добавляем класс active к выбранному тэгу li
+    $('#pic_interior').attr('src', $(this).children("img:first").attr('src')); // устанавливаем изображение интерьера
+    $('.room img').css('padding', '0px'); // возвращаем в исходное состояние изображения интерьеров в ленте
+    $(this).children('img').css('padding', '5px'); // выделяем выбранный элемент
+    interior_pic = $(this).children("img:first").attr('src'); // присваиваем значение текущего интерьера глобальной переменной
+    showInterior(wallpaper_pic); // применяем изменения к обоям
 });
 
 // действие при клике на изображение коллекции
@@ -175,5 +174,5 @@ $(document).ready(function() {
 
     // состояние кнопок
     $('#interior-slider li:first img').css('padding', '5px'); // выделяем кнопку интерьера по умолчанию
-    showInterior(interior_pic, wallpaper_pic); // устанавливаем интерьер по умолчанию
+    showInterior(wallpaper_pic); // устанавливаем интерьер по умолчанию
 });

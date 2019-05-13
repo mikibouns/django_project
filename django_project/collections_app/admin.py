@@ -3,7 +3,7 @@ from .models import Collection, Interior, Wallpaper
 
 
 class WallpapersAdmin(admin.ModelAdmin):
-    list_display = ('article', 'collection')
+    list_display = ('article', 'collection', 'rapport')
 
 admin.site.register(Collection)
 admin.site.register(Interior)
