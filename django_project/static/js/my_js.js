@@ -1,14 +1,14 @@
 // global var
 var interior_pic = $('#interior-slider li:first img').attr('src'); // изображение для интерьера
-var wallpaper_pic = $('#wallpaper-slider img:first').attr('src'); // изображение для обоев
+var wallpaper_pic = $('#wallpaper-slider img:first').attr('src');; // изображение для обоев
 
 
 // заполнение стены обоями
 function fillWall(pic, ctx, rapport=0, picSize, tileX=0){
     var tileSizeX = pic.naturalWidth / picSize;
     var tileSizeY = pic.naturalHeight / picSize;
-    var x = 8;
-    var y = 8;
+    var x = 10;
+    var y = 10;
     for(tileX; tileX < x; tileX++) {
         var tileY = 0;
         if (tileX % 2 == 0){
@@ -22,7 +22,7 @@ function fillWall(pic, ctx, rapport=0, picSize, tileX=0){
 
 
 // canvas
-function showInterior(wallpaper_pic, rapport, picSize=5){
+function showWallpaper(wallpaper_pic, rapport, picSize=5){
     var int_canvas = document.getElementById("canvas_interior"),
         ctx = int_canvas.getContext('2d'),
         pic2 = new Image();
@@ -37,13 +37,18 @@ function showInterior(wallpaper_pic, rapport, picSize=5){
         } else if (interior_pic == '/media/interior4.png'){
             // интерьер с двумя планами
             fillWall(pic2, ctx, rapport, picSize=6);
-            fillWall(pic2, ctx, rapport, picSize=3, tileX=2.3);
+            fillWall(pic2, ctx, rapport, picSize=3, tileX=2.22);
         } else if (interior_pic == '/media/interior1.png'){
             // интерьер с желтым пуфиком
             fillWall(pic2, ctx, rapport, picSize=5);
         } else if (interior_pic == '/media/interior2.png'){
             // интерьер с коричневым диваном
             fillWall(pic2, ctx, rapport, picSize=5);
+        } else if (interior_pic == '/media/interior5.png'){
+            // интерьер с перспективой
+            fillWall(pic2, ctx, rapport, picSize=5);
+            $('#canvas_interior').css('transform', 'perspective(1000px) rotateY(60deg)');
+            fillWall(pic2, ctx, rapport, picSize=2, tileX=3);
         }
     }
 }
@@ -83,13 +88,13 @@ function changeWallpapers (el, wallpaper_slider) {
 // действие при клике на изображение обоев
 $(document).on('click', '.wall', function ()
 {
-    $('#wallpaper-slider li').removeClass('active');
-    $(this).parent().addClass('active');
-    $('.wall img').css('padding', '0px');
-    $(this).children('img').css('padding', '5px');
+    $('#wallpaper-slider li').removeClass('active'); // удаляем у всех li класс active
+    $(this).parent().addClass('active'); // добавляем класс active к выбранному тэгу li
+    $('.wall img').css('padding', '0px'); // возвращаем в исходное состояние изображения в ленте
+    $(this).children('img').css('padding', '5px'); // выделяем выбранный элемент
     wallpaper_pic = $(this).children("img:first").attr('src');
     var wall_rapport = parseFloat($(this).children("img:first").attr('data-rapport'));
-    showInterior(wallpaper_pic, rapport=wall_rapport);
+    showWallpaper(wallpaper_pic, rapport=wall_rapport);
 });
 
 // действие при клике на изображение интерьера
@@ -101,7 +106,7 @@ $(document).on('click', '.room', function ()
     $('.room img').css('padding', '0px'); // возвращаем в исходное состояние изображения интерьеров в ленте
     $(this).children('img').css('padding', '5px'); // выделяем выбранный элемент
     interior_pic = $(this).children("img:first").attr('src'); // присваиваем значение текущего интерьера глобальной переменной
-    showInterior(wallpaper_pic); // применяем изменения к обоям
+    showWallpaper(wallpaper_pic); // применяем изменения к обоям
 });
 
 // действие при клике на изображение коллекции
@@ -133,6 +138,7 @@ $(document).ready(function() {
         speed:600,
         onAfterSlide: function (el) {
             changeWallpapers(el, wallpaper_slider);
+            wallpaper_pic = $('#wallpaper-slider img:first').attr('src');
         },
     });
 
@@ -172,7 +178,9 @@ $(document).ready(function() {
         }
     }
 
+    // устанавливаем обои при загрузке страницы
+    showWallpaper(wallpaper_pic);
+
     // состояние кнопок
     $('#interior-slider li:first img').css('padding', '5px'); // выделяем кнопку интерьера по умолчанию
-    showInterior(wallpaper_pic); // устанавливаем интерьер по умолчанию
 });

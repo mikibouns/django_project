@@ -22,26 +22,31 @@
     object-fit: cover;
 }
 
-.img-rounded {
+#pic_interior {
+    position: relative;
     width: 100%;
     background-repeat: repeat;
     margin-bottom: 10px;
-
-}
-
-#pic_interior {
-    position: relative;
 }
 
 #canvas_interior {
+    width: 100%;
+    background-repeat: repeat;
+    margin-bottom: 10px;
+    /*transform: perspective(1000px) rotateY(50deg);*/
+}
+
+#canvas_container {
+    overflow: hidden;
     position: absolute;
     z-index: -1;
     top: 0px;
     left: 0px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
-
-
+/* carousel */
 
 #wallpaper_carousel_conteiner {
     margin: auto;
@@ -55,7 +60,3 @@
 #collection-slider li {
     text-align: center;
 }
-
-/* carousel */
-
-

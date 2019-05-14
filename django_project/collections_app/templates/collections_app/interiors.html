@@ -11,13 +11,13 @@
         <!-- слайдер для интерьеров -->
         {% include "collections_app/carousel_interior.html" %}
     </div>
-    <div class="col-md-10 col-xs-10">
+    <div class="col-md-10 col-xs-10 interior-container">
         <!-- canvas -->
         <div>
             <img src="/media/interior1.png" id="pic_interior" class="img-rounded">
         </div>
-        <div>
-            <canvas id="canvas_interior" class="img-rounded"></canvas>
+        <div class="img-rounded" id="canvas_container">
+            <canvas id="canvas_interior"></canvas>
         </div>
         <!-- слайдер для колекций -->
         {% include "collections_app/carousel_collection.html" %}
