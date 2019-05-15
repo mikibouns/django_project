@@ -86,7 +86,7 @@ function changeWallpapers (el, wallpaper_slider) {
                         <button type="button" class="wall btn-link">
                             <img src=${wall_path} alt="..." class="img-responsive" data-rapport=${wall.rapport}>
                         </button>
-                        <p class="text-error">${wall.article}</p>
+                        <p>${wall.article}</p>
                     </li>`;
                 });
                 $('#wallpaper-slider').append(rows); // добавляем созданую разметку между тегами ul
