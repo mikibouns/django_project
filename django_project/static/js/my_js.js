@@ -20,35 +20,47 @@ function fillWall(pic, ctx, rapport=0, picSize, tileX=0){
     }
 }
 
+// рисуем перспективу для интерьера
+function fillWallPerspective(ctx, pic){
+    var width = pic.width, height = pic.height;
+    var context = ctx;
+    for (var i = 0; i <= height / 2; ++i) {
+        context.setTransform(1, -0.4 * i / height, 0, 1, 0, 60);
+        context.drawImage(image, 0, height / 2 - i, width, 2, 0, height / 2 - i, width, 2);
+        context.setTransform(1, 0.4 * i / height, 0, 1, 0, 60);
+        context.drawImage(image, 0, height / 2 + i, width, 2, 0, height / 2 + i, width, 2);
+        }
+    }
+
+
+
 
 // canvas
 function showWallpaper(wallpaper_pic, rapport, picSize=5){
     var int_canvas = document.getElementById("canvas_interior"),
         ctx = int_canvas.getContext('2d'),
-        pic2 = new Image();
+        pic = new Image();
     int_canvas.width = 1910;
     int_canvas.height = 1910;
-    pic2.src = wallpaper_pic; // Путь к изображению обоев которое необходимо нанести на холст
-    pic2.onload = function(){
+    pic.src = wallpaper_pic; // Путь к изображению обоев которое необходимо нанести на холст
+    pic.onload = function(){
         if (interior_pic == '/media/interior3.png'){
             // интерьер с зеркалом (крупный план)
-            fillWall(pic2, ctx, rapport, picSize=1.5);
-//            fillWall(pic2, ctx, rapport, picSize=5, setTileY=-2);
+            fillWall(pic, ctx, rapport, picSize=1.5);
+//            fillWall(pic, ctx, rapport, picSize=5, setTileY=-2);
         } else if (interior_pic == '/media/interior4.png'){
             // интерьер с двумя планами
-            fillWall(pic2, ctx, rapport, picSize=6);
-            fillWall(pic2, ctx, rapport, picSize=3, tileX=2.22);
+            fillWall(pic, ctx, rapport, picSize=6);
+            fillWall(pic, ctx, rapport, picSize=3, tileX=2.22);
         } else if (interior_pic == '/media/interior1.png'){
             // интерьер с желтым пуфиком
-            fillWall(pic2, ctx, rapport, picSize=5);
+            fillWall(pic, ctx, rapport, picSize=5);
         } else if (interior_pic == '/media/interior2.png'){
             // интерьер с коричневым диваном
-            fillWall(pic2, ctx, rapport, picSize=5);
+            fillWall(pic, ctx, rapport, picSize=5);
         } else if (interior_pic == '/media/interior5.png'){
             // интерьер с перспективой
-            fillWall(pic2, ctx, rapport, picSize=5);
-            $('#canvas_interior').css('transform', 'perspective(1000px) rotateY(60deg)');
-            fillWall(pic2, ctx, rapport, picSize=2, tileX=3);
+            fillWallPerspective(ctx, pic);
         }
     }
 }
@@ -74,6 +86,7 @@ function changeWallpapers (el, wallpaper_slider) {
                         <button type="button" class="wall btn-link">
                             <img src=${wall_path} alt="..." class="img-responsive" data-rapport=${wall.rapport}>
                         </button>
+                        <p class="text-error">${wall.article}</p>
                     </li>`;
                 });
                 $('#wallpaper-slider').append(rows); // добавляем созданую разметку между тегами ul
@@ -153,6 +166,14 @@ $(document).ready(function() {
                 breakpoint:992,
                 settings: {
                     item:4,
+                    slideMove:1,
+                    slideMargin:1,
+                }
+            },
+                        {
+                breakpoint:680,
+                settings: {
+                    item:5,
                     slideMove:1,
                     slideMargin:1,
                 }

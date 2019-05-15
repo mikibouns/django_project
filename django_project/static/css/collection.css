@@ -33,7 +33,6 @@
     width: 100%;
     background-repeat: repeat;
     margin-bottom: 10px;
-    /*transform: perspective(1000px) rotateY(50deg);*/
 }
 
 #canvas_container {
@@ -44,9 +43,14 @@
     left: 0px;
     padding-left: 15px;
     padding-right: 15px;
+    padding-bottom: 10px;
 }
 
 /* carousel */
+
+#wallpaper-slider li {
+    text-align: center;
+}
 
 #wallpaper_carousel_conteiner {
     margin: auto;
