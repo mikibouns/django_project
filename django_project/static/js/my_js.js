@@ -22,9 +22,9 @@ function fillWall(pic, ctx, rapport=0, picSize, startPosition=0){
 
 // рисуем перспективу для интерьера
 function fillWallPerspective(ctx, pic){
-    var width = pic.width / 4, height = pic.height / 4;
+    var width = pic.width, height = pic.height;
     for (var i = 0; i <= height / 1; ++i) {
-        ctx.setTransform(1, -0.4 * i / height, 0, 1, 0, 60);
+        ctx.setTransform(1, -0.75 * i / height, 0, 1, 0, 60);
         ctx.drawImage(pic, 0, height / 2 - i, width, 2, 0, height / 2 - i, width, 2);
         ctx.setTransform(1, 0.4 * i / height, 0, 1, 0, 60);
         ctx.drawImage(pic, 0, height / 2 + i, width, 2, 0, height / 2 + i, width, 2);
@@ -36,7 +36,8 @@ function fillWallPerspective(ctx, pic){
 function showWallpaper(wallpaper_pic, rapport, picSize=5){
     var canvas = document.getElementById("canvas_interior"),
         ctx = canvas.getContext('2d'),
-        pic = new Image();
+        pic = new Image(),
+        pic2 = new Image();;
     canvas.width = 1910;
     canvas.height = 1910;
     pic.onload = function(){
@@ -55,16 +56,14 @@ function showWallpaper(wallpaper_pic, rapport, picSize=5){
             fillWall(pic, ctx, rapport, picSize=5);
         } else if (interior_pic == '/media/interior5.png'){
             // интерьер с перспективой
-            fillWall(pic, ctx, rapport, picSize=5);
-	        var dataURL = canvas.toDataURL('image/png');
-	        console.log(dataURL);
-	        var img = document.createElement('img');
-	        img.src = dataURL;
-            fillWallPerspective(ctx, img);
+            fillWall(pic, ctx, rapport, picSize=6, startPosition=1313);
+	        var dataURL = canvas.toDataURL('image/png', 1);
+	        ctx.clearRect(0, 0, canvas.width, canvas.height);
+	        pic2.src = dataURL;
+            fillWallPerspective(ctx, pic2);
         }
     }
     pic.src = wallpaper_pic; // Путь к изображению обоев которое необходимо нанести на холст
-
 }
 
 // обновление списка обоев коллекции
