@@ -1,7 +1,7 @@
 // global var
 var interior_pic = $('#interior-slider li:first img').attr('src'); // изображение для интерьера
 var wallpaper_pic = $('#wallpaper-slider img:first').attr('src');; // изображение для обоев
-
+var wall_rapport = $('#wallpaper-slider img:first')
 
 // заполнение стены обоями
 function fillWall(pic, ctx, rapport=0, picSize, startPosition=0){
@@ -21,14 +21,17 @@ function fillWall(pic, ctx, rapport=0, picSize, startPosition=0){
 }
 
 // рисуем перспективу для интерьера
-function fillWallPerspective(ctx, pic){
+function fillWallPerspective(ctx, pic, TopHSkewing, BottomHSkewing, startPosition=0){
     var width = pic.width, height = pic.height;
+    ctx.save();
+    ctx.scale(-1, 1);
     for (var i = 0; i <= height / 1; ++i) {
-        ctx.setTransform(1, -0.75 * i / height, 0, 1, 0, 60);
-        ctx.drawImage(pic, 0, height / 2 - i, width, 2, 0, height / 2 - i, width, 2);
-        ctx.setTransform(1, 0.4 * i / height, 0, 1, 0, 60);
-        ctx.drawImage(pic, 0, height / 2 + i, width, 2, 0, height / 2 + i, width, 2);
+        ctx.setTransform(1.2, TopHSkewing * i / height, 0, 1, 0, 60);
+        ctx.drawImage(pic, startPosition, height / 2 - i, width, 2, 0, height / 2 - i, width, 2);
+        ctx.setTransform(1.2, BottomHSkewing * i / height, 0, 1, 0, 60);
+        ctx.drawImage(pic, startPosition, height / 2 + i, width, 2, 0, height / 2 + i, width, 2);
     }
+    ctx.restore();
 }
 
 
@@ -40,6 +43,7 @@ function showWallpaper(wallpaper_pic, rapport, picSize=5){
         pic2 = new Image();;
     canvas.width = 1910;
     canvas.height = 1910;
+    pic.src = wallpaper_pic; // Путь к изображению обоев которое необходимо нанести на холст
     pic.onload = function(){
         if (interior_pic == '/media/interior3.png'){
             // интерьер с зеркалом (крупный план)
@@ -56,14 +60,13 @@ function showWallpaper(wallpaper_pic, rapport, picSize=5){
             fillWall(pic, ctx, rapport, picSize=5);
         } else if (interior_pic == '/media/interior5.png'){
             // интерьер с перспективой
-            fillWall(pic, ctx, rapport, picSize=6, startPosition=1313);
-	        var dataURL = canvas.toDataURL('image/png', 1);
+            fillWall(pic, ctx, rapport, picSize=7);
+	        var dataURL = canvas.toDataURL('image/png');
 	        ctx.clearRect(0, 0, canvas.width, canvas.height);
 	        pic2.src = dataURL;
-            fillWallPerspective(ctx, pic2);
+            fillWallPerspective(ctx, pic2, TopHSkewing=-1, BottomHSkewing=0.4, startPosition=-1094);
         }
     }
-    pic.src = wallpaper_pic; // Путь к изображению обоев которое необходимо нанести на холст
 }
 
 // обновление списка обоев коллекции
@@ -120,7 +123,7 @@ $(document).on('click', '.room', function ()
     $('.room img').css('padding', '0px'); // возвращаем в исходное состояние изображения интерьеров в ленте
     $(this).children('img').css('padding', '5px'); // выделяем выбранный элемент
     interior_pic = $(this).children("img:first").attr('src'); // присваиваем значение текущего интерьера глобальной переменной
-    showWallpaper(wallpaper_pic); // применяем изменения к обоям
+    showWallpaper(wallpaper_pic, rapport=wall_rapport); // применяем изменения к обоям
 });
 
 // действие при клике на изображение коллекции
