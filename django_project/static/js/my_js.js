@@ -16,7 +16,6 @@ function fillWall(pic, ctx, rapport=0, picSize, startPosition=0){
         }
         for(tileY; tileY < y; tileY++) {
             ctx.drawImage(pic, tileX * tileSizeX + startPosition, tileY * tileSizeY, tileSizeX, tileSizeY);
-            console.log(tileSizeX);
         }
     }
 }
@@ -24,12 +23,11 @@ function fillWall(pic, ctx, rapport=0, picSize, startPosition=0){
 // рисуем перспективу для интерьера
 function fillWallPerspective(ctx, pic){
     var width = pic.width / 4, height = pic.height / 4;
-    var context = ctx;
     for (var i = 0; i <= height / 1; ++i) {
-        context.setTransform(1, -0.4 * i / height, 0, 1, 0, 60);
-        context.drawImage(pic, 0, height / 2 - i, width, 2, 0, height / 2 - i, width, 2);
-        context.setTransform(1, 0.4 * i / height, 0, 1, 0, 60);
-        context.drawImage(pic, 0, height / 2 + i, width, 2, 0, height / 2 + i, width, 2);
+        ctx.setTransform(1, -0.4 * i / height, 0, 1, 0, 60);
+        ctx.drawImage(pic, 0, height / 2 - i, width, 2, 0, height / 2 - i, width, 2);
+        ctx.setTransform(1, 0.4 * i / height, 0, 1, 0, 60);
+        ctx.drawImage(pic, 0, height / 2 + i, width, 2, 0, height / 2 + i, width, 2);
     }
 }
 
@@ -59,8 +57,10 @@ function showWallpaper(wallpaper_pic, rapport, picSize=5){
             // интерьер с перспективой
             fillWall(pic, ctx, rapport, picSize=5);
 	        var dataURL = canvas.toDataURL('image/png');
-//	        alert(dataURL);
-            fillWallPerspective(ctx, dataURL);
+	        console.log(dataURL);
+	        var img = document.createElement('img');
+	        img.src = dataURL;
+            fillWallPerspective(ctx, img);
         }
     }
     pic.src = wallpaper_pic; // Путь к изображению обоев которое необходимо нанести на холст
