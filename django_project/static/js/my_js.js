@@ -4,54 +4,51 @@ var wallpaper_pic = $('#wallpaper-slider img:first').attr('src');; // изобр
 
 
 // заполнение стены обоями
-function fillWall(pic, ctx, rapport=0, picSize, tileX=0){
+function fillWall(pic, ctx, rapport=0, picSize, startPosition=0){
     var tileSizeX = pic.naturalWidth / picSize;
     var tileSizeY = pic.naturalHeight / picSize;
     var x = 10;
     var y = 10;
-    for(tileX; tileX < x; tileX++) {
+    for(tileX=0; tileX < x; tileX++) {
         var tileY = 0;
         if (tileX % 2 == 0){
             tileY -= rapport; // если есть раппорт, смещаем не четную полосу на указанное значение
         }
         for(tileY; tileY < y; tileY++) {
-            ctx.drawImage(pic, tileX * tileSizeX,tileY * tileSizeY, tileSizeX, tileSizeY);
+            ctx.drawImage(pic, tileX * tileSizeX + startPosition, tileY * tileSizeY, tileSizeX, tileSizeY);
+            console.log(tileSizeX);
         }
     }
 }
 
 // рисуем перспективу для интерьера
 function fillWallPerspective(ctx, pic){
-    var width = pic.width, height = pic.height;
+    var width = pic.width / 4, height = pic.height / 4;
     var context = ctx;
-    for (var i = 0; i <= height / 2; ++i) {
+    for (var i = 0; i <= height / 1; ++i) {
         context.setTransform(1, -0.4 * i / height, 0, 1, 0, 60);
-        context.drawImage(image, 0, height / 2 - i, width, 2, 0, height / 2 - i, width, 2);
+        context.drawImage(pic, 0, height / 2 - i, width, 2, 0, height / 2 - i, width, 2);
         context.setTransform(1, 0.4 * i / height, 0, 1, 0, 60);
-        context.drawImage(image, 0, height / 2 + i, width, 2, 0, height / 2 + i, width, 2);
-        }
+        context.drawImage(pic, 0, height / 2 + i, width, 2, 0, height / 2 + i, width, 2);
     }
-
-
+}
 
 
 // canvas
 function showWallpaper(wallpaper_pic, rapport, picSize=5){
-    var int_canvas = document.getElementById("canvas_interior"),
-        ctx = int_canvas.getContext('2d'),
+    var canvas = document.getElementById("canvas_interior"),
+        ctx = canvas.getContext('2d'),
         pic = new Image();
-    int_canvas.width = 1910;
-    int_canvas.height = 1910;
-    pic.src = wallpaper_pic; // Путь к изображению обоев которое необходимо нанести на холст
+    canvas.width = 1910;
+    canvas.height = 1910;
     pic.onload = function(){
         if (interior_pic == '/media/interior3.png'){
             // интерьер с зеркалом (крупный план)
             fillWall(pic, ctx, rapport, picSize=1.5);
-//            fillWall(pic, ctx, rapport, picSize=5, setTileY=-2);
         } else if (interior_pic == '/media/interior4.png'){
             // интерьер с двумя планами
-            fillWall(pic, ctx, rapport, picSize=6);
-            fillWall(pic, ctx, rapport, picSize=3, tileX=2.22);
+            fillWall(pic, ctx, rapport, picSize=4);
+            fillWall(pic, ctx, rapport, picSize=2, startPosition=1150);
         } else if (interior_pic == '/media/interior1.png'){
             // интерьер с желтым пуфиком
             fillWall(pic, ctx, rapport, picSize=5);
@@ -60,9 +57,14 @@ function showWallpaper(wallpaper_pic, rapport, picSize=5){
             fillWall(pic, ctx, rapport, picSize=5);
         } else if (interior_pic == '/media/interior5.png'){
             // интерьер с перспективой
-            fillWallPerspective(ctx, pic);
+            fillWall(pic, ctx, rapport, picSize=5);
+	        var dataURL = canvas.toDataURL('image/png');
+//	        alert(dataURL);
+            fillWallPerspective(ctx, dataURL);
         }
     }
+    pic.src = wallpaper_pic; // Путь к изображению обоев которое необходимо нанести на холст
+
 }
 
 // обновление списка обоев коллекции
